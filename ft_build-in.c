@@ -10,7 +10,7 @@ int32_t	ft_buildin(char *filename, char **argv, char **env, t_list **env_lst)
 		return (0);
 	}
 	else if (!ft_strcmp(filename, "cd"))
-		return (ft_cd(argv, env));
+		return (ft_cd(argv, env_lst));
 	else if (!ft_strcmp(filename, "setenv"))
 		return (ft_setenv(env_lst, (char const**)argv));
 	else if (!ft_strcmp(filename, "unsetenv"))

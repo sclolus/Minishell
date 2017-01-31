@@ -62,7 +62,7 @@ void		ft_normalize_command(char **command);
 
 void		ft_echo(char **argv);
 int32_t		ft_buildin(char *filename, char **argv, char **env, t_list **env_lst);
-int32_t		ft_cd(char **argv, char **env);
+int32_t		ft_cd(char **argv, t_list **env);
 char		*ft_find_env(char const **env, char const *variable);
 int32_t		ft_execve(char *filename, char *path, char **argv, char **env);
 

@@ -1,0 +1,27 @@
+#ifndef __MINISHELL_H__
+# define __MINISHELL_H__
+
+# include "libft.h"
+# include <unistd.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
+# include <sys/signal.h>
+# include <stdlib.h>
+
+# define SHELL_NAME "minishell: "
+# define ECHO_FLAGS "n" // obsolete
+
+
+void		ft_sighandler(int signum);
+char		*ft_find_command(char *filename, char **path, char **argv, char **env);
+
+char		**ft_parse_line(char *line);
+char		*ft_parse_arg(char *line);
+void		ft_normalize_command(char **command);
+
+
+void		ft_echo(char **argv);
+int32_t		ft_buildin(char *filename, char **path, char **argv, char **env);
+int32_t		ft_cd(char **argv, char **env);
+char		*ft_find_env(char **env, char *variable);
+#endif

@@ -1,0 +1,8 @@
+#include "libft.h"
+
+int main(void)
+{
+	while (42)
+		ft_putendl("Buffered!");
+	return (0);
+}

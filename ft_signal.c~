@@ -1,0 +1,12 @@
+#include "minishell.h"
+#include "libft.h"
+
+
+void	ft_sighandler(int signum)
+{
+	if (signum == SIGINT)
+	{
+		ft_putchar('\n');
+		kill(0, SIGINT);
+	}
+}

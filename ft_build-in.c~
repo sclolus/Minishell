@@ -1,0 +1,15 @@
+#include "minishell.h"
+
+int32_t	ft_buildin(char *filename, char **path, char **argv, char **env)
+{
+	if (filename || path || env)
+	{};
+	if (!ft_strcmp(filename, "echo"))
+	{
+		ft_echo(argv);
+		return (0);
+	}
+	else if (!ft_strcmp(filename, "cd"))
+		return (ft_cd(argv, env));
+	return (-1);
+}

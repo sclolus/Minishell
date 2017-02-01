@@ -1,0 +1,14 @@
+#include "minishell.c"
+
+t_btree	*ft_btreenew(void *content, uint32_t content_size)
+{
+	t_btree	*new;
+	void	*mem;
+
+	if (!(new = (t_btree*)malloc(sizeof(t_btree*))))
+		exit (EXIT_FAILURE);
+	if (!content)
+	{
+		
+	}
+}

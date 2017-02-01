@@ -64,13 +64,14 @@ int main(int argc, char **argv, char **env)
 			ft_strdel(&line);
 			continue ;
 		}
+		if (!(env_tab = ft_lsttotab(env_lst, sizeof(t_list))))
+			exit (EXIT_FAILURE);
+		ft_lexer(line, env_tab);
 		if ((command_argv = ft_parse_line(line)) == NULL)
 		{
 			line = NULL;
 			continue ;
 		}
-		if (!(env_tab = ft_lsttotab(env_lst, sizeof(t_list))))
-			exit (EXIT_FAILURE);
 		if (ft_buildin(*command_argv, command_argv, env_tab, &env_lst) == -2) // buf inc.
 		{
 			pid = fork();
@@ -90,7 +91,7 @@ int main(int argc, char **argv, char **env)
 			}
 		}
 		free(env_tab);
-		ft_putstr("$>");
+//		ft_putstr("$>");
 	}
 	return (0);
 }

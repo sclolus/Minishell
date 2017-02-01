@@ -1,0 +1,81 @@
+#include "libft.h"
+#include "minishell.h"
+#include "get_next_line.h"
+
+char		*ft_find_env(char **env, char *variable)
+{
+	uint32_t	i;
+
+	i = 0;
+	while (variable[i] && variable[i] != '=')
+		i++;
+	while (*env)
+	{
+		if (!ft_strncmp(variable, *env, i))
+			return (*env);
+		else
+			env++;
+	}
+	return (0);
+}
+
+char		**ft_get_env_value(char **env, char *variable)
+{
+	char		**path;
+	char		*tmp;
+	uint32_t	len;
+	uint32_t	variable_len;
+
+	path = NULL;
+	tmp = NULL;
+	variable_len = ft_strlen(variable);
+	if (!(path = ft_strsplit(ft_find_env(env, variable), ':')))
+		exit (EXIT_FAILURE);
+	if (!(tmp = ft_strdup(*path)))
+		exit(EXIT_FAILURE);
+	len = ft_strlen(tmp) - variable_len - 1; 
+	ft_strncpy(*path, tmp + variable_len + 1, len);
+	return (path);
+}
+
+int main(int argc, char **argv, char **env)
+{
+	char		*line;
+	char		**command_argv;
+	char		**path;
+	pid_t		pid;
+
+	line = NULL;
+	if (argc || argv)
+	{};
+	path = ft_get_env_value(env, "PATH");
+	ft_putstr("$>");
+	if (signal(SIGINT, &ft_sighandler))
+		ft_putstr("salut");
+	while (line || (get_next_line(0, &line) >= 0))
+	{
+		if (*line == 0)
+		{
+			ft_strdel(&line);
+			ft_putstr("$>");
+			continue ;
+		}
+		if ((command_argv = ft_parse_line(line)) == NULL)
+		{
+			line = NULL;
+			continue ;
+		}
+		pid = fork();
+		if (pid > 0)
+		{
+			wait(NULL);
+			ft_putstr("$>");
+		}
+		else
+		{
+			ft_find_command(*command_argv, path, command_argv, env);
+			return (EXIT_FAILURE);
+		}
+	}
+	return (0);
+}

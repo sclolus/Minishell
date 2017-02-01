@@ -27,13 +27,14 @@
 # define TYPE_TOKEN_END_OF_STATEMENT 4
 # define TYPE_TOKEN_LEFT_REDIRECTION 5
 # define TYPE_TOKEN_RIGHT_REDIRECTION 6
-# define TYPE_TOKEN_LEFT_APPEND 7
+# define TYPE_TOKEN_HEREDOC 7
 # define TYPE_TOKEN_RIGHT_APPEND 8
 
 # define TYPE_TOKEN_STATEMENT 9
 # define TYPE_TOKEN_START_OF_STATEMENT 10
 
 # define CHARSET_SPECIAL_CHAR "|&<>;*?"
+# define CHARSET_SPECIAL_DELIMITORS "(|&<>; )"
 # define CHARSET_END_OF_EXPRESSION " ;"
 # define ESCAPE_CHAR "\\"
 
@@ -43,6 +44,7 @@ typedef struct	s_token
 {
 	int32_t	type;
 	char	*token;
+	char	**argv;
 }				t_token;	
 
 typedef struct	s_btree
@@ -58,7 +60,10 @@ char		*ft_find_command(char *filename, char **path);
 char		**ft_parse_line(char *line);
 char		*ft_parse_arg(char *line);
 void		ft_normalize_command(char **command);
+char		**ft_lexer(char *command_line, char **env);
 
+char		**ft_preparse(char **tokens, char **env);
+char		*ft_variable_expansion(char *token, char **env);
 
 void		ft_echo(char **argv);
 int32_t		ft_buildin(char *filename, char **argv, char **env, t_list **env_lst);

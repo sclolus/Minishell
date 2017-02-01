@@ -1,0 +1,6 @@
+#include "minishell.h"
+
+void	ft_echo(uint32_t argc, char **argv)
+{
+
+}

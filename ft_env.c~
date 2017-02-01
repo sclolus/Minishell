@@ -1,0 +1,16 @@
+#include "minishell.h"
+
+t_list	*ft_get_lstenv(char **env)
+{
+	t_list		*lst;
+	char		*tmp;
+	uint32_t	i;
+
+	i = 0;
+	tmp = NULL;
+	while (env[i])
+	{
+		if (!(ft_lstadd(
+		i++;
+	}
+}

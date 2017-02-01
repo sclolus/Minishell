@@ -1,0 +1,10 @@
+#include "minishell.h"
+
+char	*ft_find_command(char *filename, char **path, char **argv, char **env)
+{
+	static char oldpwd[4096]
+	static char	curr_pwd[4096];
+
+	
+	oldpwd = getcwd(
+}

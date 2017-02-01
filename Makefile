@@ -11,7 +11,6 @@ SRC= minishell.c \
 	ft_parser.c \
 	ft_lexer.c \
 	ft_execve.c \
-	ft_strjoin_f.c \
 	ft_env.c \
 	ft_putenv.c
 OBJ= $(SRC:.c=.o)

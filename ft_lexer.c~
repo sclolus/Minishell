@@ -1,0 +1,6 @@
+#include "minishell.h"
+
+/*t_btree *ft_lexer(char *statement)
+{
+	
+}*/

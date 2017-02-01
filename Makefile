@@ -12,7 +12,8 @@ SRC= minishell.c \
 	ft_lexer.c \
 	ft_execve.c \
 	ft_env.c \
-	ft_putenv.c
+	ft_putenv.c \
+	ft_lsttotab_token.c
 OBJ= $(SRC:.c=.o)
 HDR_PATH= ./libft/includes
 

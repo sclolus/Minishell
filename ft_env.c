@@ -9,12 +9,14 @@ t_list	*ft_get_lstenv(char **env)
 
 	i = 0;
 	tmp = NULL;
+	lst = NULL;
 	while (env[i])
 	{
 		if (!(tmp = ft_strdup(env[i])))
 			exit(EXIT_FAILURE);
-		if (!(lst_tmp = (t_list*)malloc(sizeof(t_list))))
+		if (!(lst_tmp = ft_lstnew(NULL, 0)))
 			exit(EXIT_FAILURE);
+		lst_tmp->content_size = sizeof(char*);
 		lst_tmp->content = tmp;
 		ft_lstadd(&lst, lst_tmp);
 		i++;

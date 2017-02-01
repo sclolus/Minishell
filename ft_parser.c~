@@ -1,10 +1,169 @@
 #include "minishell.h"
 
-char	*ft_find_command(char *filename, char **path, char **argv, char **env)
+char	*ft_find_command(char *filename, char **path)
 {
-	static char oldpwd[4096]
-	static char	curr_pwd[4096];
+	static char oldpwd[MAX_PATH];
+	uint32_t	i;
 
-	
-	oldpwd = getcwd(
+	i = 0;
+	getcwd(oldpwd, MAX_PATH); // not protected;
+	while (path[i])
+	{
+		if (chdir(path[i]) == -1)
+		{
+			ft_putendl_fd("chdir() failed", 2);
+			exit(EXIT_FAILURE); // not necessary
+		}
+		if (!(access(filename, F_OK)))
+		{
+			if (!(access(filename, X_OK)))
+			{
+				if (chdir(oldpwd) == -1)
+					ft_putendl_fd("chdir() failed", 2);
+				return (path[i]);
+			}
+			else
+			{
+				ft_putstr_fd(SHELL_NAME, 2);
+				ft_putstr_fd(filename, 2);
+				ft_putstr_fd(": Permission denied", 2);
+				if (chdir(oldpwd) == -1)
+					ft_putendl_fd("chdir() failed", 2);
+				return (NULL);
+			}
+		}
+		else
+			i++;
+	}
+	ft_putstr_fd(filename, 2);
+	ft_putendl_fd(" : Could not be found", 2);
+	if (chdir(oldpwd) == -1)
+		ft_putendl_fd("chdir() failed", 2);
+	return (NULL);
+}
+
+char		*ft_variable_expansion(char *token, char **env)
+{
+	uint32_t	i;
+	uint32_t	u;
+	char		*tmp;
+	char		*cpy;
+
+	i = 0;
+	u = 0;
+	while (token[i])
+	{
+		if (token[i] == '$' && token[i + 1] != '(')
+		{
+			u = i;
+			while (token[i] && (!ft_strchr(CHARSET_SPECIAL_DELIMITORS, token[i]) || !ft_strchr(" \t\n", token[i])))
+				i++;
+			if (!(tmp = ft_strsub(token, u + 1, i)))
+				exit(EXIT_FAILURE);
+			cpy = ft_find_env((char const**)env, (char const*)tmp);
+			free(tmp);
+			while (*cpy && *cpy != '=')
+				cpy++;
+			tmp = token;
+			if (!(token = ft_strreplace(token, u, i, cpy + 1)))
+				exit(EXIT_FAILURE);
+			free(tmp);
+			i = 0;
+		}
+		i++;
+	}
+	return (token);
+}
+
+char		**ft_preparse(char **tokens, char **env)
+{
+	uint32_t	i;
+
+	i = 0;
+	while (tokens[i])
+	{
+		tokens[i] = ft_variable_expansion(tokens[i], env);
+		// put command expansion in it
+		i++;
+	}
+	return (tokens);
+}
+
+uint32_t	ft_count_abstract_tokens(char **tokens)
+{
+	uint32_t	i;
+	uint32_t	count;
+
+	i = 0;
+	count = 0;
+	while (tokens[i])
+	{
+		if (ft_strcmp(tokens[i], "(") && ft_strcmp(tokens[i], ")"))
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+int32_t		ft_get_token_id(char *token)
+{
+	static const t_token	tab[TOKEN_COUNT] = {
+		{ TYPE_TOKEN_OR, TOKEN_OR},
+		{ TYPE_TOKEN_AND, TOKEN_AND},
+		{ TYPE_TOKEN_SINGLE_AND, TOKEN_SINGLE_AND},
+		{ TYPE_TOKEN_END_OF_STATEMENT, TOKEN_END_OF_STATEMENT},
+		{ TYPE_TOKEN_LEFT_REDIRECTION, TOKEN_LEFT_REDIRECTION},
+		{ TYPE_TOKEN_RIGHT_REDIRECTION, TOKEN_RIGHT_REDIRECTION},
+		{ TYPE_TOKEN_HEREDOC, TOKEN_HEREDOC},
+		{ TYPE_TOKEN_RIGHT_APPEND, TOKEN_RIGHT_APPEND}
+	};
+	uint32_t	i;
+
+	i = 0;
+	while (i < TOKEN_COUNT)
+	{
+		if (!ft_strcmp(token, tab[i].token))
+			return (tab[i].type);
+		i++;
+	}
+	return (TYPE_TOKEN_STATEMENT);
+}
+
+t_token		*ft_get_tokens_tab(char **tokens, uint32_t count)
+{
+	t_token		*tab;
+	uint32_t	i;
+	uint32_t	u;
+
+	i = 0;
+	u = 0;
+	if (!(tab = (t_token*)malloc(sizeof(t_token) * count)))
+		exit(EXIT_FAILURE);
+	while (i < count)
+	{
+		if (ft_strcmp(tokens[i], "(") && ft_strcmp(tokens[i], ")"))
+		{
+			tab[u].type = ft_get_token_id(tokens[i]);
+			u++;
+		}
+		i++;
+	}
+	return (tab);
+}
+
+t_btree		*ft_parser(char **tokens, char **env)
+{
+	uint32_t	count;
+	uint32_t	i;
+	t_token		*tokens_tab;
+
+	i = 0;
+	if (env)
+	{};
+	count = ft_count_abstract_tokens(tokens);
+	if (!(tokens_tab = ft_get_tokens_tab(tokens, count)))
+/*		  (t_token*)malloc(sizeof(t_token) * count)))*/
+		exit (EXIT_FAILURE);
+	ft_putnbr(count);
+	return (NULL);
 }

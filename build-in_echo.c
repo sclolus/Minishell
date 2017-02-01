@@ -8,6 +8,7 @@ void	ft_echo(char **argv) // remember env
 
 	i = 1;
 	flags = 0;
+	argc = 0;
 	while (argv[argc])
 		argc++;
 	if (argc >= 2 && !ft_strcmp(argv[1], "-n"))

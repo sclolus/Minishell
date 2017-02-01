@@ -1,45 +1,47 @@
 #include "minishell.h"
 #include "libft.h"
 
-/*char	*ft_find_command(char *filename, char **path, char **argv, char **env)
+char	*ft_find_command(char *filename, char **path)
 {
-	char		*tmp;
-	char		*tmp_2;
+	static char oldpwd[MAX_PATH];
+	uint32_t	i;
 
-	tmp = NULL;
-	tmp_2 = NULL;
-	if (ft_buildin(filename, path, argv, env) != -1)
-		return (NULL);
-	while (*path)
+	i = 0;
+	getcwd(oldpwd, MAX_PATH); // not protected;
+	while (path[i])
 	{
-		tmp = ft_strjoin(*path, "/");
-		tmp_2 = tmp;
-		tmp = ft_strjoin(tmp, filename);
-		free(tmp_2);
-		if (!(access(tmp, F_OK)))
+		if (chdir(path[i]) == -1)
 		{
-			if (!(access(tmp, X_OK)))
+			ft_putendl_fd("chdir() failed", 2);
+			exit(EXIT_FAILURE); // not necessary
+		}
+		if (!(access(filename, F_OK)))
+		{
+			if (!(access(filename, X_OK)))
 			{
-				if (execve(tmp, argv, env))
-					ft_putstr("error has occured");
-				exit (EXIT_FAILURE);
+				if (chdir(oldpwd) == -1)
+					ft_putendl_fd("chdir() failed", 2);
+				return (path[i]);
 			}
 			else
 			{
 				ft_putstr_fd(SHELL_NAME, 2);
-				ft_putstr_fd(tmp, 2);
+				ft_putstr_fd(filename, 2);
 				ft_putstr_fd(": Permission denied", 2);
-				exit (-1);
+				if (chdir(oldpwd) == -1)
+					ft_putendl_fd("chdir() failed", 2);
+				return (NULL);
 			}
 		}
 		else
-			path++;
-		//might want to put permissions checking here
+			i++;
 	}
-	free (tmp);
-	return (tmp); // wtf returning something
-	}*/
-
+	ft_putstr_fd(filename, 2);
+	ft_putendl_fd(" : Could not be found", 2);
+	if (chdir(oldpwd) == -1)
+		ft_putendl_fd("chdir() failed", 2);
+	return (NULL);
+}
 
 char		**ft_parse_line(char *line)
 {

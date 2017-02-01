@@ -6,6 +6,7 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <sys/signal.h>
+# include <signal.h>
 # include <stdlib.h>
 
 # define SHELL_NAME "minishell: "
@@ -18,8 +19,10 @@
 # define TOKEN_END_OF_STATEMENT ";"
 # define TOKEN_LEFT_REDIRECTION "<"
 # define TOKEN_RIGHT_REDIRECTION ">"
-# define TOKEN_LEFT_APPEND "<<"
+# define TOKEN_HEREDOC "<<"
 # define TOKEN_RIGHT_APPEND ">>"
+
+#define TOKEN_COUNT 8
 
 # define TYPE_TOKEN_OR 1
 # define TYPE_TOKEN_AND 2
@@ -40,11 +43,16 @@
 
 # define MAX_PATH 4096
 
+typedef union	s_token_union
+{
+	char	*token;
+	char	**tokens;
+}				t_token_union;
+
 typedef struct	s_token
 {
-	int32_t	type;
-	char	*token;
-	char	**argv;
+	int32_t			type;
+	t_token_union	token;
 }				t_token;	
 
 typedef struct	s_btree
@@ -63,7 +71,10 @@ void		ft_normalize_command(char **command);
 char		**ft_lexer(char *command_line, char **env);
 
 char		**ft_preparse(char **tokens, char **env);
+uint32_t	ft_count_abstract_tokens(char **tokens);
 char		*ft_variable_expansion(char *token, char **env);
+t_btree		*ft_parser(char **tokens, char **env);
+t_token		*ft_sanitize_tokens(t_token *tokens_tab, uint32_t count);
 
 void		ft_echo(char **argv);
 int32_t		ft_buildin(char *filename, char **argv, char **env, t_list **env_lst);
@@ -81,4 +92,6 @@ int32_t		ft_unsetenv(t_list **env, char const **argv);
 int32_t		ft_setenv(t_list **env, char const **argv);
 t_list		*ft_find_lst_env(t_list *env, char const *variable);
 t_list		*ft_get_lstenv(char **env);
+
+void		*ft_lsttotab_token(t_list *lst, unsigned int len);
 #endif

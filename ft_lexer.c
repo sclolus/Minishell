@@ -138,11 +138,12 @@ char	 **ft_lexer(char *command_line, char **env)
 		lst = lst->next;
 	}
 	tokens = ft_preparse(tokens, env);
-	while (*tokens)
+/*	while (*tokens)
 	{
 		ft_putendl(*tokens);
+		ft_putchar('|');
 		tokens++;
-	}
+		}*/
 	return (tokens);
 }
 #endif

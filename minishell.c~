@@ -2,7 +2,7 @@
 #include "minishell.h"
 #include "get_next_line.h"
 
-char		*ft_find_env(char **env, char *variable)
+char		*ft_find_env(char const **env, char const *variable)
 {
 	uint32_t	i;
 
@@ -12,11 +12,11 @@ char		*ft_find_env(char **env, char *variable)
 	while (*env)
 	{
 		if (!ft_strncmp(variable, *env, i))
-			return (*env);
+			return ((char*)*env);
 		else
 			env++;
 	}
-	return (0);
+	return (NULL);
 }
 
 char		**ft_get_env_value(char **env, char *variable)
@@ -29,12 +29,12 @@ char		**ft_get_env_value(char **env, char *variable)
 	path = NULL;
 	tmp = NULL;
 	variable_len = ft_strlen(variable);
-	if (!(path = ft_strsplit(ft_find_env(env, variable), ':')))
+	if (!(path = ft_strsplit(ft_find_env((char const**)env, variable), ':')))
 		exit (EXIT_FAILURE);
 	if (!(tmp = ft_strdup(*path)))
 		exit(EXIT_FAILURE);
 	len = ft_strlen(tmp) - variable_len - 1; 
-	ft_strncpy(*path, tmp + variable_len + 1, len);
+	ft_strncpy(*path, tmp + variable_len + 1, len + 1);
 	return (path);
 }
 
@@ -43,6 +43,9 @@ int main(int argc, char **argv, char **env)
 	char		*line;
 	char		**command_argv;
 	char		**path;
+	char		*tmp;
+	t_list		*env_lst;
+	char		**env_tab;
 	pid_t		pid;
 
 	line = NULL;
@@ -52,30 +55,45 @@ int main(int argc, char **argv, char **env)
 	ft_putstr("$>");
 	if (signal(SIGINT, &ft_sighandler))
 		ft_putstr("salut");
+	if (!(env_lst = ft_get_lstenv(env)))
+		exit (EXIT_FAILURE);
+	char	**tokens;
 	while (line || (get_next_line(0, &line) >= 0))
 	{
 		if (*line == 0)
 		{
 			ft_strdel(&line);
-			ft_putstr("$>");
 			continue ;
-		}
+ 		}
+		if (!(env_tab = ft_lsttotab_token(env_lst, ft_lstlen(env_lst))))
+			exit (EXIT_FAILURE);
+		tokens = ft_lexer(line, env_tab);
+		ft_parser(tokens, env);
 		if ((command_argv = ft_parse_line(line)) == NULL)
 		{
 			line = NULL;
 			continue ;
 		}
-		pid = fork();
-		if (pid > 0)
+		if (ft_buildin(*command_argv, command_argv, env_tab, &env_lst) == -2) // buf inc.
 		{
-			wait(NULL);
-			ft_putstr("$>");
+			pid = fork();
+			if (pid > 0)
+			{
+				wait(NULL);
+				ft_putstr("$>");
+			}
+			else
+			{
+				if (!(tmp = ft_find_command(*command_argv, path)))
+					exit (EXIT_FAILURE);
+				if (ft_execve(*command_argv, tmp
+							  , command_argv, env_tab) == -1)
+					ft_putendl_fd("ft_execve() failed", 2);
+				return (EXIT_FAILURE);
+			}
 		}
-		else
-		{
-			ft_find_command(*command_argv, path, command_argv, env);
-			return (EXIT_FAILURE);
-		}
+		free(env_tab);
+//		ft_putstr("$>");
 	}
 	return (0);
 }

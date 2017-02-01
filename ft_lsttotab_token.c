@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lsttotab.c                                      :+:      :+:    :+:   */
+/*   ft_lsttotab_token.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/11 16:44:35 by sclolus           #+#    #+#             */
-/*   Updated: 2017/02/01 04:16:26 by sclolus          ###   ########.fr       */
+/*   Created: 2017/02/01 04:14:18 by sclolus           #+#    #+#             */
+/*   Updated: 2017/02/01 04:44:38 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <stdlib.h>
+#include "minishell.h"
+#include <stdio.h>
 
-void		*ft_lsttotab(t_list *lst, unsigned int len)
+void	*ft_lsttotab_token(t_list *lst, unsigned int len)
 {
 	unsigned char	*tab;
 	unsigned int	i;
@@ -21,13 +21,13 @@ void		*ft_lsttotab(t_list *lst, unsigned int len)
 
 	i = 0;
 	u = 0;
-	if (!(tab = (unsigned char*)malloc(lst->content_size * len)))
+	if (!(tab = (unsigned char*)malloc(sizeof(char*) * len)))
 		return (0);
 	while (i < len)
 	{
-		while (u < lst->content_size)
+		while (u < sizeof(char*))
 		{
-			tab[i * lst->content_size + u] = ((unsigned char*)lst->content)[u];
+			tab[i * sizeof(char*) + u] = *((unsigned char*)&lst->content + u);
 			u++;
 		}
 		u = 0;

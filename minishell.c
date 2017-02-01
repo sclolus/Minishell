@@ -57,16 +57,18 @@ int main(int argc, char **argv, char **env)
 		ft_putstr("salut");
 	if (!(env_lst = ft_get_lstenv(env)))
 		exit (EXIT_FAILURE);
+	char	**tokens;
 	while (line || (get_next_line(0, &line) >= 0))
 	{
 		if (*line == 0)
 		{
 			ft_strdel(&line);
 			continue ;
-		}
-		if (!(env_tab = ft_lsttotab(env_lst, sizeof(t_list))))
+ 		}
+		if (!(env_tab = ft_lsttotab_token(env_lst, ft_lstlen(env_lst))))
 			exit (EXIT_FAILURE);
-		ft_lexer(line, env_tab);
+		tokens = ft_lexer(line, env_tab);
+		ft_parser(tokens, env);
 		if ((command_argv = ft_parse_line(line)) == NULL)
 		{
 			line = NULL;

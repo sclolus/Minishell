@@ -1,7 +1,7 @@
 #include "minishell.h"
 #include "libft.h"
 
-char	*ft_find_command(char *filename, char **path, char **argv, char **env)
+/*char	*ft_find_command(char *filename, char **path, char **argv, char **env)
 {
 	char		*tmp;
 	char		*tmp_2;
@@ -37,10 +37,8 @@ char	*ft_find_command(char *filename, char **path, char **argv, char **env)
 		//might want to put permissions checking here
 	}
 	free (tmp);
-	ft_putstr_fd(filename, 2);
-	ft_putendl_fd(" : Could not be found", 2);
 	return (tmp); // wtf returning something
-}
+	}*/
 
 
 char		**ft_parse_line(char *line)
@@ -84,7 +82,6 @@ char		*ft_parse_arg(char *line)
 	uint32_t	i;
 	uint32_t	u;
 	char		string_char;
-
 
 	// matching not supported
 	string_char = -1;

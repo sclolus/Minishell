@@ -58,12 +58,19 @@ char		*ft_variable_expansion(char *token, char **env)
 			u = i;
 			while (token[i] && (!ft_strchr(CHARSET_SPECIAL_DELIMITORS, token[i]) || !ft_strchr(" \t\n", token[i])))
 				i++;
-			if (!(tmp = ft_strsub(token, u + 1, i - u - 1)))
+			if (!(tmp = ft_strsub(token, u + 1, i)))
 				exit(EXIT_FAILURE);
+			ft_putstr(tmp);
 			cpy = ft_find_env((char const**)env, (char const*)tmp);
 			free(tmp);
 			while (*cpy && *cpy != '=')
 				cpy++;
+			ft_putstr("salut");
+
+
+
+
+
 			tmp = token;
 			if (!(token = ft_strreplace(token, u, i - 1, cpy + 1)))
 				exit(EXIT_FAILURE);

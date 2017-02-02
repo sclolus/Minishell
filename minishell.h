@@ -16,28 +16,31 @@
 # define TOKEN_OR "||"
 # define TOKEN_AND "&&"
 # define TOKEN_SINGLE_AND "&"
+# define TOKEN_PIPE "|"
 # define TOKEN_END_OF_STATEMENT ";"
 # define TOKEN_LEFT_REDIRECTION "<"
 # define TOKEN_RIGHT_REDIRECTION ">"
 # define TOKEN_HEREDOC "<<"
 # define TOKEN_RIGHT_APPEND ">>"
 
-#define TOKEN_COUNT 8
+# define TOKEN_COUNT 9
 
 # define TYPE_TOKEN_OR 1
 # define TYPE_TOKEN_AND 2
 # define TYPE_TOKEN_SINGLE_AND 3
-# define TYPE_TOKEN_END_OF_STATEMENT 4
-# define TYPE_TOKEN_LEFT_REDIRECTION 5
-# define TYPE_TOKEN_RIGHT_REDIRECTION 6
-# define TYPE_TOKEN_HEREDOC 7
-# define TYPE_TOKEN_RIGHT_APPEND 8
+# define TYPE_TOKEN_PIPE 4
+# define TYPE_TOKEN_END_OF_STATEMENT 5
+# define TYPE_TOKEN_LEFT_REDIRECTION 6
+# define TYPE_TOKEN_RIGHT_REDIRECTION 7
+# define TYPE_TOKEN_HEREDOC 8
+# define TYPE_TOKEN_RIGHT_APPEND 9
 
-# define TYPE_TOKEN_STATEMENT 9
-# define TYPE_TOKEN_START_OF_STATEMENT 10
+# define TYPE_TOKEN_STATEMENT 10
+# define TYPE_TOKEN_START_OF_STATEMENT 11
 
 # define CHARSET_SPECIAL_CHAR "|&<>;*?"
 # define CHARSET_SPECIAL_DELIMITORS "(|&<>; )"
+# define CHARSET_LOGICAL "&|"
 # define CHARSET_END_OF_EXPRESSION " ;"
 # define ESCAPE_CHAR "\\"
 
@@ -75,6 +78,12 @@ uint32_t	ft_count_abstract_tokens(char **tokens);
 char		*ft_variable_expansion(char *token, char **env);
 t_btree		*ft_parser(char **tokens, char **env);
 t_token		*ft_sanitize_tokens(t_token *tokens_tab, uint32_t count);
+
+uint32_t	ft_get_branches_count(t_token *tokens, uint32_t count);
+void		ft_put_ast(t_btree *tree);
+t_btree		*ft_add_ast_node(t_token *tokens, uint32_t index, t_btree *tree);
+t_btree		*ft_arrange_tree(t_btree *nodes, uint32_t count);
+t_btree		*ft_get_ast_tree(t_token *tokens, uint32_t count);
 
 void		ft_echo(char **argv);
 int32_t		ft_buildin(char *filename, char **argv, char **env, t_list **env_lst);

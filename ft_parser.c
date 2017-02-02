@@ -69,6 +69,7 @@ int32_t		ft_get_token_id(char *token)
 		{ TYPE_TOKEN_OR, {TOKEN_OR}},
 		{ TYPE_TOKEN_AND, {TOKEN_AND}},
 		{ TYPE_TOKEN_SINGLE_AND, {TOKEN_SINGLE_AND}},
+		{ TYPE_TOKEN_PIPE, {TOKEN_PIPE}},
 		{ TYPE_TOKEN_END_OF_STATEMENT, {TOKEN_END_OF_STATEMENT}},
 		{ TYPE_TOKEN_LEFT_REDIRECTION, {TOKEN_LEFT_REDIRECTION}},
 		{ TYPE_TOKEN_RIGHT_REDIRECTION, {TOKEN_RIGHT_REDIRECTION}},
@@ -95,7 +96,7 @@ t_token		*ft_get_tokens_tab(char **tokens, uint32_t count)
 
 	i = 0;
 	u = 0;
-	if (!(tab = (t_token*)malloc(sizeof(t_token) * count + 1)))
+	if (!(tab = (t_token*)malloc(sizeof(t_token) * count)))
 		exit(EXIT_FAILURE);
 	while (i < count)
 	{
@@ -150,6 +151,7 @@ t_btree		*ft_parser(char **tokens, char **env)
 {
 	uint32_t	count;
 	uint32_t	i;
+	t_btree		*tree;
 	t_token		*tokens_tab;
 
 	if (env)
@@ -169,14 +171,16 @@ t_btree		*ft_parser(char **tokens, char **env)
 		if (tokens_tab[i].type != TYPE_TOKEN_STATEMENT)
 		{
 			ft_putstr(tokens_tab[i].token.token);
-			ft_putchar(' ');
+			ft_putchar('$');
+						
+
 		}
 		else
 		{
 			while (tokens_tab[i].token.tokens[u])
 			{
 				ft_putstr(tokens_tab[i].token.tokens[u]);
-				ft_putchar(' ');
+				ft_putchar('|');
 				u++;
 			}
 			while (tokens_tab[i].type == TYPE_TOKEN_STATEMENT)
@@ -185,7 +189,7 @@ t_btree		*ft_parser(char **tokens, char **env)
 		}
 		i++;
 	}
-	if (!(tree = ft_get_btree(tokens_tab, count)))
+	if (!(tree = ft_get_ast_tree(tokens_tab, count)))
 		exit (EXIT_FAILURE);
 	return (NULL);
 }

@@ -134,10 +134,7 @@ t_token		*ft_sanitize_tokens(t_token *tokens_tab, uint32_t count)
 			tmp[u - i + 1] = 0;
 			token_nbr = i;
 			while (token_nbr < u)
-			{
-				tmp[argv_nbr++] = tokens_tab[token_nbr].token.token;
-				token_nbr++;
-			}
+				tmp[argv_nbr++] = tokens_tab[token_nbr++].token.token;
 			tokens_tab[i].token.tokens = tmp;
 			i = token_nbr;
 		}
@@ -150,7 +147,6 @@ t_token		*ft_sanitize_tokens(t_token *tokens_tab, uint32_t count)
 t_btree		*ft_parser(char **tokens, char **env)
 {
 	uint32_t	count;
-	uint32_t	i;
 	t_btree		*tree;
 	t_token		*tokens_tab;
 
@@ -160,10 +156,13 @@ t_btree		*ft_parser(char **tokens, char **env)
 	if (!(tokens_tab = ft_get_tokens_tab(tokens, count)))
 		exit (EXIT_FAILURE);
 	ft_sanitize_tokens(tokens_tab, count);
+	#if 0
 	uint32_t	u;
+		uint32_t	i;
+
 
 	i = 0;
-
+	
 	while (i < count)
 	{
 		u = 0;
@@ -172,8 +171,6 @@ t_btree		*ft_parser(char **tokens, char **env)
 		{
 			ft_putstr(tokens_tab[i].token.token);
 			ft_putchar('$');
-						
-
 		}
 		else
 		{
@@ -189,7 +186,8 @@ t_btree		*ft_parser(char **tokens, char **env)
 		}
 		i++;
 	}
+#endif
 	if (!(tree = ft_get_ast_tree(tokens_tab, count)))
 		exit (EXIT_FAILURE);
-	return (NULL);
+	return (tree);
 }

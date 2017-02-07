@@ -9,6 +9,13 @@
 # include <signal.h>
 # include <stdlib.h>
 
+// debuf MACROS
+# define ENDL ft_putendl("");
+# define CHECK(x) do { ft_putstr("___________");	\
+ft_putendl(#x);\
+	} while (0);
+
+
 # define SHELL_NAME "minishell: "
 # define ECHO_FLAGS "n" // obsolete
 
@@ -81,7 +88,7 @@ t_token		*ft_sanitize_tokens(t_token *tokens_tab, uint32_t count);
 
 uint32_t	ft_get_branches_count(t_token *tokens, uint32_t count);
 void		ft_put_ast(t_btree *tree);
-t_btree		*ft_add_ast_node(t_token *tokens, uint32_t index, t_btree *tree);
+t_btree		*ft_add_ast_node(t_token *tokens, t_btree *tree);
 t_btree		*ft_arrange_tree(t_btree *nodes, uint32_t count);
 t_btree		*ft_get_ast_tree(t_token *tokens, uint32_t count);
 
@@ -89,7 +96,11 @@ void		ft_echo(char **argv);
 int32_t		ft_buildin(char *filename, char **argv, char **env, t_list **env_lst);
 int32_t		ft_cd(char **argv, t_list **env);
 char		*ft_find_env(char const **env, char const *variable);
+int32_t		ft_exec_ast(t_btree *tree, char **env, char *path);
 int32_t		ft_execve(char *filename, char *path, char **argv, char **env);
+int32_t		ft_exec_statement(t_btree *tree, char **env, char *path);
+int32_t		ft_exec_token_or(t_btree *tree, char **env, char *path);
+int32_t		ft_exec_token_and(t_btree *tree, char **env, char *path);
 
 t_btree		*ft_btreenew(void *content, uint32_t content_size);
 char		*ft_strjoin_f(char *a, char *b, int32_t mode);

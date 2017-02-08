@@ -36,8 +36,9 @@ char	*ft_find_command(char *filename, char **path)
 		else
 			i++;
 	}
-	ft_putstr_fd(filename, 2);
-	ft_putendl_fd(" : Could not be found", 2);
+	ft_putstr_fd(SHELL_NAME, 2);
+	ft_putstr_fd("command not found: ", 2);
+	ft_putendl_fd(filename, 2);
 	if (chdir(oldpwd) == -1)
 		ft_putendl_fd("chdir() failed", 2);
 	return (NULL);

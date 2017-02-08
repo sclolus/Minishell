@@ -98,7 +98,7 @@ t_btree		*ft_arrange_tree(t_btree *nodes, uint32_t count)
 	uint32_t	i;
 
 	i = 1;
-	ft_memset(nodes, 0, sizeof(t_btree) * count);
+	ft_memset(nodes, 0, sizeof(t_btree) * (count + 1));
 	tmp = nodes;
 	while (i < count)
 	{

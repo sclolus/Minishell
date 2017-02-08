@@ -96,11 +96,13 @@ void		ft_echo(char **argv);
 int32_t		ft_buildin(char *filename, char **argv, char **env, t_list **env_lst);
 int32_t		ft_cd(char **argv, t_list **env);
 char		*ft_find_env(char const **env, char const *variable);
-int32_t		ft_exec_ast(t_btree *tree, char **env, char *path);
+int32_t		ft_exec_ast(t_btree *tree, char **env, char **path);
 int32_t		ft_execve(char *filename, char *path, char **argv, char **env);
-int32_t		ft_exec_statement(t_btree *tree, char **env, char *path);
-int32_t		ft_exec_token_or(t_btree *tree, char **env, char *path);
-int32_t		ft_exec_token_and(t_btree *tree, char **env, char *path);
+int32_t		ft_exec_statement(t_btree *tree, char **env, char **path);
+int32_t		ft_exec_token_or(t_btree *tree, char **env, char **path);
+int32_t		ft_exec_token_and(t_btree *tree, char **env, char **path);
+int32_t		ft_exec_asynchronous_statement(t_btree *tree, char **env, char **path);
+int32_t		ft_exec_token_single_and(t_btree *tree, char **env, char **path);
 
 t_btree		*ft_btreenew(void *content, uint32_t content_size);
 char		*ft_strjoin_f(char *a, char *b, int32_t mode);

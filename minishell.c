@@ -41,9 +41,9 @@ char		**ft_get_env_value(char **env, char *variable)
 int main(int argc, char **argv, char **env)
 {
 	char		*line;
-	char		**command_argv;
+/*	char		**command_argv;*/
 	char		**path;
-	char		*tmp;
+/*	char		*tmp;*/
 	t_list		*env_lst;
 	char		**env_tab;
 
@@ -58,44 +58,34 @@ int main(int argc, char **argv, char **env)
 		exit (EXIT_FAILURE);
 	char	**tokens;
 	t_btree	*tree;
-	while (line || (get_next_line(0, &line) >= 0))
+	while (get_next_line(0, &line) >= 0)
 	{
 		if (*line == 0)
 		{
 			ft_strdel(&line);
 			continue ;
  		}
+#if 0
 		if ((command_argv = ft_parse_line(line)) == NULL)
 		{
 			line = NULL;
 			continue ;
 		}
+		#endif
 		if (!(env_tab = ft_lsttotab_token(env_lst, ft_lstlen(env_lst))))
 			exit (EXIT_FAILURE);
 		tokens = ft_lexer(line, env_tab);
 		tree = ft_parser(tokens, env_tab);
+		/*
 		if (!(tmp = ft_find_command(*command_argv, path)))
-			exit (EXIT_FAILURE);
-		ft_exec_ast(tree, env, tmp);
+		exit (EXIT_FAILURE);*/
+		ft_exec_ast(tree, env, path);
 		free(tokens);
+		free(line);
+		line = NULL;
 	#	if 0
 		if (ft_buildin(*command_argv, command_argv, env_tab, &env_lst) == -2) // buf inc.
 		{
-			pid = fork();
-			if (pid > 0)
-			{
-				wait(NULL);
-				ft_putstr("$>");
-			}
-			else
-			{
-/*				if (!(tmp = ft_find_command(*command_argv, path)))
-				exit (EXIT_FAILURE);*/
-				if (ft_execve(*command_argv, tmp
-							  , command_argv, env_tab) == -1)
-					ft_putendl_fd("ft_execve() failed", 2);
-				return (EXIT_FAILURE);
-			}
 		}
 		#endif
 		free(env_tab);

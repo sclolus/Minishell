@@ -5,39 +5,32 @@
 
 int main(int argc, char **argv)
 {
-	int		fd;
-	int		stdin;
+	int		fd[2];
 	char	*line;
 	pid_t	pid;
 
-	fd = open("test.txt", O_RDONLY);
-//	pipe(fd);
-	close(0);
-	stdin = dup(fd);
-	ft_putnbr(stdin);
-	while (get_next_line(stdin, &line) > 0)
-	{
-		ft_putendl(line);
-		free (line);
-	}
-/*		pid = fork();
-
+	
+	pipe(fd);
+	pid = fork();
+	line = NULL;
 	if (pid > 0)
 	{
-		//	close(fd[1]);
-		while (1)
+		close(fd[1]);
+		dup2(fd[0], 0);
+		wait(NULL);
+		execve("/bin/cat", NULL, NULL);
+		while (get_next_line(0, &line) > 0)
 		{
-			get_next_line(fd[0], &line);
 			ft_putstr(line);
-		}
+			ft_putendl("_______");
+			free(line);
+		}			
 	}
 	else
 	{
-//		close(fd[0]);
-		while (1)
-		{
-			ft_putstr_fd("salut\n", fd[0]);
-		}
-		}*/
+		close(*fd);
+		dup2(fd[1], 1);
+		execve("./gnl", NULL, NULL);
+	}
 	return (0);
 }

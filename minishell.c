@@ -77,17 +77,17 @@ int main(int argc, char **argv, char **env)
 		tokens = ft_lexer(line, env_tab);
 		tree = ft_parser(tokens, env_tab);
 		/*
-		if (!(tmp = ft_find_command(*command_argv, path)))
-		exit (EXIT_FAILURE);*/
+		  if (!(tmp = ft_find_command(*command_argv, path)))
+		  exit (EXIT_FAILURE);*/
 		ft_exec_ast(tree, env, path);
 		free(tokens);
 		free(line);
 		line = NULL;
-	#	if 0
+#	if 0
 		if (ft_buildin(*command_argv, command_argv, env_tab, &env_lst) == -2) // buf inc.
 		{
 		}
-		#endif
+#endif
 		free(env_tab);
 		ft_putstr("$>");
 	}

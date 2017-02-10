@@ -80,6 +80,12 @@ char		*ft_find_command(char *filename, char **path);
 char		**ft_parse_line(char *line);
 char		*ft_parse_arg(char *line);
 void		ft_normalize_command(char **command);
+
+int32_t		ft_is_escaped(char *line, uint32_t index);
+int32_t		ft_is_unbalanced(char *line);
+char		*ft_line_continuation(char *line);
+int32_t		ft_is_line_backslash_terminated(char *line);
+
 char		**ft_lexer(char *command_line, char **env);
 
 char		**ft_preparse(char **tokens, char **env);

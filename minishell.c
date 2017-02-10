@@ -72,6 +72,7 @@ int main(int argc, char **argv, char **env)
 			continue ;
 		}
 		#endif
+		line = ft_line_continuation(line);
 		if (!(env_tab = ft_lsttotab_token(env_lst, ft_lstlen(env_lst))))
 			exit (EXIT_FAILURE);
 		tokens = ft_lexer(line, env_tab);

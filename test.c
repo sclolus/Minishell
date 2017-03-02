@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 23:53:31 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/02 06:28:18 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/02 08:15:11 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_putterm(int c)
 	return (write(1, &c, 1));
 }
 
-int	ft_exec_term_event(char	*command)
+int	ft_exec_term_event(char	*command, t_string *buf)
 {
 	static t_cursor	cursor = {{0, 0}, {0, 0}, 0};
 
@@ -41,6 +41,11 @@ int	ft_exec_term_event(char	*command)
 	else if (*command == 1)
 	{
 		ft_move_start_line(&cursor);
+		return (1);
+	}
+	else if (*command == 5)
+	{
+		ft_move_end_line(&cursor, buf);
 		return (1);
 	}
 	else if (*command == 11)
@@ -90,7 +95,7 @@ void	ft_termget(char **line)
 		}
 		if (read(0, tmp, 3) == -1)
 			exit (EXIT_FAILURE);
-	   	if (!ft_exec_term_event(tmp))
+	   	if (!ft_exec_term_event(tmp, &buf))
 		{
 			ft_putchar(*tmp);
 			tmp[1] = 0;

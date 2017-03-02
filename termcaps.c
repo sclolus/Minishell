@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 03:22:07 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/02 06:29:55 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/02 08:10:39 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,7 @@ void	ft_move_right_cursor(t_cursor *cursor)
 {
 	char	*res;
 
-	if (cursor->pos.x == 80)
-		res = tgetstr("do", NULL);
-	else
-		cursor->pos.x++;
+	cursor->pos.x++;
 	res = tgetstr("nd", NULL);
 	tputs(res, 1, &ft_putterm);
 }
@@ -66,6 +63,14 @@ void	ft_move_start_line(t_cursor *cursor)
 
 }
 
+void	ft_move_end_line(t_cursor *cursor, t_string *buf)
+{
+	char	*res;
+
+	while (cursor->pos.x < buf->len)
+		ft_move_right_cursor(cursor);
+}
+
 void	ft_screen_clear(void)
 {
 	char	*res;
@@ -91,6 +96,14 @@ void	ft_kill_line(t_cursor *cursor)
 	char	*res;
 
 	res = tgetstr("ce", NULL);
+	tputs(res, 1, &ft_putterm);
+}
+
+void	ft_set_am(void)
+{
+	char	*res;
+
+	res = tgetstr("co", NULL);
 	tputs(res, 1, &ft_putterm);
 }
 

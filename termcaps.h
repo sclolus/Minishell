@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 03:26:22 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/02 06:20:23 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/02 08:07:47 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,12 @@ void		ft_move_right_cursor(t_cursor *cursor);
 void		ft_move_up_cursor(t_cursor *cursor);
 void		ft_move_down_cursor(t_cursor *cursor);
 void		ft_move_start_line(t_cursor *cursor);
+void		ft_move_end_line(t_cursor *cursor, t_string *buf);
 void		ft_screen_clear(void);
 void		ft_delete_char(t_cursor *cursor);
 void		ft_kill_line(t_cursor *cursor);
 void		ft_set_insert(void);
 void		ft_unset_insert(void);
+void		ft_set_am(void);
 t_string	*ft_t_string_concat(t_string *string, char *str);
 #endif

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 03:22:07 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/03 09:47:28 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/03 10:31:19 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,16 @@ void	ft_move_right_cursor(t_string *buf)
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &window);
 	if (buf->offset < buf->len)
 	{
-		if (window.ws_col == buf->offset + 10)
+		if (0 == (buf->offset + 10) % window.ws_col)
+		{
 			res = tgetstr("do", NULL);
+			buf->offset++;
+		}
 		else
+		{
 			res = tgetstr("nd", NULL);
-		buf->offset++;
+			buf->offset++;
+		}
 		tputs(res, 1, &ft_putterm);
 	}
 }

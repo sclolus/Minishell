@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 03:22:07 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/03 10:31:19 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/03 11:59:11 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_move_left_cursor(t_string *buf)
 
 void	ft_move_right_cursor(t_string *buf)
 {
-	char	*res;
+	char					*res;
 	static struct winsize	window;
 
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &window);
@@ -48,18 +48,41 @@ void	ft_move_right_cursor(t_string *buf)
 // ctrl + whatever
 void	ft_move_up_cursor(t_string *buf)
 {
-	char	*res;
-	
-	res = tgetstr("up", NULL);	
-	tputs(res, 1, &ft_putterm);
+	char					*res;
+	static struct winsize	window;
+
+	ioctl(STDOUT_FILENO, TIOCGWINSZ, &window);
+	if ((buf->offset + 10) / window.ws_col)
+	{
+		if ((buf->offset + 10) % window.ws_col < 10)
+			ft_move_start_line(buf);
+		else
+		{
+			buf->offset -= window.ws_col;
+			res = tgetstr("up", NULL);	
+			tputs(res, 1, &ft_putterm);
+		}
+	}
 }
 
 void	ft_move_down_cursor(t_string *buf)
 {
-	char	*res;
+	char					*res;
+	static struct winsize	window;
+	uint64_t				i;
 
-	res = tgetstr("do", NULL);
-	tputs(res, 1, &ft_putterm);
+	i = 0;
+	ioctl(STDOUT_FILENO, TIOCGWINSZ, &window);
+/*	if (!((buf->len - buf->offset + 10) / window.ws_col))
+	{*/
+	while (i++ < window.ws_col)
+		ft_move_right_cursor(buf);
+	/*	buf->offset += window.ws_col - ;
+		res = tgetstr("do", NULL);
+		tputs(res, 1, &ft_putterm);
+	}
+	else
+	ft_move_end_line(buf);*/
 }
 
 void	ft_move_start_line(t_string *buf)
@@ -68,8 +91,6 @@ void	ft_move_start_line(t_string *buf)
 
 	while (buf->offset > 0)
 		ft_move_left_cursor(buf);
-//	res = tgetstr("cr", NULL);
-
 }
 
 void	ft_move_end_line(t_string *buf)
@@ -120,7 +141,7 @@ void	ft_kill_line(t_string *buf, t_list **paste_history)
 
 	if (!paste_base)
 		paste_base = *paste_history;
-	res = tgetstr("ce", NULL);
+	res = tgetstr("cd", NULL);
 	tputs(res, 1, &ft_putterm);
 	if (!(tmp = ft_lstnew(buf->string + buf->offset
 						  , ft_strlen(buf->string + buf->offset))))

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 23:53:31 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/03 09:40:20 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/03 11:58:54 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,7 @@ int	ft_exec_term_event(char	*command, t_string *buf)
 		else if (command[2] == 67)
 			ft_move_right_cursor(buf);
 		else if (command[2] == 66 || command[2] == 65)
-		{
 			ft_get_history(history, command, buf);
-		}
 		return (1);
 	}
 	else if (*command == 1)
@@ -60,6 +58,16 @@ int	ft_exec_term_event(char	*command, t_string *buf)
 	else if (*command == 11)
 	{
 		ft_kill_line(buf, &paste_history);
+		return (1);
+	}
+	else if (*command == 14)
+	{
+		ft_move_down_cursor(buf);
+		return (1);
+	}
+	else if (*command == 16)
+	{
+		ft_move_up_cursor(buf);
 		return (1);
 	}
 	else if (*command == 20 || *(int*)command == 0xA080E2)

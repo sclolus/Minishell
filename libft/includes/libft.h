@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 11:35:25 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/02 00:06:42 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/03 04:46:39 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct	s_list
 	void			*content;
 	size_t			content_size;
 	struct s_list	*next;
+	struct s_list	*prev;
 }				t_list;
 
 void			*ft_memset(void *b, int c, size_t len);
@@ -107,4 +108,5 @@ uint64_t		ft_random(void);
 void			ft_sort(int64_t	*tab_int, uint32_t len);
 
 int				get_next_line(const int fd, char **line);
+void			ft_get_cancer(char *str);
 #endif

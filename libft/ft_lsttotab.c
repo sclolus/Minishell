@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/11 16:44:35 by sclolus           #+#    #+#             */
-/*   Updated: 2017/02/01 04:16:26 by sclolus          ###   ########.fr       */
+/*   Updated: 2016/12/11 17:16:07 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void		*ft_lsttotab(t_list *lst, unsigned int len)
 	{
 		while (u < lst->content_size)
 		{
-			tab[i * lst->content_size + u] = ((unsigned char*)lst->content)[u];
+			tab[i * 4 + u] = ((unsigned char*)lst->content)[u];
 			u++;
 		}
 		u = 0;

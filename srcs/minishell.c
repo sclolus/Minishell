@@ -109,23 +109,11 @@ int main(int argc, char **argv, char **env)
 		exit(EXIT_FAILURE);
 	t_env	s_env;
 	s_env.env = env;
-	uint32_t	len;
-	char		*line_tmp;
 	
 	while (1)
 	{
 		ft_putstr("\n$>");
-		len = 0;
-		len += ft_termget(&line);
-		while (ft_term_line_continuation(line))
-		{
-			if (!(line_tmp = ft_strnew(len)))
-				exit(EXIT_FAILURE);
-			ft_memcpy(line_tmp, line, len);
-			len += ft_termget(&line);
-			if (!(line = ft_strjoin(line_tmp, line)))
-				exit(EXIT_FAILURE);
-		}
+		ft_termget_complete_line(&line);
 		CHECK(TEST);
 		ft_putendl(line);
 		CHECK(END);

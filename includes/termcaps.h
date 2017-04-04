@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 03:26:22 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/04 03:03:21 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/04 05:09:01 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int32_t		ft_set_term(void);
 
 uint32_t	ft_termget(char **line);
 int32_t		ft_term_line_continuation(char *line);
+uint32_t	ft_termget_complete_line(char **line);
 void		ft_move_left_cursor(t_string *buf);
 void		ft_move_right_cursor( t_string *buf);
 void		ft_move_up_cursor(t_string *buf);

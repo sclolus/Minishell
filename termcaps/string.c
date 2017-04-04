@@ -6,11 +6,16 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 02:07:08 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/27 03:37:11 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/04 05:06:55 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "termcaps.h"
+
+int	ft_putterm(int c)
+{
+	return (write(1, &c, 1));
+}
 
 void		ft_delete_char(t_string *buf)
 {

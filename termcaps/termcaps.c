@@ -6,18 +6,13 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 02:07:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/04 03:04:51 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/04 05:10:07 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "termcaps.h"
 #include "minishell.h"
 #include <stdio.h>
-
-int	ft_putterm(int c)
-{
-	return (write(1, &c, 1));
-}
 
 int	ft_exec_special_event(t_list **history, t_string *buf
 						  , t_list **paste_history, char *command)
@@ -84,13 +79,21 @@ int32_t	ft_term_line_continuation(char *line)
 	if ((ret = ft_is_unbalanced(line))
 		|| ft_is_line_backslash_terminated(line))
 	{
-		if (ret >= 2)
+		if (ret >= 4)
+		{
 			ft_putstr("dquote>");
-		else if (ret == 1)
+			return (ret);
+		}
+		else if (ret == 2)
+		{
 			ft_putstr("quote>");
+			return (ret);
+		}
 		else
+		{
 			ft_putstr(">");
-		return (1);
+			return (1);
+		}
 	}
 	return (0);
 }
@@ -98,7 +101,7 @@ int32_t	ft_term_line_continuation(char *line)
 uint32_t	ft_termget(char **line)
 {
 	static t_string	buf = {256, 0, 0, NULL};
-	static char		tmp[4] = "\0\0\0\0";
+	static char		tmp[8] = "\0\0\0\0\0\0\0\0";
 
 	buf.len = 0;
 	buf.offset = 0;
@@ -108,7 +111,7 @@ uint32_t	ft_termget(char **line)
 	*buf.string = 0;
 	while (1)
 	{
-		if (read(0, tmp, 3) == -1)
+		if (read(0, tmp, 8) == -1)
 			exit(EXIT_FAILURE);
 		if (!ft_exec_term_event(tmp, &buf))
 		{
@@ -131,4 +134,34 @@ uint32_t	ft_termget(char **line)
 	}
 	*line = buf.string;
 	return (buf.len);
+}
+
+uint32_t	ft_termget_complete_line(char **line)
+{
+	uint32_t	len;
+	uint32_t	ret;
+	char		*line_tmp;
+
+	len = ft_termget(line);
+	while ((ret = ft_term_line_continuation(*line)))
+	{
+		if (ret != 1)
+		{
+			if (!(line_tmp = ft_strnew(len + 1)))
+				exit(EXIT_FAILURE);
+			ft_memcpy(line_tmp, *line, len);
+			line_tmp[len] = '\n';
+			len += ft_termget(line) + 1;
+			if (!(*line = ft_strjoin_f(line_tmp, *line, 0)))
+				exit(EXIT_FAILURE);
+			continue ;
+		}
+		if (!(line_tmp = ft_strnew(len)))
+			exit(EXIT_FAILURE);
+		ft_memcpy(line_tmp, *line, len);
+		len += ft_termget(line);
+		if (!(*line = ft_strjoin_f(line_tmp, *line, 0)))
+			exit(EXIT_FAILURE);
+	}
+	return (len);
 }

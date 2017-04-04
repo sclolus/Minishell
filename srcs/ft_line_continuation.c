@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/10 06:13:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/04 00:27:48 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/04 05:00:04 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int32_t	ft_is_unbalanced(char *line)
 		if (line[i] == '\'' && (!ft_is_escaped(line, i)
 								|| single_quotes)
 								&& !double_quotes)
-			single_quotes ^= 1;
+			single_quotes ^= 2;
 		else if (line[i] == '\"' && !ft_is_escaped(line, i) && !single_quotes)
-			double_quotes ^= 2;
+			double_quotes ^= 4;
 		i++;
 	}
 	return (single_quotes ^ double_quotes);

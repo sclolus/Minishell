@@ -1,0 +1,80 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_optimizer.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/03/27 09:38:43 by sclolus           #+#    #+#             */
+/*   Updated: 2017/03/27 10:23:15 by sclolus          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "ast.h"
+
+uint32_t	ft_is_case_str_any_of(t_parser *parser)
+{
+	uint32_t	i;
+
+	i = 0;
+	while (i < parser->parser.or.n)
+	{
+		if (parser->parser.or.parsers[i]->id != ONECHAR)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+void		ft_optimize_case_str_any_of(t_parser *parser)
+{
+	char		*charset;
+	t_parser	*str_any_of;
+	uint32_t	i;
+	uint32_t	n;
+
+	i = 0;
+	n = parser->parser.plus.parser->parser.or.n;
+	if (!(charset = ft_strnew(n)))
+		exit (EXIT_FAILURE);
+	while (i < n)
+	{
+		charset[i] = parser->parser.plus.parser->parser.or.parsers[i]->parser.onechar.c;
+		i++;
+	}
+	str_any_of = ft_get_parser_str_any_of(charset);
+	ft_free_parser(parser->parser.plus.parser);
+	parser->parser.plus.parser = str_any_of;
+}
+
+void	ft_optimizer(t_parser *parser)
+{
+	uint32_t	i;
+
+	i = 0;
+	if (parser->id == OR)
+	{
+		while (i < parser->parser.or.n)
+		{
+			ft_optimizer(parser->parser.or.parsers[i]);
+			i++;
+		}
+	}
+	else if (parser->id == AND)
+	{
+		while (i < parser->parser.and.n)
+		{
+			ft_optimizer(parser->parser.or.parsers[i]);
+			i++;
+		}
+	}
+	else if (parser->id == PLUS)
+	{
+		if (ft_is_case_str_any_of(parser->parser.plus.parser))
+			ft_optimize_case_str_any_of(parser);
+		else
+			ft_optimizer(parser->parser.plus.parser);
+	}
+	else if (parser->id == MULTIPLY)
+		ft_optimizer(parser->parser.plus.parser);
+}

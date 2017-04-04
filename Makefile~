@@ -1,0 +1,58 @@
+NAME= minishell
+CC= gcc
+FLAGS= -Wall -Werror -Wextra -g
+SRC= srcs/minishell.c \
+	srcs/ft_signal.c \
+	srcs/ft_built-in_export.c \
+	srcs/ft_find_command.c \
+	srcs/build-in_echo.c \
+	srcs/build-in_cd.c \
+	srcs/ft_build-in.c \
+	srcs/ft_btree.c \
+	srcs/ft_parser.c \
+	srcs/ft_lexer.c \
+	srcs/ft_execve.c \
+	srcs/ft_env.c \
+	srcs/ft_putenv.c \
+	srcs/ft_lsttotab_token.c \
+	srcs/ft_ast.c \
+	srcs/ft_exec_ast.c \
+	srcs/ft_line_continuation.c \
+	srcs/ft_is_quoted.c \
+	srcs/ft_expansions.c \
+	termcaps/termcaps.c \
+	termcaps/line.c \
+	termcaps/history.c \
+	termcaps/set_mode.c \
+	termcaps/cursor.c \
+	termcaps/string.c \
+	termcaps/ft_set_term.c \
+	parser/ast/ast.c \
+	parser/ast/ft_eval_parser.c \
+	parser/ast/ft_optimizer.c \
+	parser/ast/ft_dup_parser.c \
+	parser/ast/ft_get_grammar.c \
+	parser/ast/ft_put_parser.c
+
+OBJ= $(SRC:.c=.o)
+HDR_PATH= ./includes
+
+all: $(NAME)
+
+$(NAME): $(OBJ)
+	make -C libft/
+	$(CC) $^ -L./libft -lft -ltermcap  $(FLAGS) -o $(NAME)
+
+%.o: %.c
+	$(CC) $< -I$(HDR_PATH) $(FLAGS) -o $@ -c
+
+clean:
+	make -C libft/ clean
+	rm -f $(OBJ)
+
+fclean: clean
+	make -C libft/ fclean
+	rm -f $(NAME)
+
+re: fclean all
+	make -C libft/ re

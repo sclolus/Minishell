@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 22:14:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/03 20:34:32 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/05 01:32:28 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int32_t	ft_exec_env_assignment(t_parser *parser, t_env *env)
 	return (0);
 }
 
-int32_t	ft_exec_cmd(char **argv, t_env *env, t_parser *redirect) //last arg test
+int32_t	ft_exec_cmd(char **argv, t_env *env, t_parser *simple_cmd) //last arg test
 {
 	pid_t	pid;
 	char	*bin;
@@ -88,7 +88,7 @@ int32_t	ft_exec_cmd(char **argv, t_env *env, t_parser *redirect) //last arg test
 	}
 	else
 	{
-		if (ft_redirections(redirect) == -1)
+		if (ft_redirections(simple_cmd) == -1)
 			exit(EXIT_REDIREC_ERROR);
 		if (!(path = ft_find_command(argv[0], ft_get_env_value(env->env, "PATH"))))
 		{
@@ -113,33 +113,71 @@ int32_t	ft_exec_cmd(char **argv, t_env *env, t_parser *redirect) //last arg test
 	}
 }
 
-int32_t	ft_exec_simple_cmd(t_parser *parser, t_env *env)
+static uint32_t	ft_get_arg_count(t_parser *cmd_postfixes)
+{
+	uint32_t	i;
+	uint32_t	count;
+	uint32_t	n;
+
+	i = 0;
+	count = 0;
+	n = MULTIPLY_N(cmd_postfixes);
+	while (i < n)
+	{
+		if (OR_PARSER_N(MULTIPLY_PARSER_N(cmd_postfixes, i), 1)->retained)
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+static char		**ft_get_argv(t_parser *simple_cmd)
 {
 	char		**argv;
-	uint32_t	i;
+	uint32_t	argc;
 	uint32_t	n;
+	uint32_t	i;
+	uint32_t	count;
+
+	argc = ft_get_arg_count(AND_PARSER_N(simple_cmd, 4)) + 2;
+	if (!(argv = (char**)malloc(sizeof(char*) * (argc))))
+		exit(EXIT_FAILURE);
+	argv[argc - 1] = NULL;
+	argv[0] = AND_PARSER_N(simple_cmd, 2)->parser.str_any_of.str;
+	n = MULTIPLY_N(AND_PARSER_N(simple_cmd, 5));
+	count = 0;
+	while (i < n)
+	{
+		if (OR_PARSER_N(MULTIPLY_PARSER_N(AND_PARSER_N(simple_cmd, 4), i), 1)->retained)
+		{
+			argv[count + 1] = AND_PARSER_N(MULTIPLY_PARSER_N(AND_PARSER_N(simple_cmd, 4), i), 0)->parser.str_any_of.str;
+			count++;
+		}
+		i++;
+	}
+	return (argv);
+}
+
+int32_t		ft_exec_simple_cmd(t_parser *parser, t_env *env)
+{
+	char		**argv;
 	int32_t		ret;
 
 	if (IS_RETAINED(OR_PARSER_N(parser, 0)))
-		return (ft_exec_env_assignment(OR_PARSER_N(parser, 0), env));
-	else
 	{
-		i = 0;
 //		ft_expansions(parser, env);
-		parser = OR_PARSER_N(parser, 1);
-		n = MULTIPLY_N(AND_PARSER_N(parser, 4));
-		if (!(argv = (char**)malloc(sizeof(char*) * (n + 2))))
-			exit(EXIT_FAILURE);
-		argv[n + 1] = NULL;
-		argv[0] = AND_PARSER_N(parser, 0)->parser.str_any_of.str;
-		while (i < n)
-		{
-			argv[i + 1] = AND_PARSER_N(MULTIPLY_PARSER_N(AND_PARSER_N(parser, 4), i), 0)->parser.str_any_of.str;
-			i++;
-		}
-		ret = ft_exec_cmd(argv, env, MULTIPLY_PARSER_N(AND_PARSER_N(parser, 2), 0));
+		parser = OR_PARSER_N(parser, 0);
+
+		argv = ft_get_argv(parser); // NULL ?
+		
+		ret = ft_exec_cmd(argv, env, parser);
 		free(argv);
 		return (ret);
+		//	return (ft_exec_env_assignment(OR_PARSER_N(parser, 0), env));
+	}
+	else
+	{
+		return (-1);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 14:22:32 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/03 18:16:58 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/05 01:47:33 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,9 +140,40 @@ int32_t	ft_read_write_redirect(t_parser *redirect)
 	return (redirect_fd);
 }
 
-int32_t	ft_redirections(t_parser *redirect)
+int32_t	ft_redirections(t_parser *simple_cmd)
 {
-	if (ft_output_redirect(redirect) == -1) // test
-		return (-1);
+	static const t_redirect	f_redirec[8] = {
+		{&ft_output_redirect},
+		{NULL},
+		{&ft_input_redirect},
+		{NULL},
+		{NULL},
+		{&ft_read_write_redirect},
+		{&ft_output_append_redirect},
+		{&ft_output_redirect}
+	};
+	t_parser		*parser;
+	uint32_t		prefix_n;
+	uint32_t		postfix_n;
+	uint32_t		i;
+
+	i = 0;
+	prefix_n = MULTIPLY_N(AND_PARSER_N(simple_cmd, 1));
+	postfix_n = MULTIPLY_N(AND_PARSER_N(simple_cmd, 4));
+	parser = AND_PARSER_N(simple_cmd, 1);
+	while (i < prefix_n)
+	{
+		if (OR_PARSER_N(MULTIPLY_PARSER_N(parser, i), 1)->retained)
+			f_redirec[MULTIPLY_PARSER_N(parser, i)->matched](AND_PARSER_N(OR_PARSER_N(MULTIPLY_PARSER_N(parser, i), 1), 1));
+		i++;
+	}
+	i = 0 ;
+	parser = AND_PARSER_N(simple_cmd, 4);
+	while (i < prefix_n)
+	{
+		if (OR_PARSER_N(MULTIPLY_PARSER_N(parser, i), 0)->retained)
+			f_redirec[MULTIPLY_PARSER_N(parser, i)->matched](OR_PARSER_N(MULTIPLY_PARSER_N(parser, i), 0));
+		i++;
+	}
 	return (1);
 }

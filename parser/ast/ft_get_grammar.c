@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 04:43:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/02 02:34:09 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/05 01:38:45 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ t_parser	*ft_get_grammar_or_n(uint32_t n, t_parser *first, t_parser **parsers)
 	i = 0;
 	parser = ft_get_undefined_parser();
 	parser->id = OR;
-	parser->parser.or.matched = NULL;
+	parser->parser.or.matched = -1;
 	if (!(parser->parser.or.parsers = (t_parser**)malloc(sizeof(t_parser*) * n)))
 		exit (EXIT_FAILURE);
 	parser->parser.or.n = n;

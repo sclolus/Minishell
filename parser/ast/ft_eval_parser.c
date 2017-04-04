@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 00:55:46 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/03 13:59:19 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/05 01:37:48 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ uint32_t		ft_eval_parser_or(t_parser	*parser, char **string)
 		i++;
 	}
 	if (ret)
-		parser->parser.or.matched = parser->parser.or.parsers[i - 1];
+		parser->parser.or.matched = i - 1;
 	return (ret);
 }
 
@@ -390,10 +390,10 @@ uint32_t		ft_eval_parser(t_parser *parser, char **string)
 	uint32_t	ret;
 
 	base = *string;
-//	ft_putstr("\nentered :");
+/*	ft_putstr("\nentered :");
 	if (!parser)
 		exit(EXIT_FAILURE);
-/*	if (parser->name)
+	if (parser->name)
 	{
 		ft_putstr(parser->name);
 		ft_put_id(parser);
@@ -427,7 +427,7 @@ uint32_t		ft_eval_parser(t_parser *parser, char **string)
 		parser->retained = UNRETAINED;
 		*string = base;
 	}
-//	ft_putstr("parser");
+/*	ft_putstr("parser");*/
 //	ft_put_parser_tree(parser);
 	return (ret);
 }

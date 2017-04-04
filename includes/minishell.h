@@ -146,9 +146,18 @@ uint32_t	ft_is_quoted(char *input, uint32_t index);
 ** redirections
 */
 
+typedef int32_t (*f)(t_parser*) t_redirec;
+
 int32_t		ft_redirections(t_parser *redirect);
 int32_t		ft_output_redirect(t_parser *redirect);
+int32_t		ft_output_append_redirect(t_parser *redirect);
 int32_t		ft_input_redirect(t_parser *redirect);
+int32_t		ft_read_write_redirect(t_parser *redirect);
+
+/*
+** expansions
+*/
+
 
 int32_t		ft_expansions(t_parser *simple_cmd, t_env *env);
 void		ft_tilde_expansion(char **word, t_env *env);

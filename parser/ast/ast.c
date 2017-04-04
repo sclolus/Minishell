@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:05:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/02 02:34:49 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/05 01:38:28 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,7 +268,7 @@ t_parser	*ft_get_parser_or_n(uint32_t n, t_parser **parsers)
 		i++;
 	}
 	parser->id = OR;
-	parser->parser.or.matched = NULL;
+	parser->parser.or.matched = -1;
 	return (parser);
 }
 

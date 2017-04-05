@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 06:13:51 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/03 14:04:11 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/05 04:22:13 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@ void		ft_put_ast_tokens(t_parser *parser)
 		ft_put_ast_tokens(parser->parser.func.parser);
 	else
 	{
+		if (parser->name)
+			ft_putstr(parser->name);
+
 		switch (parser->id)
 		{
 		case ONECHAR:
@@ -172,6 +175,7 @@ void	ft_put_tree_level(t_parser *parser, uint32_t level)
 			{
 				if (parser->retained)
 					ft_putchar('~');
+				
 				ft_putchar(parser->parser.onechar.c);
 			}
 		}
@@ -182,6 +186,10 @@ void	ft_put_tree_level(t_parser *parser, uint32_t level)
 			ft_put_id(parser);
 			if (!parser->parser.func.parser)
 				ft_putchar(';');
+		}
+		else if (parser->id == STR_ANY_OF)
+		{
+			ft_putstr(parser->parser.str_any_of.str);
 		}
 		else
 			ft_put_id(parser);

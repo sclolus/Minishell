@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 22:14:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/05 02:04:01 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/05 03:30:58 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ static uint32_t	ft_get_arg_count(t_parser *cmd_postfixes)
 	n = MULTIPLY_N(cmd_postfixes);
 	while (i < n)
 	{
-		if (OR_PARSER_N(MULTIPLY_PARSER_N(cmd_postfixes, i), 1)->retained)
+		if (OR_PARSER_N(AND_PARSER_N(MULTIPLY_PARSER_N(cmd_postfixes, i), 0), 1)->retained)
 			count++;
 		i++;
 	}
@@ -144,14 +144,14 @@ static char		**ft_get_argv(t_parser *simple_cmd)
 		exit(EXIT_FAILURE);
 	argv[argc - 1] = NULL;
 	argv[0] = AND_PARSER_N(simple_cmd, 2)->parser.str_any_of.str;
-	n = MULTIPLY_N(AND_PARSER_N(simple_cmd, 5));
+	n = MULTIPLY_N(AND_PARSER_N(simple_cmd, 4));
 	count = 0;
 	i = 0;
 	while (i < n)
 	{
 		if (OR_PARSER_N(MULTIPLY_PARSER_N(AND_PARSER_N(simple_cmd, 4), i), 1)->retained)
 		{
-			argv[count + 1] = AND_PARSER_N(MULTIPLY_PARSER_N(AND_PARSER_N(simple_cmd, 4), i), 0)->parser.str_any_of.str;
+			argv[count + 1] = OR_PARSER_N(AND_PARSER_N(MULTIPLY_PARSER_N(AND_PARSER_N(simple_cmd, 4), i), 0), 1)->parser.str_any_of.str;
 			count++;
 		}
 		i++;

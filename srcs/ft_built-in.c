@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 07:46:43 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/05 08:01:35 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/05 09:10:13 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,7 @@ int32_t	ft_built_in(char **argv, t_env *env)
 	while (i < BUILT_IN_COUNT)
 	{
 		if (!ft_strcmp(argv[0], f_built_in[i].id))
-		{
-			ft_putnbr(i);
 			return (f_built_in[i].f(argv, env));
-		}
 		i++;
 	}
 	return (EXIT_ILLEGAL_CMD);

@@ -146,7 +146,7 @@ uint32_t	ft_is_quoted(char *input, uint32_t index);
 ** redirections
 */
 
-typedef int32_t (*f)(t_parser*) t_redirec;
+typedef int32_t (*t_redirec)(t_parser*);
 
 int32_t		ft_redirections(t_parser *redirect);
 int32_t		ft_output_redirect(t_parser *redirect);

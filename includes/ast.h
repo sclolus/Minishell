@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/05 01:38:29 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/05 02:00:33 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@ typedef uint32_t	t_id;
 ft_putendl(#x);			\
 ft_putendl("____");		} while (0);
 
-# define PARSER_TYPE(parser) (parser->id)
-# define IS_RETAINED(parser) (parser->retained == 1)
-# define OR_PARSER_N(parser, n) (parser->parser.or.parsers[n])
-# define AND_PARSER_N(parser, n) (parser->parser.and.parsers[n])
-# define OR_N(parser) (parser->parser.or.n)
-# define AND_N(parser) (parser->parser.and.n)
-# define PLUS_N(parser) (parser->parser.plus.n)
-# define MULTIPLY_N(parser) (parser->parser.multiply.n)
-# define PLUS_PARSERS_N(parser, n) (parser->parser.plus.parsers[n])
-# define MULTIPLY_PARSER_N(parser, n) (parser->parser.multiply.parsers[n])
+# define PARSER_TYPE(t_parser) t_parser->id
+# define IS_RETAINED(t_parser) t_parser->retained == 1
+# define OR_PARSER_N(t_parser, n) t_parser->parser.or.parsers[n]
+# define AND_PARSER_N(t_parser, n) t_parser->parser.and.parsers[n]
+# define OR_N(t_parser) t_parser->parser.or.n
+# define AND_N(t_parser) t_parser->parser.and.n
+# define PLUS_N(t_parser) t_parser->parser.plus.n
+# define MULTIPLY_N(t_parser) t_parser->parser.multiply.n
+# define PLUS_PARSER_N(t_parser, n) t_parser->parser.plus.parsers[n]
+# define MULTIPLY_PARSER_N(t_parser, n) t_parser->parser.multiply.parsers[n]
 
 
 # define UNRETAINED 0

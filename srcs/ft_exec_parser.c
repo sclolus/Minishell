@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 22:14:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/05 01:32:28 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/05 02:04:01 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ static char		**ft_get_argv(t_parser *simple_cmd)
 	argv[0] = AND_PARSER_N(simple_cmd, 2)->parser.str_any_of.str;
 	n = MULTIPLY_N(AND_PARSER_N(simple_cmd, 5));
 	count = 0;
+	i = 0;
 	while (i < n)
 	{
 		if (OR_PARSER_N(MULTIPLY_PARSER_N(AND_PARSER_N(simple_cmd, 4), i), 1)->retained)

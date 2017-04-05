@@ -151,6 +151,8 @@ typedef int32_t (*t_redirec)(t_parser*);
 int32_t		ft_redirections(t_parser *redirect);
 int32_t		ft_output_redirect(t_parser *redirect);
 int32_t		ft_output_append_redirect(t_parser *redirect);
+int32_t		ft_duplicating_input_redirect(t_parser *redirect);
+int32_t		ft_duplicating_output_redirect(t_parser *redirect);
 int32_t		ft_input_redirect(t_parser *redirect);
 int32_t		ft_read_write_redirect(t_parser *redirect);
 

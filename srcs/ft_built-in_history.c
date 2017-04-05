@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/31 13:23:24 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/05 13:34:06 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/05 15:51:57 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,15 @@ static int32_t	ft_expand_argv(t_env *env, char **argv)
 	t_list	*tmp;
 	t_list	*base;
 	t_list	*history_list;
-	t_list	*string;
+	char	*string;
 
-	history_list = ft_get_history_list();
+	if (env) //
+		;
+	history_list = *ft_get_history_list();
 	base = history_list;
 	if (!history_list)
 		return (-1);
-	while (history_list->next && history->next != base)
+	while (history_list->next && history_list->next != base)
 		history_list = history_list->next;
 	if (!(string = ft_implode_strings(argv)))
 		return (-1);
@@ -132,6 +134,8 @@ static int32_t	ft_clear_history_list(t_env *env)
 	t_list	*base;
 	t_list	*tmp;
 
+	if (env) //
+		;
 	history = ft_get_history_list();
 	history_list = *history;
 	base = history_list;
@@ -164,14 +168,14 @@ static char		ft_set_flags(char *string)
 	tmp = 0;
 	while (string[i])
 	{
-		if ((ret = ft_strchr_index(flags, string[i])) < 8)
+		if ((ret = ft_strchr_index((char*)flags, string[i])) < 8)
 			tmp |= 1 << ret;
 		else
 		{
 			buf[1] = string[i];
 			ft_error(3, (char*[]){"history: ", buf, ": invalid option"}, 0);
-			return (ft_error(1, (char*[]){"history: usage: history [-c] [-d offset] [n] or \n
-history -awrn [filename] or history -ps arg [arg...]", 1)));
+			return (ft_error(1, (char*[]){"history: usage: history [-c] [-d offset] [n] or \
+history -awrn [filename] or history -ps arg [arg...]"}, 1));
 		}
 		i++;
 	}
@@ -182,16 +186,15 @@ static char		ft_get_history_flags(char **argv)
 {
 	char		flags;
 	uint32_t	i;
-	uint32_t	u;
 
 	i = 1;
-	u = 0;
+	flags = 0;
 	while (argv[i])
 	{
 		if (!ft_strcmp(argv[i], "--"))
 			break;
-		else if (argv[i][u] == '-')
-			ret = ft_set_flags(argv[i]);
+		else if (argv[i][0] == '-')
+			flags |= ft_set_flags(argv[i]);
 		else
 			break;
 		i++;
@@ -201,27 +204,32 @@ static char		ft_get_history_flags(char **argv)
 
 int32_t			ft_built_in_history(char **argv, t_env *env)
 {
-	static char	history_file[MAX_PATH_NAME + MAX_FILENAME];
+	static char	history_file[MAX_PATH_NAME + MAX_FILE_NAME];
 	char		*tmp;
 	int32_t		fd;
 	char		flags;
 
 	flags = ft_get_history_flags(argv);
+	if (!ft_is_power_of_two(0b00111100 & flags))
+		return (ft_error(1, (char*[]){"history: cannot use more than one of -anrw"}, -1));
 	if (!*history_file)
 	{
 		if (!(tmp = ft_find_env((const char**)env->env, "HOME")))
-			return (1, (char*[]){ft_error("HOME not defined, tilde expansion not possible", 2)}, -1);
+			return (ft_error(1, (char*[]){"$HOME not defined, history file not foundable"}, -1));
 		ft_strcat(history_file, tmp + 5);
 		ft_strcat(history_file, "/.42sh_history");
 	}
 	if ((fd = open(history_file, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR)) == -1)
-		return (-1);
+		return (ft_error(1, (char*[]){"Failed to open or create history_file"}, -1));
 	if (env && fd)
 		;
 	ft_print_history_list(argv[1]);
 	if (0)
+	{
 		ft_delete_history_list(env, 0);
-	
+		ft_expand_argv(env, argv + 1);
+		ft_clear_history_list(env);
+	}	
 	close(fd);
 	return (0);
 }

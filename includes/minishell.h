@@ -181,6 +181,7 @@ char		*ft_get_path_name(char *file);
 
 int32_t		ft_built_in(char **argv, t_env *env);
 int32_t		ft_built_in_history(char **argv, t_env *env);
+int32_t		ft_built_in_exit(char **argv, t_env *env);
 
 
 void		ft_error_exit(uint32_t n, char **str, int32_t exit_status);

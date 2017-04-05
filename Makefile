@@ -8,6 +8,7 @@ SRC= srcs/minishell.c \
 	srcs/build-in_echo.c \
 	srcs/build-in_cd.c \
 	srcs/ft_build-in.c \
+	srcs/ft_built-in_exit.c \
 	srcs/ft_btree.c \
 	srcs/ft_parser.c \
 	srcs/ft_lexer.c \

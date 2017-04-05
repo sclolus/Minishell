@@ -119,8 +119,6 @@ t_btree		*ft_add_ast_node(t_token *tokens, t_btree *tree);
 t_btree		*ft_arrange_tree(t_btree *nodes, uint32_t count);
 t_btree		*ft_get_ast_tree(t_token *tokens, uint32_t count);
 
-void		ft_echo(char **argv);
-int32_t		ft_buildin(char *filename, char **argv, char **env, t_list **env_lst);
 int32_t		ft_cd(char **argv, t_list **env);
 char		*ft_find_env(char const **env, char const *variable);
 int32_t		ft_exec_ast(t_btree *tree, char **env, char **path);
@@ -179,6 +177,7 @@ char		*ft_get_path_name(char *file);
 ** built_ins
 */
 
+int32_t		ft_built_in_echo(char **argv, t_env *env);
 int32_t		ft_built_in(char **argv, t_env *env);
 int32_t		ft_built_in_history(char **argv, t_env *env);
 int32_t		ft_built_in_exit(char **argv, t_env *env);

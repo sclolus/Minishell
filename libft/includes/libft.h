@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 11:35:25 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/05 11:11:53 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/05 16:20:19 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define PHASN(x, n) (Phaszero(x ^ ((~0UL / 255L) * n)))
 # define STATIC_BUF_SIZE 4096
 # define STATIC_PUT_FLUSH 1
-
+# undef tab
 typedef struct	s_list
 {
 	void			*content;
@@ -32,7 +32,8 @@ typedef struct	s_list
 typedef struct	s_string
 {
 	uint64_t	capacity;
-	uint64_t	len;
+	int64_t		len;
+	int64_t		offset;
 	char		*string;
 }				t_string;
 

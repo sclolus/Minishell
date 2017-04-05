@@ -5,9 +5,8 @@ SRC= srcs/minishell.c \
 	srcs/ft_signal.c \
 	srcs/ft_built-in_export.c \
 	srcs/ft_find_command.c \
-	srcs/build-in_echo.c \
-	srcs/build-in_cd.c \
-	srcs/ft_build-in.c \
+	srcs/ft_built-in_echo.c \
+	srcs/ft_built-in.c \
 	srcs/ft_built-in_exit.c \
 	srcs/ft_btree.c \
 	srcs/ft_parser.c \
@@ -25,7 +24,6 @@ SRC= srcs/minishell.c \
 	srcs/ft_exec_parser.c \
 	srcs/ft_error.c \
 	srcs/ft_redirection.c \
-	srcs/ft_built-in.c \
 	termcaps/termcaps.c \
 	termcaps/line.c \
 	termcaps/history.c \

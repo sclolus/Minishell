@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 14:22:32 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/05 05:05:34 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/05 05:14:34 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int32_t	ft_output_redirect(t_parser *redirect)
 
 	if (OR_PARSER_N(redirect, 0)->retained)
 	{
-			CHECK(OUTPUT_REDIRECT);
 		redirect = OR_PARSER_N(redirect, 0);
 		redirect_fd = ft_atoi(AND_PARSER_N(redirect, 0)->parser.str_any_of.str);
 		filename = AND_PARSER_N(AND_PARSER_N(OR_PARSER_N(AND_PARSER_N(redirect, 1), 0), 1), 1)->parser.str_any_of.str;

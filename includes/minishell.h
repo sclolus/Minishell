@@ -59,6 +59,16 @@
 # define EXIT_ILLEGAL_CMD 127
 # define EXIT_REDIREC_ERROR 55
 
+# define BUILT_IN_COUNT 9
+
+typedef struct s_env t_env;
+
+typedef struct	s_built_in
+{
+	char	*id;
+	int32_t	(*f)(char **, t_env*);
+}				t_built_in;
+
 typedef struct	s_env
 {
 	char		**env;
@@ -141,7 +151,6 @@ void		*ft_lsttotab_token(t_list *lst, unsigned int len);
 uint32_t	ft_is_escaped(char *input, uint32_t index);
 uint32_t	ft_is_quoted(char *input, uint32_t index);
 
-
 /*
 ** redirections
 */
@@ -160,17 +169,22 @@ int32_t		ft_read_write_redirect(t_parser *redirect);
 ** expansions
 */
 
-
 int32_t		ft_expansions(t_parser *simple_cmd, t_env *env);
 void		ft_tilde_expansion(char **word, t_env *env);
 int32_t		ft_find_file(char *filename, t_env *env);
 char		*ft_get_file_name(char *file);
 char		*ft_get_path_name(char *file);
 
-void		ft_built_in_history(t_env *env, char **argv);
+/*
+** built_ins
+*/
+
+int32_t		ft_built_in(char **argv, t_env *env);
+int32_t		ft_built_in_history(char **argv, t_env *env);
 
 
 void		ft_error_exit(uint32_t n, char **str, int32_t exit_status);
+int32_t		ft_error(uint32_t n, char **str, int32_t return_status);
 /* test*/
 int32_t	ft_exec_and_or(t_parser *parser, t_env *env);
 int32_t	ft_exec_env_assignment(t_parser *parser, t_env *env);

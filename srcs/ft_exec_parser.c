@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 22:14:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/05 06:25:23 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/05 08:02:08 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,8 +170,10 @@ int32_t		ft_exec_simple_cmd(t_parser *parser, t_env *env)
 		parser = OR_PARSER_N(parser, 0);
 
 		argv = ft_get_argv(parser); // NULL ?
-		
-		ret = ft_exec_cmd(argv, env, parser);
+		CHECK(ft_built_in);
+		if ((ret = ft_built_in(argv, env)))
+			ret = ft_exec_cmd(argv, env, parser);
+		CHECK(END);
 		free(argv);
 		return (ret);
 		//	return (ft_exec_env_assignment(OR_PARSER_N(parser, 0), env));

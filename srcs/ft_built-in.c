@@ -1,43 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.c                                         :+:      :+:    :+:   */
+/*   ft_built-in.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/03 04:57:34 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/05 07:37:43 by sclolus          ###   ########.fr       */
+/*   Created: 2017/04/05 07:46:43 by sclolus           #+#    #+#             */
+/*   Updated: 2017/04/05 08:01:35 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_error_exit(uint32_t n, char **str, int32_t exit_status)
+int32_t	ft_built_in(char **argv, t_env *env)
 {
 	uint32_t	i;
+	static const t_built_in	f_built_in[BUILT_IN_COUNT] = {
+		{"cd", NULL},
+		{"echo", NULL},
+		{"exit", NULL},
+		{"env", NULL},
+		{"setenv", NULL},
+		{"unsetenv", NULL},
+		{"history", &ft_built_in_history},
+		{"unset", NULL},
+		{"export", NULL}};
 
 	i = 0;
-	ft_putstr_fd(SHELL_NAME, 2);
-	while (i < n)
+	while (i < BUILT_IN_COUNT)
 	{
-		ft_putstr_fd(str[i], 2);
+		if (!ft_strcmp(argv[0], f_built_in[i].id))
+		{
+			ft_putnbr(i);
+			return (f_built_in[i].f(argv, env));
+		}
 		i++;
 	}
-	ft_putstr_fd("\n", 2);
-	exit(exit_status);
-}
-
-int32_t	ft_error(uint32_t n, char **str, int32_t return_status)
-{
-	uint32_t	i;
-
-	i = 0;
-	ft_putstr_fd(SHELL_NAME, 2);
-	while (i < n)
-	{
-		ft_putstr_fd(str[i], 2);
-		i++;
-	}
-	ft_putstr_fd("\n", 2);
-	return (return_status);
+	return (EXIT_ILLEGAL_CMD);
 }

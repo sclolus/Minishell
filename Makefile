@@ -24,6 +24,7 @@ SRC= srcs/minishell.c \
 	srcs/ft_exec_parser.c \
 	srcs/ft_error.c \
 	srcs/ft_redirection.c \
+	srcs/ft_built-in.c \
 	termcaps/termcaps.c \
 	termcaps/line.c \
 	termcaps/history.c \

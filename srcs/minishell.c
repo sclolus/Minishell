@@ -114,15 +114,10 @@ int main(int argc, char **argv, char **env)
 	{
 		ft_putstr("\n$>");
 		ft_termget_complete_line(&line);
-		CHECK(TEST);
-		ft_putendl(line);
-		CHECK(END);
 		if (!*line)
 			continue ;
 		if (!ft_strcmp(line, "exit"))
 			break ;
-		if (!(ft_strcmp(line, "history")))
-			ft_built_in_history(NULL, (char*[]){NULL, NULL});
 		if (ft_eval_input(parser, &line))
 		{
 			ft_put_ast_tokens(parser);

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 22:14:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/05 15:08:25 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/07 01:44:33 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,23 @@ int32_t	ft_exec_list(t_parser *parser, t_env *env)
 		parser = OR_PARSER_N(parser, 0);
 		i = 0;
 		n = MULTIPLY_N(AND_PARSER_N(parser, 0));
+		ft_putendl("____");
+		ft_put_ast_tokens(AND_PARSER_N(parser, 1));
+		ft_putendl("____");
 		while (i < n)
 		{
 			ft_exec_and_or(AND_PARSER_N(MULTIPLY_PARSER_N(AND_PARSER_N(parser, 0), i), 0), env);
 			i++;
 		}
+		CHECK(TEST);
+		ft_put_ast_tokens(AND_PARSER_N(parser, 1));
 		ft_exec_and_or(AND_PARSER_N(parser, 1), env);
 		return (1);
 	}
 	else if (IS_RETAINED(OR_PARSER_N(parser, 1)))
 	{
 		parser = OR_PARSER_N(parser, 1);
-		ft_exec_and_or(AND_PARSER_N(parser, 0), env);
+		ft_exec_simple_cmd(AND_PARSER_N(parser, 0), env);
 		return (1);
 	}
 	else
@@ -61,6 +66,111 @@ int32_t	ft_exec_and_or(t_parser *parser, t_env *env)
 	return (ret);
 }
 
+int32_t	ft_exec_pipeline(t_parser *parser, t_env *env)
+{
+	if (OR_PARSER_N(parser, 0)->retained)
+		return (ft_exec_pipe_sequence(OR_PARSER_N(parser, 0), env));
+	else
+		return (!ft_exec_pipe_sequence(AND_PARSER_N(OR_PARSER_N(parser, 1), 1), env));
+}
+
+t_process		*ft_create_pipeline(t_parser *pipe_sequence, t_env *env)
+{
+	t_process	*processes;
+	int	curr_stdin;
+	int	curr_stdout;
+	int	pipe[2];
+	int	i;
+
+	i = 0;
+	curr_stdin = 0;
+	while (i < MULTIPLY_N(AND_PARSER_N(parser, 0)))
+	{
+		if (pipe(pipe) == -1)
+			return (ft_error(1, (char*[]){"Pipe() failed"}, EXIT_REDIREC_ERROR));
+		curr_stdout = pipe
+		i++;
+	}
+	
+}
+
+int32_t	ft_exec_pipe_sequence(t_parser *parser, t_env *env)
+{
+	t_process	*processes;
+	t_process	*tmp;
+	pid_t		pipeline_pgid;
+	uint32_t	i;
+	uint32_t	n;
+	int			pipe[2];
+	
+	if (IS_RETAINED(OR_PARSER_N(parser, 0)))
+	{
+		parser = OR_PARSER_N(parser, 0);
+		processes = ft_start_process(parser, 0, (int[]){1, 0}, env);
+		waitpid(processes->pid, &i, 0);
+		free(processes->argv);
+		free(argv);
+		return (i);
+	}
+	else
+	{
+		parser = OR_PARSER_N(parser, 1);
+		n = MULTIPLY_N(AND_PARSER_N(parser, 0));
+		i = 0;
+		if (pipe(pipe) == -1)
+			return (ft_error(1, (char*[]){"Pipe() failed"}, EXIT_REDIREC_ERROR));
+		processes = ft_start_process(MULTIPLY_PARSER_N(
+										 AND_PARSER_N(parser, 0), 0), 0, (int[]){pipe[1], 0}, env);
+		pipeline_pgid = processes->pid;
+		tmp = processes;
+		while (i < n - 1)
+		{
+			tmp->next = ft_start_process(MULTIPLY_PARSER_N(
+											 AND_PARSER_N(parser, 0), i), pipeline_pgid
+										 , , env);
+			i++;
+		}
+	}
+}
+
+t_process	*ft_start_process(t_parser *simple_cmd, pid_t gpid, int *stdfd, t_env *env)
+{
+	t_process	*process;
+	pid_t		pid;
+	char		**argv;
+
+
+	if (IS_RETAINED(OR_PARSER_N(parser, 0)))
+		argv = ft_get_argv(parser);
+	if (-1 == (pid = fork()))
+	{
+		ft_error(1, "fork() failed due to insufficient ressource", 0);
+		return (NULL);
+	}
+	if (pid)
+	{
+		if (!(process = (t_process*)malloc(sizeof(t_process))))
+			exit(EXIT_FAILURE);
+		setpgid(pid, gpid);
+		process->pid = pid;
+		process->next = NULL;
+		process->prev = NULL;
+		process->argv = argv;
+		return (process);
+	}
+	else
+	{
+		setpgid(0, gpid);
+		dup2(stdfd[1], STDIN_FILENO);
+		close(stdfd[1]);
+		dup2(stdfd[0], STDOUT_FILENO);
+		close(stdfd[0]);
+		ft_exec_simple_cmd(argv, simple_cmd, env)
+	}
+}
+
+
+
 int32_t	ft_exec_env_assignment(t_parser *parser, t_env *env)
 {
 	/* todo */
@@ -69,48 +179,32 @@ int32_t	ft_exec_env_assignment(t_parser *parser, t_env *env)
 	return (0);
 }
 
-int32_t	ft_exec_cmd(char **argv, t_env *env, t_parser *simple_cmd) //last arg test
+
+void	ft_exec_cmd(char **argv, t_env *env) //last arg test
 {
-	pid_t	pid;
 	char	*bin;
 	char	*path;
-	int		ret;
 
-	if ((pid = fork()) == -1)
+	if (!(path = ft_find_command(argv[0], ft_get_env_value(env->env, "PATH"))))
 	{
-		ft_putstr_fd("fork() failed due to insufficient ressource", 2); // ft_error
-		return (-1);
-	}
-	if (pid > 0)
-	{
-		waitpid(pid, &ret, 0);
-		return (ret);
-	}
-	else
-	{
-		if (ft_redirections(simple_cmd) == -1)
-			exit(EXIT_REDIREC_ERROR);
-		if (!(path = ft_find_command(argv[0], ft_get_env_value(env->env, "PATH"))))
+		if (ft_find_file(argv[0], env) > 0)
 		{
-			if (ft_find_file(argv[0], env) > 0)
-			{
-				if (access(argv[0], X_OK)) // use stat with geteuid
-					exit(EXIT_NO_PERM);
-				execve(argv[0], argv, env->env);
-				ft_error_exit(2, (char *[]){"Permission denied: ", argv[0]}, EXIT_NO_PERM);
-			}
-			ft_error_exit(2, (char *[]){"Command not found: ", argv[0]}, EXIT_ILLEGAL_CMD);
+			if (access(argv[0], X_OK)) // use stat with geteuid
+				exit(EXIT_NO_PERM);
+			execve(argv[0], argv, env->env);
+			ft_error_exit(2, (char *[]){"Permission denied: ", argv[0]}, EXIT_NO_PERM);
 		}
-		if (!(path = ft_strjoin(path, "/"))) // wtf on ~
-			ft_error_exit(2, (char *[]){"Internal memory management failed at: ", argv[0]}, EXIT_FAILURE);
-		if (!(bin = ft_strjoin(path, argv[0])))
-			ft_error_exit(2, (char *[]){"Internal memory management failed at: ", bin}, EXIT_FAILURE);
-		if (access(bin, X_OK))
-			ft_error_exit(2, (char *[]){"Permission denied: ", bin}, EXIT_NO_PERM);
-		execve(bin, argv, env->env);
-		ft_error_exit(2, (char *[]){"Permission denied: ", bin}, EXIT_NO_PERM);
-		exit(EXIT_FAILURE);
+		ft_error_exit(2, (char *[]){"Command not found: ", argv[0]}, EXIT_ILLEGAL_CMD);
 	}
+	if (!(path = ft_strjoin(path, "/")))
+		ft_error_exit(2, (char *[]){"Internal memory management failed at: ", argv[0]}, EXIT_FAILURE);
+	if (!(bin = ft_strjoin(path, argv[0])))
+		ft_error_exit(2, (char *[]){"Internal memory management failed at: ", bin}, EXIT_FAILURE);
+	if (access(bin, X_OK))
+		ft_error_exit(2, (char *[]){"Permission denied: ", bin}, EXIT_NO_PERM);
+	execve(bin, argv, env->env);
+	ft_error_exit(2, (char *[]){"Permission denied: ", bin}, EXIT_NO_PERM);
+	exit(EXIT_FAILURE);
 }
 
 static uint32_t	ft_get_arg_count(t_parser *cmd_postfixes)
@@ -159,22 +253,19 @@ static char		**ft_get_argv(t_parser *simple_cmd)
 	return (argv);
 }
 
-int32_t		ft_exec_simple_cmd(t_parser *parser, t_env *env)
-{
-	char		**argv;
-	int32_t		ret;
 
+
+void		ft_exec_simple_cmd(char **argv, t_parser *parser, t_env *env)
+{
 	if (IS_RETAINED(OR_PARSER_N(parser, 0)))
 	{
 //		ft_expansions(parser, env);
 		parser = OR_PARSER_N(parser, 0);
-
-		argv = ft_get_argv(parser); // NULL ?
-		if ((ret = ft_built_in(argv, env)) == EXIT_ILLEGAL_CMD)
-			ret = ft_exec_cmd(argv, env, parser);
-		free(argv);
-		return (ret);
-		//	return (ft_exec_env_assignment(OR_PARSER_N(parser, 0), env));
+	   	if (ft_redirections(parser) == -1)
+			exit(EXIT_REDIREC_ERROR);
+		if (ft_built_in(argv, env) == EXIT_ILLEGAL_CMD)
+			ft_exec_cmd(argv, env, parser);
+		exit(EXIT_ILLEGAL_CMD);
 	}
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 14:22:32 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/05 06:25:37 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/06 17:59:04 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int32_t	ft_output_redirect(t_parser *redirect)
 		filename = AND_PARSER_N(AND_PARSER_N(OR_PARSER_N(AND_PARSER_N(redirect, 1), 0), 1), 1)->parser.str_any_of.str;
 		if (redirect_fd < 0)
 			ft_error_exit(1, (char*[]){"Invalid File descriptor"}, EXIT_REDIREC_ERROR);
-		if ((fd_file = open(filename, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == -1)
+		if ((fd_file = open(filename, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == -1)
 			ft_error_exit(2, (char*[]){"Failed to open or to create: ", filename}, EXIT_REDIREC_ERROR);
 		if (dup2(fd_file, redirect_fd) == -1)
 			ft_error_exit(1, (char*[]){"File descriptor duplication failed"}, EXIT_REDIREC_ERROR);

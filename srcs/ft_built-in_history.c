@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/31 13:23:24 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/06 00:32:42 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/06 01:32:51 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,7 @@ history -awrn [filename] or history -ps arg [arg...]"}, 1));
 static char		ft_get_history_flags(char **argv)
 {
 	char		flags;
+	char		ret;
 	uint32_t	i;
 
 	i = 1;
@@ -194,7 +195,12 @@ static char		ft_get_history_flags(char **argv)
 		if (!ft_strcmp(argv[i], "--"))
 			break;
 		else if (argv[i][0] == '-')
-			flags |= ft_set_flags(argv[i]);
+		{
+			ret = ft_set_flags(argv[i]);;
+			if (ret == -1)
+				return (-1);
+			flags |= ret;
+		}
 		else
 			break;
 		i++;
@@ -209,7 +215,8 @@ int32_t			ft_built_in_history(char **argv, t_env *env)
 	int32_t		fd;
 	char		flags;
 
-	flags = ft_get_history_flags(argv);
+	if ((flags = ft_get_history_flags(argv)) == -1)
+		return (-1);
 	if (!ft_is_power_of_two(0b00111100 & flags))
 		return (ft_error(1, (char*[]){"history: cannot use more than one of -anrw"}, -1));
 	if (!*history_file)

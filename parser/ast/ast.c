@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:05:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/05 01:38:28 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/08 00:12:49 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,8 +148,6 @@ t_parser	*ft_get_parser_syntax(void)
 t_parser	*ft_get_parser_grammar(void)
 {
 	t_parser	*syntax;
-	ft_putstr("dafuw");
-	CHECK(bruh);
 	syntax = ft_get_parser_syntax();
 	return (syntax);
 }

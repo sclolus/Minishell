@@ -75,24 +75,21 @@ typedef struct	s_env
 	uint32_t	variable_count;
 }				t_env;
 
-typedef union	s_token_union
+typedef struct	s_process
 {
-	char	*token;
-	char	**tokens;
-}				t_token_union;
+	struct s_process	*next;
+	struct s_process	*prev;
+	pid_t				pid;
+	char				**argv;
+}				t_process;
 
-typedef struct	s_token
+typedef struct	s_job
 {
-	int32_t			type;
-	t_token_union	token;
-}				t_token;	
-
-typedef struct	s_btree
-{
-	void			*content;
-	struct s_btree	*left;
-	struct s_btree	*right;
-}				t_btree;
+	struct s_job	*next;
+	t_parser		*cmd;
+	t_process		*processes;
+	pid_t			pgid;
+}				t_job;
 
 int32_t		ft_setup_sighandlers(void);
 
@@ -186,10 +183,13 @@ int32_t		ft_built_in_exit(char **argv, t_env *env);
 void		ft_error_exit(uint32_t n, char **str, int32_t exit_status);
 int32_t		ft_error(uint32_t n, char **str, int32_t return_status);
 /* test*/
+
+t_process	*ft_start_process(t_parser *simple_cmd, pid_t gpid, int *stdfd, t_env *env);
+int32_t	ft_exec_pipeline(t_parser *parser, t_env *env);
 int32_t	ft_exec_and_or(t_parser *parser, t_env *env);
 int32_t	ft_exec_env_assignment(t_parser *parser, t_env *env);
-int32_t	ft_exec_cmd(char **argv, t_env *env, t_parser *redirect);
-int32_t	ft_exec_simple_cmd(t_parser *parser, t_env *env);
+void	ft_exec_cmd(char **argv, t_env *env);
+void	ft_exec_simple_cmd(char **argv, t_parser *parser, t_env *env);
 int32_t	ft_exec_command(t_parser *parser, t_env *env);
 int32_t	ft_exec_parser(t_parser *parser, t_env *env);
 char		**ft_get_env_value(char **env, char *variable);

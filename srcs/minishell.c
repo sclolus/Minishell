@@ -19,6 +19,7 @@ char		*ft_find_env(char const **env, char const *variable)
 	return (NULL);
 }
 
+
 char		**ft_get_env_value(char **env, char *variable)
 {
 	char		**path;
@@ -41,7 +42,6 @@ char		**ft_get_env_value(char **env, char *variable)
 int main(int argc, char **argv, char **env)
 {
 	char		*line;
-	char		**path;
 	t_list		*env_lst;
 	char		**env_tab;
 	t_parser	*bnf_parser;
@@ -56,7 +56,6 @@ int main(int argc, char **argv, char **env)
 		ft_putstr_fd("Signal handlers setup failed", 2);
 		exit(EXIT_FAILURE);
 	}
-	ft_putstr("test");
 /*							   <env_assignment>	::= <var_name> '=' <var_value> \n\
 							   <var_name>		::= ('A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z' | '0' | '1' | '2' | '3 ' | '4' | '5' | '6' | '7' | '8' | '9')+ \n\
 							   <var_value>		::= ('A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z' | '0' | '1' | '2' | '3 ' | '4' | '5' | '6' | '7' | '8' | '9' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z')+ \n\
@@ -70,9 +69,11 @@ int main(int argc, char **argv, char **env)
 	if (!(grammar = ft_strdup("<command>		::= <sp> <list> <sp> \n\
 							   <list>			::= (<and_or> <sp> <separator> <sp>)* <and_or> <sp> (<separator>)* | <and_or> <sp> (<separator>)* \n\
 							   <and_or>			::= (<sp> \"&&\" <sp> <simple_cmd> | <sp> \"||\" <sp> <simple_cmd> | <sp> <simple_cmd>)+\n\
-							   <simple_cmd>		::= <sp> (<cmd_prefix>)* <command_name> <sp> (<cmd_postfix> <sp>)*  | <cmd_prefix>\n\
+							   <simple_cmd>		::= <sp> (<cmd_prefix>)* <command_name> <sp> (<cmd_postfix> <sp>)*  | <cmd_prefix> <sp>\n\
 							   <cmd_postfix>	::= <io_redirect> | <arg> \n\
-							   <cmd_prefix>		::= <env_assignment> <sp> | <io_redirect> <sp> \n\
+							   <cmd_prefix>		::= <env_assignment> <sp> | <io_redirect> <sp> \n \
+							   <pipeline>		::= <pipe_sequence> | '!' <pipe_sequence> \n\
+							   <pipe_sequence>	::= <simple_cmd> | (<simple_cmd> '|')+ <simple_cmd> \n\
 							   <io_redirect>	::= <io_number> <io_file> | <io_file> \n\
 							   <io_number>		::= ('0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9')+ \n\
 							   <io_file>        ::= \'>\' <io_filename> | \">&\" <sp> <io_number> | \'<\' <io_filename> | \"<&\" <sp> <io_number> | \"<<\" <io_filename> | \"<>\" <io_filename> | \">>\" <io_filename> | \">|\" <io_filename> \n\
@@ -102,14 +103,12 @@ int main(int argc, char **argv, char **env)
 	}
 	parser = ft_get_grammar_syntax(bnf_parser);
 	ft_optimizer(parser);
-	path = ft_get_env_value(env, "PATH");
 	if (!(env_lst = ft_get_lstenv(env)))
 		exit(EXIT_FAILURE);
 	if (ft_set_term() == -1)
 		exit(EXIT_FAILURE);
 	t_env	s_env;
 	s_env.env = env;
-	
 	while (1)
 	{
 		ft_putstr("\n$>");

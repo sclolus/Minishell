@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 03:06:29 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/10 05:12:26 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/10 07:00:19 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,7 +290,7 @@ t_ltree		*ft_get_ltree_directory(void)
 	struct dirent	*curr_entry;
 
 	ltree = NULL;
-	if (!(curr_dir = opendir("/usr/bin")))
+	if (!(curr_dir = opendir("./")))
 	{
 		//error plz;
 		ft_putstr_fd("Opendir failed", 2);
@@ -306,6 +306,27 @@ t_ltree		*ft_get_ltree_directory(void)
 	return (ltree);
 }
 
+void		ft_ltree_add_directory(t_ltree *ltree, char *path)
+{
+	DIR				*curr_dir;
+	struct dirent	*curr_entry;
+
+	ltree = NULL;
+	if (!(curr_dir = opendir(path)))
+	{
+		//error plz;
+		ft_putstr_fd("Opendir failed", 2);
+		exit (EXIT_FAILURE);
+	}
+	while ((curr_entry = readdir(curr_dir)))
+		ft_ltree_add_word(&ltree, curr_entry->d_name);
+	if (closedir(curr_dir) == -1)
+	{
+		ft_putstr_fd("closedir failed", 2);
+		exit (EXIT_FAILURE);
+	}
+}
+
 char		**ft_get_matching_filenames(char *prefix)
 {
 	t_ltree	*ltree;
@@ -315,4 +336,33 @@ char		**ft_get_matching_filenames(char *prefix)
 	strings = ft_get_ltree_suffixes(ltree, prefix);
 	ft_free_ltree(ltree);
 	return (strings);
+}
+
+char		*ft_ltree_get_completion(t_ltree *root, char *prefix)
+{
+	t_ltree		*node;
+	char		*string;
+	uint32_t	len;
+	uint32_t	i;
+	
+	if (!root || !prefix || !(root = ft_ltree_last_match(root, prefix)))
+		return (NULL);
+	node = root->son;
+	i = 0;
+	while (node->c != '\0' && node->son && !node->alternative)
+	{
+		i++;
+		node = node->son;
+	}
+	len = i;
+	if (!(string = ft_strnew(len)))
+		exit(EXIT_FAILURE);
+	i = 0;
+	node = root->son;
+	while (i < len)
+	{
+		string[i++] = node->c;
+		node = node->son;
+	}
+	return (string);
 }

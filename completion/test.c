@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/08 01:18:22 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/10 05:15:42 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/10 06:58:53 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,12 @@ int	main(int argc, char **argv)
 	i = 0;
 	if (argc > 1)
 	{
-/*		ltree = ft_get_ltree_directory();
-		strings = ft_get_ltree_suffixes(ltree, argv[1]);*/
-		strings = ft_get_matching_filenames(argv[1]);
+		ltree = ft_get_ltree_directory();
+		strings = ft_get_ltree_suffixes(ltree, argv[1]);
+		ft_ltree_put(ltree);
 		ft_put_strings(strings);
+		
+/*		strings = ft_get_matching_filenames(argv[1]);*/
 	}
 	return (0);
 }

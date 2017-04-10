@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 03:06:31 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/10 05:10:11 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/10 06:57:24 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,14 @@ t_ltree		*ft_get_ltree_dictionary_list(t_list *list);
 t_ltree		*ft_get_ltree_dictionary(uint32_t size, char **strings);
 
 char		**ft_get_matching_filenames(char *prefix);
+char		**ft_get_ltree_suffixes(t_ltree *root, char *prefix);
 t_ltree		*ft_ltree_last_match(t_ltree *root, char *word);
+t_ltree		*ft_get_ltree_directory(void);
+void		ft_ltree_add_directory(t_ltree *ltree, char *path);
+char		*ft_ltree_get_match(t_ltree *root, char *prefix, uint32_t index);
+char		*ft_ltree_get_completion(t_ltree *root, char *prefix);
 uint32_t	ft_ltree_count_suffixes(t_ltree *root);
 uint32_t	ft_ltree_get_suffix_len(t_ltree *root, uint32_t index);
-char		*ft_ltree_get_match(t_ltree *root, char *prefix, uint32_t index);
-char		**ft_get_ltree_suffixes(t_ltree *root, char *prefix);
-t_ltree		*ft_get_ltree_directory(void);
 
 void		ft_free_ltree(t_ltree *root);
 #endif

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 03:06:29 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/10 07:00:19 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/10 07:06:35 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ t_ltree		*ft_get_ltree_dictionary_list(t_list *list)
 
 t_ltree		*ft_get_ltree_dictionary(uint32_t size, char **strings)
 {
-	uint32_t	i;
 	t_ltree	*ltree;
+	uint32_t	i;
 
 	ltree = NULL;
 	i = 0;
@@ -329,8 +329,8 @@ void		ft_ltree_add_directory(t_ltree *ltree, char *path)
 
 char		**ft_get_matching_filenames(char *prefix)
 {
-	t_ltree	*ltree;
 	char	**strings;
+	t_ltree	*ltree;
 
 	ltree = ft_get_ltree_directory();
 	strings = ft_get_ltree_suffixes(ltree, prefix);

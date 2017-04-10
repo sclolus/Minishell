@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 03:06:29 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/10 07:06:35 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/10 07:52:47 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_ltree		*ft_get_ltree_node(char c)
 t_ltree		*ft_get_alternative_node(t_ltree *root, char c)
 {
 	t_ltree	*alternative;
-	
+
 	if (root->c == c)
 		return (root);
 	if (!root->alternative)
@@ -42,8 +42,6 @@ t_ltree		*ft_get_alternative_node(t_ltree *root, char c)
 
 void		ft_ltree_add_word(t_ltree **root, char *word)
 {
-	t_ltree	*new_node;
-
 	if (!*root)
 	{
 		*root = ft_get_ltree_node(*word);
@@ -65,7 +63,8 @@ void		ft_ltree_add_word(t_ltree **root, char *word)
 			ft_get_alternative_node(*root, *word);
 			return ;
 		}
-		ft_ltree_add_word(&ft_get_alternative_node(*root, *word)->son, word + 1);
+		ft_ltree_add_word(&ft_get_alternative_node(*root
+												, *word)->son, word + 1);
 	}
 	return ;
 }
@@ -100,7 +99,7 @@ t_ltree		*ft_get_ltree_dictionary_list(t_list *list)
 
 t_ltree		*ft_get_ltree_dictionary(uint32_t size, char **strings)
 {
-	t_ltree	*ltree;
+	t_ltree		*ltree;
 	uint32_t	i;
 
 	ltree = NULL;
@@ -124,6 +123,21 @@ void		ft_free_ltree(t_ltree *root)
 	free(root);
 }
 
+static t_ltree	*ft_get_matching_alternative(t_ltree *node
+											, t_ltree **root, char c)
+{
+	while (node)
+	{
+		if (node->c == c)
+		{
+			*root = node;
+			break ;
+		}
+		node = node->alternative;
+	}
+	return (node);
+}
+
 t_ltree		*ft_ltree_last_match(t_ltree *root, char *word)
 {
 	t_ltree		*last_match;
@@ -133,6 +147,7 @@ t_ltree		*ft_ltree_last_match(t_ltree *root, char *word)
 	i = 0;
 	if (!root)
 		return (NULL);
+	last_match = root;
 	while (word[i])
 	{
 		if (root->c == word[i])
@@ -143,15 +158,7 @@ t_ltree		*ft_ltree_last_match(t_ltree *root, char *word)
 			continue ;
 		}
 		node = root->alternative;
-		while (node)
-		{
-			if (node->c == word[i])
-			{
-				root = node;
-				break ;
-			}
-			node = node->alternative;
-		}
+		node = ft_get_matching_alternative(node, &root, word[i]);
 		if (!node)
 			break ;
 	}
@@ -168,7 +175,7 @@ void		ft_ltree_put(t_ltree *root)
 		ft_putchar(root->c);
 	if (root->son)
 		ft_ltree_put(root->son);
-    if (root->alternative)
+	if (root->alternative)
 		ft_ltree_put(root->alternative);
 }
 
@@ -188,20 +195,21 @@ uint32_t	ft_ltree_count_suffixes(t_ltree *root)
 	return (ret);
 }
 
-uint32_t	ft_ltree_get_suffix_len(t_ltree *root, uint32_t index)
+uint32_t	ft_ltree_get_suffix_len(t_ltree *node, uint32_t index)
 {
-	t_ltree		*node;
 	uint32_t	ret;
 	uint32_t	len;
 
-	if (!(node = root))
-		return (0);
+/*	if (!node)
+	return (0);*/
 	len = 0;
+	CHECK(______);			
+
 	while (node->c != '\0' || index)
 	{
 		len++;
 		ret = ft_ltree_count_suffixes(node->son);
-		if (node->c == '\0' && index)
+		if (node->c == '\0' && index--)
 		{
 			index--;
 			len--;
@@ -210,14 +218,13 @@ uint32_t	ft_ltree_get_suffix_len(t_ltree *root, uint32_t index)
 		else if (ret <= index)
 		{
 			index -= ret;
-			if (!node->alternative)
-				return (0);
 			node = node->alternative;
 			len--;
 		}
 		else
 			node = node->son;
 	}
+	CHECK(END);
 	return (len);
 }
 
@@ -230,12 +237,12 @@ char		*ft_ltree_get_match(t_ltree *root, char *prefix, uint32_t index)
 	uint32_t	ret;
 
 	prefix_len = ft_strlen(prefix);
-	len = ft_ltree_get_suffix_len(root->son, index) + prefix_len;
+	len = ft_ltree_get_suffix_len(!*prefix ? root : root->son, index) + prefix_len;
 	if (!(string = ft_strnew(len)))
 		exit(EXIT_FAILURE);
 	ft_memcpy(string, prefix, prefix_len);
 	i = prefix_len;
-	root = root->son;
+	root = !*prefix ? root : root->son;
 	while (i < len)
 	{
 		ret = ft_ltree_count_suffixes(root->son);
@@ -269,18 +276,25 @@ char		**ft_get_ltree_suffixes(t_ltree *root, char *prefix)
 	uint32_t	len;
 
 	i = 0;
-	if (!(node = ft_ltree_last_match(root, prefix)))
+	if (!prefix || !(node = ft_ltree_last_match(root, prefix)))
 		return (NULL);
-	size = ft_ltree_count_suffixes(node->son);
+	if (!*prefix)
+		size = ft_ltree_count_suffixes(node);
+	else
+		size = ft_ltree_count_suffixes(node->son);
 	if (!(strings = (char**)malloc(sizeof(char*) * (size + 1))))
 		exit(EXIT_FAILURE);
+	CHECK(SEGFAULT);
 	strings[size] = NULL;
 	while (i < size)
 	{
+		ft_putendl("entered while");
 		strings[i] = ft_ltree_get_match(node, prefix, i);
+		ft_putendl(strings[i]);
 		i++;
 	}
-	return(strings);
+	CHECK(END);
+	return (strings);
 }
 
 t_ltree		*ft_get_ltree_directory(void)
@@ -290,18 +304,18 @@ t_ltree		*ft_get_ltree_directory(void)
 	struct dirent	*curr_entry;
 
 	ltree = NULL;
-	if (!(curr_dir = opendir("./")))
+	if (!(curr_dir = opendir("../srcs")))
 	{
 		//error plz;
 		ft_putstr_fd("Opendir failed", 2);
-		exit (EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 	while ((curr_entry = readdir(curr_dir)))
 		ft_ltree_add_word(&ltree, curr_entry->d_name);
 	if (closedir(curr_dir) == -1)
 	{
 		ft_putstr_fd("closedir failed", 2);
-		exit (EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 	return (ltree);
 }
@@ -316,14 +330,14 @@ void		ft_ltree_add_directory(t_ltree *ltree, char *path)
 	{
 		//error plz;
 		ft_putstr_fd("Opendir failed", 2);
-		exit (EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 	while ((curr_entry = readdir(curr_dir)))
 		ft_ltree_add_word(&ltree, curr_entry->d_name);
 	if (closedir(curr_dir) == -1)
 	{
 		ft_putstr_fd("closedir failed", 2);
-		exit (EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -344,7 +358,7 @@ char		*ft_ltree_get_completion(t_ltree *root, char *prefix)
 	char		*string;
 	uint32_t	len;
 	uint32_t	i;
-	
+
 	if (!root || !prefix || !(root = ft_ltree_last_match(root, prefix)))
 		return (NULL);
 	node = root->son;

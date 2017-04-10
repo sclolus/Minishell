@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/08 01:18:22 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/10 06:58:53 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/10 07:33:21 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,10 @@ int	main(int argc, char **argv)
 	if (argc > 1)
 	{
 		ltree = ft_get_ltree_directory();
+		ft_putstr("test");
 		strings = ft_get_ltree_suffixes(ltree, argv[1]);
-		ft_ltree_put(ltree);
+		ft_putstr("test");
+//		ft_ltree_put(ltree);
 		ft_put_strings(strings);
 		
 /*		strings = ft_get_matching_filenames(argv[1]);*/

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 09:50:12 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/11 19:08:11 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/11 19:11:31 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ int32_t		ft_put_completion(t_ltree *ltree, char **completions
 	if (!n)
 		return (0);
 	else if (n > 1)
-		
+		return (ft_put_completions(buf, completions));
+	return (1);
 }
 
 int32_t		ft_complete_command_name(t_string *buf, t_termcaps_state *state)

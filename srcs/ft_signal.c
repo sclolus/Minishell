@@ -27,7 +27,7 @@ static void	ft_handler_int(int signum)
 int32_t		ft_setup_sighandlers(void)
 {
 	if (signal(SIGINT, &ft_handler_int) == SIG_ERR)
-		return (ft_error(1, (char*[]){"Signal handling error"}, ));
+		return (ft_error(1, (char*[]){"Signal handling error"}, -1));
 	if (signal(SIGCONT, &ft_handler_cont) == SIG_ERR)
 	{
 		ft_putstr_fd("signal handling error", 2);

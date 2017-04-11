@@ -6,12 +6,12 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 22:14:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/07 01:44:33 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/10 09:32:44 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+#if 0
 int32_t	ft_exec_list(t_parser *parser, t_env *env)
 {
 	uint32_t	i;
@@ -288,3 +288,4 @@ int32_t	ft_exec_parser(t_parser *parser, t_env *env)
 {
 	return (ft_exec_command(parser->parser.multiply.parsers[0], env));
 }
+#endif

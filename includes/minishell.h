@@ -10,6 +10,7 @@
 # include <signal.h>
 # include <stdlib.h>
 # include "termcaps.h"
+# include "ft_completion.h"
 # include "ast.h"
 // debuf MACROS
 # define ENDL ft_putendl("");
@@ -58,6 +59,7 @@
 # define EXIT_NO_PERM 126
 # define EXIT_ILLEGAL_CMD 127
 # define EXIT_REDIREC_ERROR 55
+# define EXIT_SIG_ERROR 11
 
 # define BUILT_IN_COUNT 9
 
@@ -107,30 +109,9 @@ char		**ft_lexer(char *command_line, char **env);
 char		**ft_preparse(char **tokens, char **env);
 uint32_t	ft_count_abstract_tokens(char **tokens);
 char		*ft_variable_expansion(char *token, char **env);
-t_btree		*ft_parser(char **tokens, char **env);
-t_token		*ft_sanitize_tokens(t_token *tokens_tab, uint32_t count);
-
-uint32_t	ft_get_branches_count(t_token *tokens, uint32_t count);
-void		ft_put_ast(t_btree *tree);
-t_btree		*ft_add_ast_node(t_token *tokens, t_btree *tree);
-t_btree		*ft_arrange_tree(t_btree *nodes, uint32_t count);
-t_btree		*ft_get_ast_tree(t_token *tokens, uint32_t count);
 
 int32_t		ft_cd(char **argv, t_list **env);
 char		*ft_find_env(char const **env, char const *variable);
-int32_t		ft_exec_ast(t_btree *tree, char **env, char **path);
-int32_t		ft_exec_f(t_btree *tree, char **env, char **path
-				  , int32_t (*f)(t_btree*, char**, char**));
-int32_t		ft_execve(char *filename, char *path, char **argv, char **env);
-int32_t		ft_exec_statement(t_btree *tree, char **env, char **path);
-int32_t		ft_exec_statement_no_fork(t_btree *tree, char **env, char **path);
-int32_t		ft_exec_token_or(t_btree *tree, char **env, char **path);
-int32_t		ft_exec_token_and(t_btree *tree, char **env, char **path);
-int32_t		ft_exec_asynchronous_statement(t_btree *tree, char **env, char **path);
-int32_t		ft_exec_token_single_and(t_btree *tree, char **env, char **path);
-int32_t		ft_exec_token_pipe(t_btree *tree, char **env, char **path);
-
-t_btree		*ft_btreenew(void *content, uint32_t content_size);
 char		*ft_strjoin_f(char *a, char *b, int32_t mode);
 
 t_list		*ft_get_lstenv(char **env);

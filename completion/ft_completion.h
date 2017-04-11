@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 03:06:31 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/10 07:34:36 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/10 09:28:19 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <dirent.h>
 
 # define CHECK(x) do{ft_putendl("_____");ft_putendl(#x);ft_putendl("_____");}while(0);
+
+// if prefix is empty -> insta segfault.
 typedef struct s_ltree	t_ltree;
 
 struct		s_ltree

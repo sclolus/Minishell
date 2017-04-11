@@ -120,8 +120,8 @@ int main(int argc, char **argv, char **env)
 		if (ft_eval_input(parser, &line))
 		{
 			ft_put_ast_tokens(parser);
-			ft_putendl("");
-			ft_exec_parser(parser, &s_env);
+/*			ft_putendl("");
+			ft_exec_parser(parser, &s_env);*/
 		}
 		else
 		{

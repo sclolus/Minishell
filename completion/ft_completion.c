@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 03:06:29 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/10 07:52:47 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/11 19:01:31 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,8 +203,6 @@ uint32_t	ft_ltree_get_suffix_len(t_ltree *node, uint32_t index)
 /*	if (!node)
 	return (0);*/
 	len = 0;
-	CHECK(______);			
-
 	while (node->c != '\0' || index)
 	{
 		len++;
@@ -297,31 +295,9 @@ char		**ft_get_ltree_suffixes(t_ltree *root, char *prefix)
 	return (strings);
 }
 
-t_ltree		*ft_get_ltree_directory(void)
+t_ltree		*ft_get_ltree_directory(char *path)
 {
 	t_ltree			*ltree;
-	DIR				*curr_dir;
-	struct dirent	*curr_entry;
-
-	ltree = NULL;
-	if (!(curr_dir = opendir("../srcs")))
-	{
-		//error plz;
-		ft_putstr_fd("Opendir failed", 2);
-		exit(EXIT_FAILURE);
-	}
-	while ((curr_entry = readdir(curr_dir)))
-		ft_ltree_add_word(&ltree, curr_entry->d_name);
-	if (closedir(curr_dir) == -1)
-	{
-		ft_putstr_fd("closedir failed", 2);
-		exit(EXIT_FAILURE);
-	}
-	return (ltree);
-}
-
-void		ft_ltree_add_directory(t_ltree *ltree, char *path)
-{
 	DIR				*curr_dir;
 	struct dirent	*curr_entry;
 
@@ -339,6 +315,27 @@ void		ft_ltree_add_directory(t_ltree *ltree, char *path)
 		ft_putstr_fd("closedir failed", 2);
 		exit(EXIT_FAILURE);
 	}
+	return (ltree);
+}
+
+void		ft_ltree_add_directory(t_ltree **ltree, char *path)
+{
+	DIR				*curr_dir;
+	struct dirent	*curr_entry;
+
+	if (!(curr_dir = opendir(path)))
+	{
+		//error plz;
+		ft_putstr_fd("Opendir failed", 2);
+		exit(EXIT_FAILURE);
+	}
+	while ((curr_entry = readdir(curr_dir)))
+		ft_ltree_add_word(ltree, curr_entry->d_name);
+	if (closedir(curr_dir) == -1)
+	{
+		ft_putstr_fd("closedir failed", 2);
+		exit(EXIT_FAILURE);
+	}
 }
 
 char		**ft_get_matching_filenames(char *prefix)
@@ -346,7 +343,7 @@ char		**ft_get_matching_filenames(char *prefix)
 	char	**strings;
 	t_ltree	*ltree;
 
-	ltree = ft_get_ltree_directory();
+	ltree = ft_get_ltree_directory(".");
 	strings = ft_get_ltree_suffixes(ltree, prefix);
 	ft_free_ltree(ltree);
 	return (strings);

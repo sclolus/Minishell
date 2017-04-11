@@ -37,7 +37,8 @@ SRC= srcs/minishell.c \
 	parser/ast/ft_free_parser.c \
 	parser/ast/ft_get_grammar.c \
 	parser/ast/ft_optimizer.c \
-	parser/ast/ft_put_parser.c
+	parser/ast/ft_put_parser.c \
+	completion/ft_completion.c
 
 OBJ= $(SRC:.c=.o)
 HDR_PATH= ./includes

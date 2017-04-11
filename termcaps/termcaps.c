@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 02:07:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/04 05:10:07 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/11 18:48:18 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,16 @@ int	ft_exec_special_event(t_list **history, t_string *buf
 		ft_paste_line(buf, command, *paste_history);
 		return (1);
 	}
+	else if (*command == ID_TAB)
+		return (ft_completion(buf));
 	return (0);
+}
+
+t_termcaps_state	*ft_get_term_state(void)
+{
+	static t_termcaps_state	state = NORMAL;
+
+	return (&state);
 }
 
 int	ft_exec_term_event(char	*command, t_string *buf)

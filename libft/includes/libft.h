@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 11:35:25 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/05 16:20:19 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/10 14:16:24 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # define STATIC_BUF_SIZE 4096
 # define STATIC_PUT_FLUSH 1
 # undef tab
+
 typedef struct	s_list
 {
 	void			*content;

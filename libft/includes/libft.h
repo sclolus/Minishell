@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 11:35:25 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/10 14:16:24 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/12 20:33:06 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ unsigned int	ft_is_little_endian(void);
 
 uint64_t		ft_random(void);
 void			ft_sort(int64_t	*tab, uint32_t len);
+void			ft_sort_strings(char **strings, uint32_t n);
 
 int				get_next_line(const int fd, char **line);
 void			ft_get_cancer(char *str);

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 03:26:22 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/11 17:30:32 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/13 00:26:20 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <term.h>
 # include <stdint.h>
 # include "libft.h"
+# include "minishell.h"
 
 # undef tab
 # define ID_MOVE_START_LINE 0x1
@@ -35,6 +36,8 @@
 # define ID_HISTORY_DOWN 0x42
 # define ID_HISTORY_UP 0x41
 # define ID_TAB 0x9
+
+typedef struct s_env t_env;
 
 typedef enum	s_termcaps_state
 {
@@ -57,7 +60,7 @@ typedef enum	s_termcaps_state
 	int64_t		buff_len;
 	}				t_cursor;*/
 
-typedef int32_t (*t_comp_event)(t_string*, t_termcaps_state*);
+typedef int32_t (*t_comp_event)(t_string*, t_env *env);
 
 typedef struct	s_term_event
 {
@@ -65,14 +68,16 @@ typedef struct	s_term_event
 	void		(*f)(t_string*);
 }				t_term_event;
 
+int32_t				ft_completion(t_string *buf, t_env *env);
+
 int					ft_putterm(int c);
 t_termcaps_state	*ft_get_term_state(void);
 
 int32_t				ft_set_term(void);
 
-uint32_t			ft_termget(char **line);
+uint32_t			ft_termget(char **line, t_env *env);
 int32_t				ft_term_line_continuation(char *line);
-uint32_t			ft_termget_complete_line(char **line);
+uint32_t			ft_termget_complete_line(char **line, t_env *env);
 void				ft_move_left_cursor(t_string *buf);
 void				ft_move_right_cursor( t_string *buf);
 void				ft_move_up_cursor(t_string *buf);
@@ -94,7 +99,7 @@ t_list				**ft_get_history_list(void);
 void				ft_get_history(t_list *history, char *command, t_string *buf);
 void				ft_explore_paste_history(t_string *buf, t_list **static_history,
 											 t_list **history_base, t_list **current_yanking);
-int					ft_exec_special_event(t_list **history, t_string *buf
+int					ft_exec_special_event(t_env *env, t_string *buf
 								  , t_list **paste_history, char *command);
 void				ft_erase_line(void);
 #endif

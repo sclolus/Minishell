@@ -16,7 +16,7 @@
 # define ENDL ft_putendl("");
 #define REVERT 0
 
-
+# define PROMPT "$>"
 # define SHELL_NAME "minishell: "
 # define ECHO_FLAGS "n" // obsolete
 
@@ -163,6 +163,14 @@ int32_t		ft_built_in_exit(char **argv, t_env *env);
 
 void		ft_error_exit(uint32_t n, char **str, int32_t exit_status);
 int32_t		ft_error(uint32_t n, char **str, int32_t return_status);
+/*
+** Permissions/files checks
+*/
+
+int32_t	ft_check_exec_perm(char *pathname);
+int32_t	ft_check_exec_read(char *pathname);
+int32_t	ft_check_exec_write(char *pathname);
+int32_t	ft_is_dir(char *pathname);
 /* test*/
 
 t_process	*ft_start_process(t_parser *simple_cmd, pid_t gpid, int *stdfd, t_env *env);

@@ -112,7 +112,7 @@ int main(int argc, char **argv, char **env)
 	while (1)
 	{
 		ft_putstr("\n$>");
-		ft_termget_complete_line(&line);
+		ft_termget_complete_line(&line, &s_env);
 		if (!*line)
 			continue ;
 		if (!ft_strcmp(line, "exit"))

@@ -8,15 +8,9 @@ SRC= srcs/minishell.c \
 	srcs/ft_built-in_echo.c \
 	srcs/ft_built-in.c \
 	srcs/ft_built-in_exit.c \
-	srcs/ft_btree.c \
-	srcs/ft_parser.c \
-	srcs/ft_lexer.c \
-	srcs/ft_execve.c \
 	srcs/ft_env.c \
 	srcs/ft_putenv.c \
 	srcs/ft_lsttotab_token.c \
-	srcs/ft_ast.c \
-	srcs/ft_exec_ast.c \
 	srcs/ft_line_continuation.c \
 	srcs/ft_is_quoted.c \
 	srcs/ft_expansions.c \
@@ -24,6 +18,7 @@ SRC= srcs/minishell.c \
 	srcs/ft_exec_parser.c \
 	srcs/ft_error.c \
 	srcs/ft_redirection.c \
+	srcs/ft_check_file.c \
 	termcaps/termcaps.c \
 	termcaps/line.c \
 	termcaps/history.c \
@@ -38,8 +33,9 @@ SRC= srcs/minishell.c \
 	parser/ast/ft_get_grammar.c \
 	parser/ast/ft_optimizer.c \
 	parser/ast/ft_put_parser.c \
-	completion/ft_completion.c
-
+	completion/ft_completion.c \
+	completion/ft_termcaps_completion.c \
+	completion/ft_sanitize_completion.c
 OBJ= $(SRC:.c=.o)
 HDR_PATH= ./includes
 

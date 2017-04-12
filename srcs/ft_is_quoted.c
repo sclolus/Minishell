@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 05:34:23 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/30 05:47:33 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/12 15:11:30 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ uint32_t	ft_is_quoted(char *input, uint32_t index)
 	if (ft_is_escaped(input, index))
 		return (1);
 	i = 0;
-	while (i <= index)
+	while (i < index) // <= ?
 	{
 		if (input[i] == '\'' && quotes != 2)
 			quotes ^= 1;

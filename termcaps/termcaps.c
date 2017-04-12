@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 02:07:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/11 18:48:18 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/12 14:48:09 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "minishell.h"
 #include <stdio.h>
 
-int	ft_exec_special_event(t_list **history, t_string *buf
+int	ft_exec_special_event(t_env *env, t_string *buf
 						  , t_list **paste_history, char *command)
 {
 	t_list							*tmp;
@@ -23,13 +23,13 @@ int	ft_exec_special_event(t_list **history, t_string *buf
 	{
 		if (!(tmp = ft_lstnew(buf->string, buf->len)))
 			exit (EXIT_FAILURE);
-		ft_lstadd(history, tmp);
+		ft_lstadd(ft_get_history_list(), tmp);
 		ft_move_end_line(buf);
 	}
 	else if (*((short*)command) == ID_DIRECTION_KEY)
 	{
 		if (command[2] == ID_HISTORY_DOWN || command[2] == ID_HISTORY_UP)
-			ft_get_history(*history, command, buf);
+			ft_get_history(*ft_get_history_list(), command, buf);
 		return (1);
 	}
 	else if (*command == ID_KILL_LINE)
@@ -43,7 +43,7 @@ int	ft_exec_special_event(t_list **history, t_string *buf
 		return (1);
 	}
 	else if (*command == ID_TAB)
-		return (ft_completion(buf));
+		return (ft_completion(buf, env));
 	return (0);
 }
 
@@ -54,10 +54,9 @@ t_termcaps_state	*ft_get_term_state(void)
 	return (&state);
 }
 
-int	ft_exec_term_event(char	*command, t_string *buf)
+int	ft_exec_term_event(char	*command, t_string *buf, t_env *env)
 {
 	uint32_t						i;
-//	static t_list					*history = NULL;
 	static t_list					*paste_history = NULL;
 	static const t_term_event		term_events[7] = {
 		{ID_MOVE_START_LINE, &ft_move_start_line},
@@ -78,7 +77,7 @@ int	ft_exec_term_event(char	*command, t_string *buf)
 		}
 		i++;
 	}
-	return (ft_exec_special_event(ft_get_history_list(), buf, &paste_history, command));
+	return (ft_exec_special_event(env, buf, &paste_history, command));
 }
 
 int32_t	ft_term_line_continuation(char *line)
@@ -107,7 +106,7 @@ int32_t	ft_term_line_continuation(char *line)
 	return (0);
 }
 
-uint32_t	ft_termget(char **line)
+uint32_t	ft_termget(char **line, t_env *env)
 {
 	static t_string	buf = {256, 0, 0, NULL};
 	static char		tmp[8] = "\0\0\0\0\0\0\0\0";
@@ -122,7 +121,7 @@ uint32_t	ft_termget(char **line)
 	{
 		if (read(0, tmp, 8) == -1)
 			exit(EXIT_FAILURE);
-		if (!ft_exec_term_event(tmp, &buf))
+		if (!ft_exec_term_event(tmp, &buf, env))
 		{
 			if (*tmp == '\n')
 			{
@@ -145,13 +144,13 @@ uint32_t	ft_termget(char **line)
 	return (buf.len);
 }
 
-uint32_t	ft_termget_complete_line(char **line)
+uint32_t	ft_termget_complete_line(char **line, t_env *env)
 {
 	uint32_t	len;
 	uint32_t	ret;
 	char		*line_tmp;
 
-	len = ft_termget(line);
+	len = ft_termget(line, env);
 	while ((ret = ft_term_line_continuation(*line)))
 	{
 		if (ret != 1)
@@ -160,7 +159,7 @@ uint32_t	ft_termget_complete_line(char **line)
 				exit(EXIT_FAILURE);
 			ft_memcpy(line_tmp, *line, len);
 			line_tmp[len] = '\n';
-			len += ft_termget(line) + 1;
+			len += ft_termget(line, env) + 1;
 			if (!(*line = ft_strjoin_f(line_tmp, *line, 0)))
 				exit(EXIT_FAILURE);
 			continue ;
@@ -168,7 +167,7 @@ uint32_t	ft_termget_complete_line(char **line)
 		if (!(line_tmp = ft_strnew(len)))
 			exit(EXIT_FAILURE);
 		ft_memcpy(line_tmp, *line, len);
-		len += ft_termget(line);
+		len += ft_termget(line, env);
 		if (!(*line = ft_strjoin_f(line_tmp, *line, 0)))
 			exit(EXIT_FAILURE);
 	}

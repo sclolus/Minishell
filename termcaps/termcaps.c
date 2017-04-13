@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 02:07:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/12 14:48:09 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/13 08:30:27 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,6 @@ int	ft_exec_special_event(t_env *env, t_string *buf
 	else if (*command == ID_TAB)
 		return (ft_completion(buf, env));
 	return (0);
-}
-
-t_termcaps_state	*ft_get_term_state(void)
-{
-	static t_termcaps_state	state = NORMAL;
-
-	return (&state);
 }
 
 int	ft_exec_term_event(char	*command, t_string *buf, t_env *env)

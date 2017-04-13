@@ -39,7 +39,7 @@ SRC= srcs/minishell.c \
 	completion/ft_create_ltree.c \
 	completion/ft_ltree_get_suffixes.c \
 	completion/ft_free_ltree.c \
-	completion/ft_ltree_get_directory.c \
+	completion/ft_ltree_get_directory.c
 OBJ= $(SRC:.c=.o)
 HDR_PATH= ./includes
 

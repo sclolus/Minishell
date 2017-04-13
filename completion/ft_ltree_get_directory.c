@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 06:01:42 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/13 06:10:07 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/13 07:43:14 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int32_t		ft_ltree_add_directory(t_ltree **ltree, char *path)
 	char			*tmp;
 	char			*tmp_curr_name;
 
-	if (!(curr_dir = opendir(path)))
+	if (!(curr_dir = opendir(!*path ? "." : path)))
 		return (0);
 	while ((curr_entry = readdir(curr_dir)))
 	{
@@ -109,7 +109,7 @@ int32_t		ft_ltree_add_directory_bin(t_ltree **ltree, char *path)
 	{
 		if (!(tmp = ft_strjoin(path, curr_entry->d_name)))
 			exit(EXIT_FAILURE);
-		if (ft_check_exec_perm(tmp))
+		if (ft_check_exec_perm(tmp) && ft_strcmp("..", curr_entry->d_name) && ft_strcmp(".", curr_entry->d_name))
 		{
 			if (ft_is_dir(tmp))
 			{

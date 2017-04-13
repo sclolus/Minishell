@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 09:50:12 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/13 05:11:32 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/13 08:30:27 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int32_t		ft_put_completions(t_string *buf, char **completions, uint32_t n, char 
 	uint32_t				*lens;
 	uint32_t				i;
 	uint32_t				offset;
-	
+
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &window);
 	if (buffer[0] == 0)
 		ft_memset(buffer, ' ', 1023);
@@ -107,22 +107,10 @@ int32_t		ft_put_completions(t_string *buf, char **completions, uint32_t n, char 
 	return (n);
 }
 
-int32_t		ft_put_completion(t_ltree *ltree, char **completions
-							  , t_string *buf, char *prefix)
+int32_t		ft_put_max_completion(t_ltree *ltree, t_string *buf, char *prefix, uint32_t n)
 {
 	char		*max_completion;
-	uint32_t	i;
-	uint32_t	n;
-
-	n = 0;
-	i = 0;
-	if (!completions)
-	{
-		ft_putchar(7);
-		return (0);
-	}
-	while (completions[n])
-		n++;
+	
 	if ((max_completion = ft_ltree_get_completion(ltree, prefix)))
 	{
 		if (*max_completion)
@@ -130,7 +118,6 @@ int32_t		ft_put_completion(t_ltree *ltree, char **completions
 			ft_putstr(max_completion);
 			ft_t_string_insert(buf, max_completion);
 			free(max_completion);
-			free(completions);
 			return (1);
 		}
 		else
@@ -144,7 +131,31 @@ int32_t		ft_put_completion(t_ltree *ltree, char **completions
 		ft_putchar(7);
 		return (0);
 	}
-	if (n > 3)
+	return (-1);
+}
+
+int32_t		ft_put_completion(t_ltree *ltree, char **completions
+							  , t_string *buf, char *prefix)
+{
+	uint32_t	i;
+	uint32_t	n;
+	int32_t		ret;
+
+	n = 0;
+	i = 0;
+	if (!completions)
+	{
+		ft_putchar(7);
+		return (0);
+	}
+	while (completions[n])
+		n++;
+	if ((ret = ft_put_max_completion(ltree, buf, prefix, n)) > -1)
+	{
+		free(completions);
+		return (ret);
+	}
+	if (n > 1)
 		ft_put_completions(buf, completions, n, prefix);
 	free(completions);
 	return (1);
@@ -226,8 +237,6 @@ int32_t		ft_complete_command_name(t_string *buf, t_env *env)
 int32_t		ft_complete_argv(t_string *buf, t_env *env)
 {
 	char	*command_prefix;
-
-	
 	char		**completions;
 	t_ltree		*ltree;
 	char		*path;
@@ -238,17 +247,18 @@ int32_t		ft_complete_argv(t_string *buf, t_env *env)
 	command_prefix = ft_get_current_token(buf);
 	if (env) // use of env ?
 		;
-	if (!(path = ft_get_path_name(command_prefix)))
+	if (!(path = ft_get_path_name(command_prefix))
+		|| !(ft_ltree_add_directory(&ltree, path))
+		|| !(filename = ft_get_file_name(command_prefix))
+		|| !(completions = ft_get_ltree_suffixes(ltree, filename)))
+	{
+		free(command_prefix);
+		ft_putchar(7);
 		return (0);
-	if (!(ft_ltree_add_directory(&ltree, path)))
-		return (0);
-	if (!(filename = ft_get_file_name(command_prefix)))
-		return (0);
-	if (!(completions = ft_get_ltree_suffixes(ltree, filename)))
-		return (0);
-	ft_sanitize_completions(completions);
+	}
 	ret = ft_put_completion(ltree, completions, buf, filename);
 	ft_free_ltree(ltree);
+	free(command_prefix);
 	return (ret);
 }
 
@@ -263,6 +273,6 @@ int32_t		ft_completion(t_string *buf, t_env *env)
 	t_termcaps_state			*state;
 
 	state = ft_get_term_state();
-	*state = 2;
+	*state = 3;
 	return (events[*state](buf, env));
 }

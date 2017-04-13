@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 09:50:12 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/13 02:41:27 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/13 05:11:32 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static uint32_t	*ft_get_lens_tab(char **strings, uint32_t n)
 	return (tab);
 }
 
-int32_t		ft_put_completions(t_string *buf, char **completions, uint32_t n)
+int32_t		ft_put_completions(t_string *buf, char **completions, uint32_t n, char *prefix)
 {
 	static struct winsize	window;
 	static char				buffer[1024];
@@ -84,6 +84,11 @@ int32_t		ft_put_completions(t_string *buf, char **completions, uint32_t n)
 	offset = 0;
 	while (i < n)
 	{
+		if (*completions[i] == '.' && *prefix != '.')
+		{
+			i++;
+			continue ;
+		}
 		if ((offset + lens[n]) / window.ws_col)
 		{
 			ft_static_put("\n", 1, 0);
@@ -123,7 +128,7 @@ int32_t		ft_put_completion(t_ltree *ltree, char **completions
 		if (*max_completion)
 		{
 			ft_putstr(max_completion);
-			ft_t_string_insert(buf, max_completion);			 // TODO: test/
+			ft_t_string_insert(buf, max_completion);
 			free(max_completion);
 			free(completions);
 			return (1);
@@ -139,8 +144,8 @@ int32_t		ft_put_completion(t_ltree *ltree, char **completions
 		ft_putchar(7);
 		return (0);
 	}
-	if (n > 1)
-		ft_put_completions(buf, completions, n);
+	if (n > 3)
+		ft_put_completions(buf, completions, n, prefix);
 	free(completions);
 	return (1);
 }

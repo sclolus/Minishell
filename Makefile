@@ -1,6 +1,6 @@
 NAME= minishell
 CC= gcc
-FLAGS= -Wall -Werror -Wextra -g #-fsanitize=address -fsanitize-blacklist=my_ignores.txt
+FLAGS= -Wall -Werror -Wextra -g -fsanitize=address -fsanitize-blacklist=my_ignores.txt
 SRC= srcs/minishell.c \
 	srcs/ft_signal.c \
 	srcs/ft_built-in_export.c \
@@ -35,7 +35,11 @@ SRC= srcs/minishell.c \
 	parser/ast/ft_put_parser.c \
 	completion/ft_completion.c \
 	completion/ft_termcaps_completion.c \
-	completion/ft_sanitize_completion.c
+	completion/ft_sanitize_completion.c \
+	completion/ft_create_ltree.c \
+	completion/ft_ltree_get_suffixes.c \
+	completion/ft_free_ltree.c \
+	completion/ft_ltree_get_directory.c \
 OBJ= $(SRC:.c=.o)
 HDR_PATH= ./includes
 

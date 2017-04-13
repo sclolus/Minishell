@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 00:16:38 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/13 01:24:39 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/13 06:12:58 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,3 @@ void		ft_sanitize_completions(char **completions)
 	while (completions[i])
 		ft_sanitize_completion(completions + i++);
 }
-

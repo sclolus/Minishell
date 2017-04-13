@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 22:19:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/12 23:54:28 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/13 02:45:50 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 int32_t	ft_check_exec_perm(char *pathname)
 {
-	uid_t		euid;
+//	uid_t		euid;
 	struct stat	file_stats;
 
-	euid = geteuid();
+//	euid = geteuid();
 	if (stat(pathname, &file_stats) == -1)
 		return (0);
-	if (file_stats.st_uid == euid)
+//	if (file_stats.st_uid == euid)
 		return ((file_stats.st_mode & S_IXUSR) != 0);
-	else
-		return (0);
+/*	else
+	return (0);*/
 }
 
 int32_t	ft_check_exec_read(char *pathname)

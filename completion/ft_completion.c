@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 03:06:29 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/13 01:25:05 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/13 03:41:50 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,10 @@ void		ft_ltree_put(t_ltree *root)
 	if (root->son)
 		ft_ltree_put(root->son);
 	if (root->alternative)
+	{
+		ft_putchar('-');
 		ft_ltree_put(root->alternative);
+	}
 }
 
 uint32_t	ft_ltree_count_suffixes(t_ltree *root)
@@ -213,7 +216,7 @@ uint32_t	ft_ltree_get_suffix_len(t_ltree *node, uint32_t index)
 			len--;
 			node = node->alternative;
 		}
-		else if (ret <= index)
+		if (ret <= index)
 		{
 			index -= ret;
 			node = node->alternative;
@@ -223,6 +226,41 @@ uint32_t	ft_ltree_get_suffix_len(t_ltree *node, uint32_t index)
 			node = node->son;
 	}
 	return (len);
+}
+
+char		*ft_ltree_get_match_no_prefix(t_ltree *root, uint32_t index)
+{
+	char		*string;
+	uint32_t	i;
+	uint32_t	len;
+	uint32_t	ret;
+
+	len = ft_ltree_get_suffix_len(root, index);
+	if (!(string = ft_strnew(len)))
+		exit(EXIT_FAILURE);
+	i = 0;
+	while (i < len)
+	{
+		ret = ft_ltree_count_suffixes(root->son);
+		if (root->c == '\0' && index)
+		{
+			root = root->alternative;
+			index--;
+			continue ;
+		}
+		if (ret <= index)
+		{
+			index -= ret;
+			root = root->alternative;
+		}
+		else
+		{
+			string[i] = root->c;
+			i++;
+			root = root->son;
+		}
+	}
+	return (string);
 }
 
 char		*ft_ltree_get_match(t_ltree *root, char *prefix, uint32_t index)
@@ -264,15 +302,39 @@ char		*ft_ltree_get_match(t_ltree *root, char *prefix, uint32_t index)
 	return (string);
 }
 
+char		**ft_get_ltree_all_suffixes(t_ltree *root)
+{
+	char		**strings;
+	t_ltree		*node;
+	uint32_t	size;
+	uint32_t	i;
+
+	i = 0;
+	node = root;
+	ft_ltree_put(root);
+	size = ft_ltree_count_suffixes(node);
+	if (!(strings = (char**)malloc(sizeof(char*) * (size + 1))))
+		exit(EXIT_FAILURE);
+	strings[size] = NULL;
+	while (i < size)
+	{
+		strings[i] = ft_ltree_get_match_no_prefix(root, i);
+		ft_putendl(strings[i]);
+		i++;
+	}
+	return (strings);
+}
+
 char		**ft_get_ltree_suffixes(t_ltree *root, char *prefix)
 {
 	char		**strings;
 	t_ltree		*node;
 	uint32_t	size;
 	uint32_t	i;
-//	uint32_t	len;
 
 	i = 0;
+	if (!*prefix)
+		return (ft_get_ltree_all_suffixes(root));
 	if (!prefix || !(node = ft_ltree_last_match(root, prefix)))
 		return (NULL);
 	size = ft_ltree_count_suffixes(node->son);

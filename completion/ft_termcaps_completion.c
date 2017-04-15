@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 09:50:12 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/13 08:30:27 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/15 01:44:24 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,9 @@ int32_t		ft_put_completions(t_string *buf, char **completions, uint32_t n, char 
 	ft_sort_strings(completions, n);
 	lens = ft_get_lens_tab(completions, n);
 	ft_move_end_line(buf);
+	CHECK(TEST);
 	ft_static_put("\n", 1, 0);
+		CHECK(TEST);
 	offset = 0;
 	while (i < n)
 	{
@@ -248,7 +250,7 @@ int32_t		ft_complete_argv(t_string *buf, t_env *env)
 	if (env) // use of env ?
 		;
 	if (!(path = ft_get_path_name(command_prefix))
-		|| !(ft_ltree_add_directory(&ltree, path))
+		|| !ft_ltree_add_directory(&ltree, path)
 		|| !(filename = ft_get_file_name(command_prefix))
 		|| !(completions = ft_get_ltree_suffixes(ltree, filename)))
 	{
@@ -262,17 +264,24 @@ int32_t		ft_complete_argv(t_string *buf, t_env *env)
 	return (ret);
 }
 
+int32_t		ft_completion_normal_state(t_string *buf, t_env *env)
+{
+	if (buf && env)
+		;
+	return (0);
+}
+
 int32_t		ft_completion(t_string *buf, t_env *env)
 {
 	static const t_comp_event	events[] = {
 		NULL,
-		NULL,
+		&ft_completion_normal_state,
 		&ft_complete_command_name,
 		&ft_complete_argv,
 	};
 	t_termcaps_state			*state;
 
+	ft_set_term_state(buf);
 	state = ft_get_term_state();
-	*state = 3;
 	return (events[*state](buf, env));
 }

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 05:08:11 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/13 08:00:48 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/14 21:08:47 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ char	*ft_get_path_name(char *file)
 		return (NULL);
 	i = 0;
 	offset = -1;
+	buf[0] = 0;
 	while (file[i])
 	{
 		if (file[i] == '/')

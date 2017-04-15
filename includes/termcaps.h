@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 03:26:22 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/13 00:26:20 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/14 20:54:29 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ typedef struct s_env t_env;
 
 typedef enum	s_termcaps_state
 {
+	COMPLETION_SHOWN = 0,
 	NORMAL = 1,
-	COMPLETION_SHOWN,
-	COMMAND_NAME,
-	ARGV,
+	COMMAND_NAME = 2,
+	ARGV = 3,
 }				t_termcaps_state;
 
 /*typedef	struct s_coord
@@ -72,6 +72,8 @@ int32_t				ft_completion(t_string *buf, t_env *env);
 
 int					ft_putterm(int c);
 t_termcaps_state	*ft_get_term_state(void);
+void				ft_set_term_state(t_string *buf);
+void				ft_put_term_state(t_termcaps_state *state);
 
 int32_t				ft_set_term(void);
 

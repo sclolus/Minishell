@@ -6,25 +6,24 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 05:47:06 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/27 21:31:45 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/15 01:05:41 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putnbr_tab(uint32_t n, int32_t *tab)
+
+int main(int argc, char **argv)
 {
-	while (n--)
+	uint32_t	i;
+
+	char	*string = ft_strdup("salut les gens");
+	i = 0;
+	while (i < 10)
 	{
-		ft_putnbr(tab[n]);
+		ft_static_put(string, ft_strlen(string), 0);
+		i++;
 	}
-}
-
-int main(void)
-{
-	char	*tab;
-
-	tab = (int[]){12, 11, 13};
-	ft_putnbr_tab(3, tab);
+	ft_static_put(NULL, 0, STATIC_PUT_FLUSH);
 	return (0);
 }

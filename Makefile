@@ -26,6 +26,7 @@ SRC= srcs/minishell.c \
 	termcaps/cursor.c \
 	termcaps/string.c \
 	termcaps/ft_set_term.c \
+	termcaps/ft_set_state.c \
 	parser/ast/ast.c \
 	parser/ast/ft_dup_parser.c \
 	parser/ast/ft_eval_parser.c \
@@ -45,7 +46,7 @@ HDR_PATH= ./includes
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
+$(NAME): $(OBJ) ./libft/libft.a
 	make -C libft/
 	$(CC) $^ -L./libft -lft -ltermcap  $(FLAGS) -o $(NAME)
 

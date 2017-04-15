@@ -8,6 +8,9 @@ SRC= srcs/minishell.c \
 	srcs/ft_built-in_echo.c \
 	srcs/ft_built-in.c \
 	srcs/ft_built-in_exit.c \
+	srcs/ft_built-in_env.c \
+	srcs/ft_built-in_setenv.c \
+	srcs/ft_built_in_setenv.c \
 	srcs/ft_env.c \
 	srcs/ft_putenv.c \
 	srcs/ft_lsttotab_token.c \

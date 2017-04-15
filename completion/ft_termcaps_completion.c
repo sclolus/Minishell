@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 09:50:12 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/15 01:44:24 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/15 02:21:41 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,7 @@ int32_t		ft_put_completions(t_string *buf, char **completions, uint32_t n, char 
 	ft_sort_strings(completions, n);
 	lens = ft_get_lens_tab(completions, n);
 	ft_move_end_line(buf);
-	CHECK(TEST);
 	ft_static_put("\n", 1, 0);
-		CHECK(TEST);
 	offset = 0;
 	while (i < n)
 	{

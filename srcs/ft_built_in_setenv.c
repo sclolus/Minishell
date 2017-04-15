@@ -1,0 +1,99 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_built-in_setenv.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/15 03:31:37 by sclolus           #+#    #+#             */
+/*   Updated: 2017/04/15 05:58:42 by sclolus          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+static char			**ft_find_env_value(t_env *env, char *variable)
+{
+	uint32_t	i;
+	uint32_t	u;
+
+	i = 0;
+	u = 0;
+	while (variable[i] && variable[i] != '=')
+		i++;
+	while (env->env[u])
+	{
+		if (!ft_strncmp(variable, env->env[u], i) && env->env[u][i] == '=')
+			return (env->env + u);
+		else
+			u++;
+	}
+	return (NULL);
+}
+
+static void			ft_extand_env(char *argv, char **tmp, t_env *env)
+{
+	if (!(tmp = (char**)malloc(sizeof(char*)
+							* (env->variable_count + 2))))
+		exit(EXIT_FAILURE);
+	tmp[env->variable_count + 1] = NULL;
+	ft_memcpy(tmp, env->env, sizeof(char**) * env->variable_count);
+	if (!(tmp[env->variable_count] = ft_strnew(ft_strlen(argv))))
+		exit(EXIT_FAILURE);
+	ft_strcpy(tmp[env->variable_count], argv);
+	free(env->env);
+	env->env = tmp;
+	env->variable_count++;
+}
+
+static int32_t		ft_modify_env(char **argv, int32_t count, t_env *env)
+{
+	uint32_t	i;
+	char		**tmp;
+
+	i = 1;
+	while (i < count + 1)
+	{
+		tmp = ft_find_env_value(env, argv[i]);
+		if (tmp)
+		{
+			free(*tmp);
+			if (!(*tmp = ft_strdup(argv[i])))
+				exit(EXIT_FAILURE);
+		}
+		else
+			ft_extand_env(argv[i], tmp, env);
+		i++;
+	}
+	return (0);
+}
+
+static uint32_t		ft_count_values(char **argv)
+{
+	uint32_t	i;
+	uint32_t	count;
+
+	i = 1;
+	count = 0;
+	while (argv[i])
+	{
+		if (ft_strchr(argv[i], '='))
+			count++;
+		else
+			break ;
+		i++;
+	}
+	return (count);
+}
+
+int32_t				ft_built_in_setenv(char **argv, t_env *env)
+{
+	uint32_t	i;
+	uint32_t	count;
+
+	if (!argv || !env)
+		return (1);
+	if (!(count = ft_count_values(argv)))
+		return (1);
+	return (ft_modify_env(argv, count, env));
+}

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 03:39:44 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/15 05:24:20 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/15 05:45:41 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static int32_t	ft_delete_env(char **argv, uint32_t count, t_env *env)
 			ft_memcpy(tmp_env, env->env, (tmp - env->env) * sizeof(char**));
 			ft_memcpy(tmp_env + (tmp - env->env), tmp + 1
 				, (env->variable_count - (tmp - env->env)) * sizeof(char**));
+			free(*tmp);
 			free(env->env);
 			env->env = tmp_env;
 		}

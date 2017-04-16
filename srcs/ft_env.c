@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 23:23:12 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/16 06:10:54 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/16 18:23:30 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,23 @@ int32_t		ft_shenv_get_env_count(t_shenv *shenv)
 	return (count);
 }
 
+uint32_t	ft_get_env_count(char **env)
+{
+	uint32_t	i;
+
+	i = 0;
+	while (env[i])
+		i++;
+	return (i);
+}
+
 void		ft_free_t_env(t_env *env)
 {
 	uint32_t	i;
 
 	i = 0;
+	if (!env)
+		return ;
 	while (i < env->variable_count)
 	{
 		free(env->env[i]);
@@ -40,6 +52,21 @@ void		ft_free_t_env(t_env *env)
 	}
 	free(env->env);
 	free(env);
+}
+
+void		ft_free_t_shenv(t_shenv *shenv)
+{
+	uint32_t	i;
+
+	i = 0;
+	while (i < shenv->count)
+	{
+		free(shenv->var[i]);
+		i++;
+	}
+	free(shenv->var);
+	ft_free_t_env(shenv->env);
+	free(shenv->attr);
 }
 
 t_env		*ft_get_env(t_shenv *shenv)

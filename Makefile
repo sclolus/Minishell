@@ -3,16 +3,19 @@ CC= gcc
 FLAGS= -Wall -Werror -Wextra -g -fsanitize=address -fsanitize-blacklist=my_ignores.txt
 SRC= srcs/minishell.c \
 	srcs/ft_signal.c \
-	srcs/ft_built-in_export.c \
 	srcs/ft_find_command.c \
 	srcs/ft_built-in_echo.c \
 	srcs/ft_built-in.c \
-	srcs/ft_built-in_exit.c \
+	srcs/ft_built_in_exit.c \
 	srcs/ft_built_in_env.c \
 	srcs/ft_built_in_setenv.c \
-	srcs/ft_built_in_setenv.c \
+	srcs/ft_built_in_unsetenv.c \
+	srcs/ft_built_in_unset.c \
+	srcs/ft_built_in_export.c \
+	srcs/ft_shenv.c \
 	srcs/ft_env.c \
-	srcs/ft_putenv.c \
+	srcs/ft_var_attr.c \
+	srcs/ft_env.c \
 	srcs/ft_lsttotab_token.c \
 	srcs/ft_line_continuation.c \
 	srcs/ft_is_quoted.c \
@@ -24,6 +27,7 @@ SRC= srcs/minishell.c \
 	srcs/ft_check_file.c \
 	termcaps/termcaps.c \
 	termcaps/line.c \
+	termcaps/line_2.c \
 	termcaps/history.c \
 	termcaps/set_mode.c \
 	termcaps/cursor.c \
@@ -49,7 +53,7 @@ HDR_PATH= ./includes
 
 all: $(NAME)
 
-$(NAME): $(OBJ) ./libft/libft.a
+$(NAME): $(OBJ)
 	make -C libft/
 	$(CC) $^ -L./libft -lft -ltermcap  $(FLAGS) -o $(NAME)
 

@@ -42,8 +42,6 @@ char		**ft_get_env_value(char **env, char *variable)
 int main(int argc, char **argv, char **env)
 {
 	char		*line;
-	t_list		*env_lst;
-	char		**env_tab;
 	t_parser	*bnf_parser;
 	t_parser	*parser;
 	char		*grammar;
@@ -103,16 +101,15 @@ int main(int argc, char **argv, char **env)
 	}
 	parser = ft_get_grammar_syntax(bnf_parser);
 	ft_optimizer(parser);
-	if (!(env_lst = ft_get_lstenv(env)))
-		exit(EXIT_FAILURE);
 	if (ft_set_term() == -1)
 		exit(EXIT_FAILURE);
-	t_env	s_env;
-	s_env.env = env;
+	t_shenv	*shenv;
+
+	shenv = ft_init_shenv(ft_get_env_count(env), env);
 	while (1)
 	{
 		ft_putstr("\n$>");
-		ft_termget_complete_line(&line, &s_env);
+		ft_termget_complete_line(&line, shenv);
 		if (!*line)
 			continue ;
 		if (!ft_strcmp(line, "exit"))
@@ -129,10 +126,6 @@ int main(int argc, char **argv, char **env)
 			ft_put_ast_tokens(parser);
 		}
 //		line = ft_line_continuation(line);
-		
-		if (!(env_tab = ft_lsttotab_token(env_lst, ft_lstlen(env_lst))))
-			exit (EXIT_FAILURE);
-		free(env_tab);
 	}
 	if (ft_set_term() == -1)
 		exit(EXIT_FAILURE);

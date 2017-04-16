@@ -6,12 +6,12 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 06:54:33 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/15 20:50:16 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/16 18:17:34 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*
 static char			**ft_find_env_value(t_env *env, char *variable)
 {
 	uint32_t	i;
@@ -45,16 +45,15 @@ static void			ft_extand_env(char *argv, char **tmp, t_env *env)
 	env->env = tmp;
 	env->variable_count++;
 }
-
-static int32_t		ft_modify_env(char **argv, int32_t count, t_env *env)
+*/
+static int32_t		ft_modify_env(char **argv, uint32_t count, t_shenv *shenv)
 {
 	uint32_t	i;
-	char		**tmp;
 
 	i = 1;
 	while (i < count + 1)
 	{
-		tmp = ft_find_env_value(env, argv[i]);
+/*		tmp = ft_find_env_value(env, argv[i]);
 		if (tmp)
 		{
 			free(*tmp);
@@ -62,33 +61,37 @@ static int32_t		ft_modify_env(char **argv, int32_t count, t_env *env)
 				exit(EXIT_FAILURE);
 		}
 		else
-			ft_extand_env(argv[i], tmp, env);
+		ft_extand_env(argv[i], tmp, env);*/
+		ft_modify_var(shenv, argv[i]);
+		ft_set_var_to_export(shenv, argv[i]);
 		i++;
 	}
 	return (0);
 }
 
-static void			ft_create_new_env(char **argv, int32_t count, t_env *env)
+static t_shenv		*ft_create_new_shenv(char **argv
+										, uint32_t count, t_shenv *shenv)
 {
 	uint32_t	i;
-	char		*tmp;
+	t_shenv		*new_shenv;
 
 	i = 1;
-	free(env->env);
-	env->variable_count = count;
-	if (!(env->env = (char**)malloc(sizeof(char*) * (count + 1))))
+	free(shenv->env->env);
+	ft_free_t_env(shenv->env);
+	ft_free_t_shenv(shenv);
+	if (!(new_shenv = (t_shenv*)ft_memalloc(sizeof(t_shenv))))
 		exit(EXIT_FAILURE);
-	env->env[count] = NULL;
+	if (!(new_shenv->var = (char**)ft_memalloc(sizeof(char*) * (count + 1))))
+		exit(EXIT_FAILURE);
 	while (i < count + 1)
 	{
-		if (!(tmp = ft_strdup(argv[i])))
-			exit(EXIT_FAILURE);
-		env->env[i - 1] = tmp;
+		ft_modify_var(shenv, argv[i]);
 		i++;
 	}
+	return (new_shenv);
 }
 
-static int32_t		ft_count_values(char **argv)
+static uint32_t		ft_count_values(char **argv)
 {
 	uint32_t	i;
 	uint32_t	count;
@@ -134,12 +137,13 @@ static int32_t		ft_get_flag(char *flag)
 
 //void	ft_exec_cmd_test(char **argv, t_env *env); //
 
-int32_t				ft_built_in_env(char **argv, t_env *env)
+// print env ?
+int32_t				ft_built_in_env(char **argv, t_shenv *shenv)
 {
-	int32_t	flag;
-	int32_t	argc;
-	int32_t	ret;
-	pid_t	pid;
+	int32_t		flag;
+	uint32_t	argc;
+	int32_t		ret;
+	pid_t		pid;
 
 	if ((pid = fork()) == -1)
 		ft_error_exit(1, (char*[]){"env: Fork() failed"}, 1);
@@ -155,10 +159,11 @@ int32_t				ft_built_in_env(char **argv, t_env *env)
 			return (1);
 		argc = ft_count_values(argv + flag);
 		if (flag == 1)
-			ft_create_new_env(argv + 1, argc, env);
+			shenv = ft_create_new_shenv(argv + 1, argc, shenv);
 		else
-			ft_modify_env(argv, argc, env);
-		ft_exec_cmd_test(argv + argc + 1 + flag, env);
+			ft_modify_env(argv, argc, shenv);
+		shenv->env = ft_get_env(shenv);
+//		ft_exec_cmd(argv + argc + 1 + flag, shenv->env); TODO
 	}
 	return (0);
 }

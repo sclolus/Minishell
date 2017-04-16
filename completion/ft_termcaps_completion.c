@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 09:50:12 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/15 02:21:41 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/16 20:27:47 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,20 @@ static uint32_t	*ft_get_lens_tab(char **strings, uint32_t n)
 	return (tab);
 }
 
+# if 1
+static void	ft_termcaps_go_back_to_offset(t_string *buf, int64_t old_offset)
+{
+	char	*res;
+
+	while (buf->offset > 0 && buf->offset > old_offset)
+	{
+		buf->offset--;
+		res = tgetstr("le", NULL);
+		tputs(res, 1, &ft_putterm);
+	}
+}
+#endif
+
 int32_t		ft_put_completions(t_string *buf, char **completions, uint32_t n, char *prefix)
 {
 	static struct winsize	window;
@@ -72,6 +86,7 @@ int32_t		ft_put_completions(t_string *buf, char **completions, uint32_t n, char 
 	uint32_t				*lens;
 	uint32_t				i;
 	uint32_t				offset;
+	int64_t					old_offset;
 
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &window);
 	if (buffer[0] == 0)
@@ -79,6 +94,7 @@ int32_t		ft_put_completions(t_string *buf, char **completions, uint32_t n, char 
 	i = 0;
 	ft_sort_strings(completions, n);
 	lens = ft_get_lens_tab(completions, n);
+	old_offset = buf->offset;
 	ft_move_end_line(buf);
 	ft_static_put("\n", 1, 0);
 	offset = 0;
@@ -103,6 +119,7 @@ int32_t		ft_put_completions(t_string *buf, char **completions, uint32_t n, char 
 	ft_static_put(PROMPT, 2, 0);
 	ft_static_put(buf->string, buf->len, 0);
 	ft_static_put(NULL, 0, STATIC_PUT_FLUSH);
+	ft_termcaps_go_back_to_offset(buf, old_offset);
 	free(lens);
 	return (n);
 }
@@ -161,7 +178,7 @@ int32_t		ft_put_completion(t_ltree *ltree, char **completions
 	return (1);
 }
 
-int32_t		ft_complete_path_commands(t_string *buf, t_env *env, char *command_prefix)
+int32_t		ft_complete_path_commands(t_string *buf, t_shenv *shenv, char *command_prefix)
 {
 	char		**completions;
 	char		**path;
@@ -170,7 +187,9 @@ int32_t		ft_complete_path_commands(t_string *buf, t_env *env, char *command_pref
 	int32_t		ret;
 
 	ltree = NULL;
-	path = ft_get_env_value(env->env, "PATH");
+	ft_free_t_env(shenv->env);
+	shenv->env = ft_get_env(shenv);
+	path = ft_get_env_value(shenv->env->env, "PATH");
 	i = 0;
 	while (path[i])
 	{
@@ -189,7 +208,7 @@ int32_t		ft_complete_path_commands(t_string *buf, t_env *env, char *command_pref
 	return (ret);
 }
 
-int32_t		ft_complete_command_directory(t_string *buf, t_env *env, char *command_prefix)
+int32_t		ft_complete_command_directory(t_string *buf, t_shenv *shenv, char *command_prefix)
 {
 	char		**completions;
 	t_ltree		*ltree;
@@ -198,7 +217,7 @@ int32_t		ft_complete_command_directory(t_string *buf, t_env *env, char *command_
 	uint32_t	ret;
 
 	ltree = NULL;
-	if (env) // use of env ?
+	if (shenv) // use of env ?
 		;
 	if (!(path = ft_get_path_name(command_prefix)))
 		return (0);
@@ -213,20 +232,20 @@ int32_t		ft_complete_command_directory(t_string *buf, t_env *env, char *command_
 	return (ret);
 }
 
-int32_t		ft_complete_command_name(t_string *buf, t_env *env)
+int32_t		ft_complete_command_name(t_string *buf, t_shenv *shenv)
 {
 	char		*command_prefix;
 	int32_t		ret;
 
     command_prefix = ft_get_current_token(buf);
-	if ((ret = ft_complete_path_commands(buf, env, command_prefix)))
+	if ((ret = ft_complete_path_commands(buf, shenv, command_prefix)))
 	{
 		free(command_prefix);
 		return (1);
 	}
 	else
 	{
-		ret = ft_complete_command_directory(buf, env, command_prefix);
+		ret = ft_complete_command_directory(buf, shenv, command_prefix);
 		if (!ret)
 			ft_putchar(7);
 		free(command_prefix);
@@ -234,7 +253,7 @@ int32_t		ft_complete_command_name(t_string *buf, t_env *env)
 	}
 }
 
-int32_t		ft_complete_argv(t_string *buf, t_env *env)
+int32_t		ft_complete_argv(t_string *buf, t_shenv *shenv)
 {
 	char	*command_prefix;
 	char		**completions;
@@ -245,7 +264,7 @@ int32_t		ft_complete_argv(t_string *buf, t_env *env)
 
 	ltree = NULL;
 	command_prefix = ft_get_current_token(buf);
-	if (env) // use of env ?
+	if (shenv) // use of env ?
 		;
 	if (!(path = ft_get_path_name(command_prefix))
 		|| !ft_ltree_add_directory(&ltree, path)
@@ -262,14 +281,15 @@ int32_t		ft_complete_argv(t_string *buf, t_env *env)
 	return (ret);
 }
 
-int32_t		ft_completion_normal_state(t_string *buf, t_env *env)
+int32_t		ft_completion_normal_state(t_string *buf, t_shenv *shenv)
 {
-	if (buf && env)
+	if (buf && shenv)
 		;
+	ft_putchar(7);
 	return (0);
 }
 
-int32_t		ft_completion(t_string *buf, t_env *env)
+int32_t		ft_completion(t_string *buf, t_shenv *shenv)
 {
 	static const t_comp_event	events[] = {
 		NULL,
@@ -281,5 +301,5 @@ int32_t		ft_completion(t_string *buf, t_env *env)
 
 	ft_set_term_state(buf);
 	state = ft_get_term_state();
-	return (events[*state](buf, env));
+	return (events[*state](buf, shenv));
 }

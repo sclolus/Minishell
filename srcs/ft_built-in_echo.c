@@ -6,13 +6,13 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 16:58:58 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/05 17:00:57 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/16 16:46:38 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int32_t	ft_built_in_echo(char **argv, t_env *env)
+int32_t	ft_built_in_echo(char **argv, t_shenv *shenv)
 {
 	uint32_t	i;
 	uint32_t	argc;
@@ -21,7 +21,7 @@ int32_t	ft_built_in_echo(char **argv, t_env *env)
 	i = 1;
 	flags = 0;
 	argc = 0;
-	if (!(env))
+	if (!(shenv))
 		;
 	while (argv[argc])
 		argc++;

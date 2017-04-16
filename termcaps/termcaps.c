@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 02:07:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/13 08:30:27 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/16 23:42:01 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "minishell.h"
 #include <stdio.h>
 
-int	ft_exec_special_event(t_env *env, t_string *buf
+int	ft_exec_special_event(t_shenv *shenv, t_string *buf
 						  , t_list **paste_history, char *command)
 {
 	t_list							*tmp;
@@ -43,25 +43,31 @@ int	ft_exec_special_event(t_env *env, t_string *buf
 		return (1);
 	}
 	else if (*command == ID_TAB)
-		return (ft_completion(buf, env));
+	{
+		return (ft_completion(buf, shenv));
+	}
 	return (0);
 }
 
-int	ft_exec_term_event(char	*command, t_string *buf, t_env *env)
+int	ft_exec_term_event(char	*command, t_string *buf, t_shenv *shenv)
 {
 	uint32_t						i;
 	static t_list					*paste_history = NULL;
-	static const t_term_event		term_events[7] = {
+	static const t_term_event		term_events[11] = {
 		{ID_MOVE_START_LINE, &ft_move_start_line},
+		{ID_MOVE_START_LINE_HOME, &ft_move_start_line},
 		{ID_MOVE_END_LINE, &ft_move_end_line},
+		{ID_MOVE_END_LINE_END, &ft_move_end_line},
 		{ID_MOVE_DOWN_CURSOR, &ft_move_down_cursor},
 		{ID_MOVE_UP_CURSOR, &ft_move_up_cursor},
 		{ID_DELETE_CHAR, &ft_delete_char},
 		{ID_MOVE_LEFT_CURSOR, &ft_move_left_cursor},
-		{ID_MOVE_RIGHT_CURSOR, &ft_move_right_cursor}};
+		{ID_MOVE_RIGHT_CURSOR, &ft_move_right_cursor},
+		{ID_MOVE_PREV_WORD, &ft_move_prev_word},
+		{ID_MOVE_NEXT_WORD, &ft_move_next_word}};
 
 	i = 0;
-	while (i < 7)
+	while (i < 11)
 	{
 		if (term_events[i].id == *(int*)command)
 		{
@@ -70,7 +76,7 @@ int	ft_exec_term_event(char	*command, t_string *buf, t_env *env)
 		}
 		i++;
 	}
-	return (ft_exec_special_event(env, buf, &paste_history, command));
+	return (ft_exec_special_event(shenv, buf, &paste_history, command));
 }
 
 int32_t	ft_term_line_continuation(char *line)
@@ -99,7 +105,7 @@ int32_t	ft_term_line_continuation(char *line)
 	return (0);
 }
 
-uint32_t	ft_termget(char **line, t_env *env)
+uint32_t	ft_termget(char **line, t_shenv *shenv)
 {
 	static t_string	buf = {256, 0, 0, NULL};
 	static char		tmp[8] = "\0\0\0\0\0\0\0\0";
@@ -114,9 +120,10 @@ uint32_t	ft_termget(char **line, t_env *env)
 	{
 		if (read(0, tmp, 8) == -1)
 			exit(EXIT_FAILURE);
-		if (!ft_exec_term_event(tmp, &buf, env))
+//		printf("%lx\n", *(long*)tmp);
+		if (!ft_exec_term_event(tmp, &buf, shenv))
 		{
-			if (*tmp == '\n')
+			if (*(long*)tmp == '\n' || *(long*)tmp == 4)
 			{
 				ft_putchar('\n');
 				break;
@@ -131,19 +138,19 @@ uint32_t	ft_termget(char **line, t_env *env)
 					ft_t_string_insert(&buf, tmp);
 			}
 		}
-		ft_memset(tmp + 1, 0, 3);
+		ft_memset(tmp + 1, 0, 7);
 	}
 	*line = buf.string;
 	return (buf.len);
 }
 
-uint32_t	ft_termget_complete_line(char **line, t_env *env)
+uint32_t	ft_termget_complete_line(char **line, t_shenv *shenv)
 {
 	uint32_t	len;
 	uint32_t	ret;
 	char		*line_tmp;
 
-	len = ft_termget(line, env);
+	len = ft_termget(line, shenv);
 	while ((ret = ft_term_line_continuation(*line)))
 	{
 		if (ret != 1)
@@ -152,7 +159,7 @@ uint32_t	ft_termget_complete_line(char **line, t_env *env)
 				exit(EXIT_FAILURE);
 			ft_memcpy(line_tmp, *line, len);
 			line_tmp[len] = '\n';
-			len += ft_termget(line, env) + 1;
+			len += ft_termget(line, shenv) + 1;
 			if (!(*line = ft_strjoin_f(line_tmp, *line, 0)))
 				exit(EXIT_FAILURE);
 			continue ;
@@ -160,7 +167,7 @@ uint32_t	ft_termget_complete_line(char **line, t_env *env)
 		if (!(line_tmp = ft_strnew(len)))
 			exit(EXIT_FAILURE);
 		ft_memcpy(line_tmp, *line, len);
-		len += ft_termget(line, env);
+		len += ft_termget(line, shenv);
 		if (!(*line = ft_strjoin_f(line_tmp, *line, 0)))
 			exit(EXIT_FAILURE);
 	}

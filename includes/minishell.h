@@ -69,13 +69,7 @@
 
 typedef struct s_env t_env;
 typedef uint8_t	t_bool;
-
-
-typedef struct	s_built_in
-{
-	char	*id;
-	int32_t	(*f)(char **, t_env*);
-}				t_built_in;
+typedef struct	s_shenv t_shenv;
 
 typedef struct	s_shenv
 {
@@ -84,6 +78,12 @@ typedef struct	s_shenv
 	t_bool		*attr;
 	uint32_t	count;
 }				t_shenv;
+
+typedef struct	s_built_in
+{
+	char	*id;
+	int32_t	(*f)(char **, t_shenv*);
+}				t_built_in;
 
 typedef struct	s_env
 {
@@ -110,33 +110,19 @@ typedef struct	s_job
 int32_t		ft_setup_sighandlers(void);
 
 char		*ft_find_command(char *filename, char **path);
-char		**ft_parse_line(char *line);
+/*char		**ft_parse_line(char *line);
 char		*ft_parse_arg(char *line);
-void		ft_normalize_command(char **command);
+void		ft_normalize_command(char **command);*/
 
 int32_t		ft_is_unbalanced(char *line);
 char		*ft_line_continuation(char *line);
 int32_t		ft_is_line_backslash_terminated(char *line);
 
-char		**ft_lexer(char *command_line, char **env);
-
-char		**ft_preparse(char **tokens, char **env);
-uint32_t	ft_count_abstract_tokens(char **tokens);
 char		*ft_variable_expansion(char *token, char **env);
 
-int32_t		ft_cd(char **argv, t_list **env);
+//int32_t		ft_cd(char **argv, t_list **env);
 char		*ft_find_env(char const **env, char const *variable);
 char		*ft_strjoin_f(char *a, char *b, int32_t mode);
-
-t_list		*ft_get_lstenv(char **env);
-
-int32_t		ft_putenv(t_list *env, char **argv);
-int32_t		ft_unsetenv(t_list **env, char const **argv);
-int32_t		ft_setenv(t_list **env, char const **argv);
-t_list		*ft_find_lst_env(t_list *env, char const *variable);
-t_list		*ft_get_lstenv(char **env);
-
-void		*ft_lsttotab_token(t_list *lst, unsigned int len);
 
 uint32_t	ft_is_escaped(char *input, uint32_t index);
 uint32_t	ft_is_quoted(char *input, uint32_t index);
@@ -169,10 +155,13 @@ char		*ft_get_path_name(char *file);
 ** built_ins
 */
 
-int32_t		ft_built_in_echo(char **argv, t_env *env);
-int32_t		ft_built_in(char **argv, t_env *env);
+int32_t		ft_built_in_echo(char **argv, t_shenv *shenv);
+int32_t		ft_built_in(char **argv, t_shenv *env);
 int32_t		ft_built_in_history(char **argv, t_env *env);
-int32_t		ft_built_in_exit(char **argv, t_env *env);
+int32_t		ft_built_in_exit(char **argv, t_shenv *shenv);
+int32_t		ft_built_in_setenv(char **argv, t_shenv *shenv);
+int32_t		ft_built_in_env(char **argv, t_shenv *shenv);
+int32_t		ft_built_in_unsetenv(char **argv, t_shenv *shenv);
 int32_t		ft_built_in_export(char **argv, t_shenv *shenv);
 int32_t		ft_built_in_unset(char **argv, t_shenv *shenv);
 
@@ -200,6 +189,7 @@ t_shenv		*ft_init_shenv(uint32_t argc, char **env);
 t_env		*ft_get_env(t_shenv *shenv);
 char		**ft_find_var(t_shenv *shenv, char *var);
 int32_t		ft_shenv_get_env_count(t_shenv *shenv);
+uint32_t	ft_get_env_count(char **env);
 
 t_bool		ft_is_var_exported_index(t_shenv *shenv, uint32_t index);
 t_bool		ft_is_var_exported(t_shenv *shenv, char *var);
@@ -210,6 +200,7 @@ void		ft_add_var(t_shenv *shenv, char *var);
 int32_t		ft_unset_var(t_shenv *shenv, char *var);
 
 void		ft_free_t_env(t_env *env);
+void		ft_free_t_shenv(t_shenv *shenv);
 
 /* test*/
 

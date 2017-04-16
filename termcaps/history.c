@@ -6,7 +6,7 @@
 /*   By: aalves <aalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 14:19:35 by aalves            #+#    #+#             */
-/*   Updated: 2017/03/31 13:32:19 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/17 00:35:42 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,18 @@ void		ft_get_history(t_list *history, char *command, t_string *buf)
 
 void		ft_print_history(t_string *buf, char *history)
 {
+	uint32_t	len;
+
+	len = 0;
+	ft_move_end_line(buf);
 	while (buf->offset > 0)
 		ft_delete_char(buf);
 	*buf->string = '\0';
 	buf->len = 0;
-	if (ft_strlen(history))
+	if ((len = ft_strlen(history)))
 	{
 		ft_t_string_concat(buf, history);
-		ft_putstr(buf->string);
+		write(1, history, len);
 	}
 }
 

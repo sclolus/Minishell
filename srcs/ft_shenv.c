@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 22:22:26 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/16 06:23:16 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/16 18:16:27 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int32_t	ft_unset_var(t_shenv *shenv, char *var)
 									- (tmp - shenv->var)) * sizeof(char*));
 		ft_memcpy(attr_tmp, shenv->attr, (tmp - shenv->var) * sizeof(t_bool));
 		ft_memcpy(attr_tmp + (tmp - shenv->var), shenv->attr
-, 1 + (tmp - shenv->var), (shenv->count - (tmp - shenv->var)) * sizeof(t_bool));
+					+ 1 + (tmp - shenv->var)
+					, (shenv->count - (tmp - shenv->var)) * sizeof(t_bool));
 		free(*tmp);
 		free(shenv->var);
 		free(shenv->attr);
@@ -114,10 +115,11 @@ t_shenv	*ft_init_shenv(uint32_t argc, char **env)
 
 	if (!(shenv = (t_shenv*)ft_memalloc(sizeof(t_shenv))))
 		exit(EXIT_FAILURE);
+	if (!(env))
+		return (shenv);
 	i = 0;
 	while (i < argc)
 	{
-		ft_putendl(env[i]);
 		ft_modify_var(shenv, env[i]);
 		ft_set_var_to_export(shenv, env[i++]);
 	}

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_built-in_exit.c                                 :+:      :+:    :+:   */
+/*   ft_built_in_exit.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 16:00:44 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/05 16:55:01 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/16 16:48:23 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int32_t		ft_built_in_exit(char **argv, t_env *env)
+int32_t		ft_built_in_exit(char **argv, t_shenv *shenv)
 {
 	int32_t		exit_status;
 	uint32_t	i;
@@ -21,7 +21,7 @@ int32_t		ft_built_in_exit(char **argv, t_env *env)
 	ft_putendl("exit");
 	exit_status = 0;
 	ft_set_term();
-	if (env)
+	if (shenv)
 		;
 	if (argv[1])
 	{
@@ -34,6 +34,6 @@ int32_t		ft_built_in_exit(char **argv, t_env *env)
 		}
 		exit_status = ft_atoi(argv[1]);
 	}
-	exit(exit_status % 256);
+	exit(POSIX_EXIT_STATUS(exit_status));
 	return (-1);
 }

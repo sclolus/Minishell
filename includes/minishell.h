@@ -12,6 +12,7 @@
 # include "termcaps.h"
 # include "ft_completion.h"
 # include "ast.h"
+
 // debuf MACROS
 # define ENDL ft_putendl("");
 #define REVERT 0
@@ -60,16 +61,29 @@
 # define EXIT_ILLEGAL_CMD 127
 # define EXIT_REDIREC_ERROR 55
 # define EXIT_SIG_ERROR 11
+# define EXIT_VAR_NOT_FOUND 56
+
+# define POSIX_EXIT_STATUS(x) (x & 0xFF)
 
 # define BUILT_IN_COUNT 9
 
 typedef struct s_env t_env;
+typedef uint8_t	t_bool;
+
 
 typedef struct	s_built_in
 {
 	char	*id;
 	int32_t	(*f)(char **, t_env*);
 }				t_built_in;
+
+typedef struct	s_shenv
+{
+	t_env		*env;
+	char		**var;
+	t_bool		*attr;
+	uint32_t	count;
+}				t_shenv;
 
 typedef struct	s_env
 {
@@ -159,10 +173,16 @@ int32_t		ft_built_in_echo(char **argv, t_env *env);
 int32_t		ft_built_in(char **argv, t_env *env);
 int32_t		ft_built_in_history(char **argv, t_env *env);
 int32_t		ft_built_in_exit(char **argv, t_env *env);
+int32_t		ft_built_in_export(char **argv, t_shenv *shenv);
+int32_t		ft_built_in_unset(char **argv, t_shenv *shenv);
 
+/*
+** Error handling
+*/
 
 void		ft_error_exit(uint32_t n, char **str, int32_t exit_status);
 int32_t		ft_error(uint32_t n, char **str, int32_t return_status);
+
 /*
 ** Permissions/files checks
 */
@@ -171,6 +191,26 @@ int32_t	ft_check_exec_perm(char *pathname);
 int32_t	ft_check_exec_read(char *pathname);
 int32_t	ft_check_exec_write(char *pathname);
 int32_t	ft_is_dir(char *pathname);
+
+/*
+** Shell environnement management
+*/
+
+t_shenv		*ft_init_shenv(uint32_t argc, char **env);
+t_env		*ft_get_env(t_shenv *shenv);
+char		**ft_find_var(t_shenv *shenv, char *var);
+int32_t		ft_shenv_get_env_count(t_shenv *shenv);
+
+t_bool		ft_is_var_exported_index(t_shenv *shenv, uint32_t index);
+t_bool		ft_is_var_exported(t_shenv *shenv, char *var);
+t_bool		ft_set_var_to_export(t_shenv *shenv, char *var);
+
+void		ft_modify_var(t_shenv *shenv, char *var);
+void		ft_add_var(t_shenv *shenv, char *var);
+int32_t		ft_unset_var(t_shenv *shenv, char *var);
+
+void		ft_free_t_env(t_env *env);
+
 /* test*/
 
 t_process	*ft_start_process(t_parser *simple_cmd, pid_t gpid, int *stdfd, t_env *env);

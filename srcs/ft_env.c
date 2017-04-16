@@ -1,113 +1,70 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/15 23:23:12 by sclolus           #+#    #+#             */
+/*   Updated: 2017/04/16 06:10:54 by sclolus          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-t_list	*ft_get_lstenv(char **env)
+int32_t		ft_shenv_get_env_count(t_shenv *shenv)
 {
-	t_list		*lst;
-	t_list		*lst_tmp;
-	char		*tmp;
 	uint32_t	i;
+	uint32_t	count;
 
 	i = 0;
-	tmp = NULL;
-	lst = NULL;
-	while (env[i])
+	count = 0;
+	while (i < shenv->count)
 	{
-		if (!(tmp = ft_strdup(env[i])))
-			exit(EXIT_FAILURE);
-		if (!(lst_tmp = ft_lstnew(NULL, 0)))
-			exit(EXIT_FAILURE);
-		lst_tmp->content_size = sizeof(char*);
-		lst_tmp->content = tmp;
-		ft_lstadd(&lst, lst_tmp);
+		if (shenv->attr[i])
+			count++;
 		i++;
 	}
-	return (lst);
+	return (count);
 }
 
-t_list	*ft_find_lst_env(t_list *env, char const *variable)
+void		ft_free_t_env(t_env *env)
 {
 	uint32_t	i;
 
 	i = 0;
-	while (variable[i] && variable[i] != '=')
+	while (i < env->variable_count)
+	{
+		free(env->env[i]);
 		i++;
-	while (env)
-	{
-		if (!ft_strncmp(variable, env->content, i))
-			return (env);
-		else
-			env = env->next;
 	}
-	return (NULL);
+	free(env->env);
+	free(env);
 }
 
-int32_t		ft_setenv(t_list **env, char const **argv)
+t_env		*ft_get_env(t_shenv *shenv)
 {
-	t_list	*tmp;
-	char	*tmp_str;
+	uint32_t	i;
+	uint32_t	u;
+	uint32_t	count;
+	char		**env;
+	t_env		*environ;
 
-	tmp = NULL;
-// if buf *= ?
-	if (!argv[1])
-		return (-1);
-	if ((tmp = ft_find_lst_env(*env, (char*)argv[1])))
+	if (!(count = ft_shenv_get_env_count(shenv)))
+		return (NULL);
+	if (!(environ = (t_env*)malloc(sizeof(t_env)))
+		|| !(env = (char**)ft_memalloc(sizeof(char*) * (count + 1))))
+		exit(EXIT_FAILURE);
+	i = 0;
+	u = 0;
+	while (i < shenv->count)
 	{
-		free((*env)->content);
-		if (!(tmp_str = ft_strdup((char*)argv[1])))
-			exit(EXIT_FAILURE);
-		if (!(tmp_str = ft_strjoin_f(tmp_str, "=", 0)))
-			exit(EXIT_FAILURE);
-		if (!((*env)->content = ft_strjoin_f(tmp_str, (char*)argv[2], 0)))
-			exit(EXIT_FAILURE);
-	}
-	else
-	{
-		if (!(tmp = ft_lstnew(NULL, 0)))
-			exit (EXIT_FAILURE);
-		ft_lstadd(env, tmp);
-		if (!(tmp_str = ft_strdup((char*)argv[1])))
-			exit(EXIT_FAILURE);
-		if (!argv[2])
-		{
-			if (!((*env)->content = ft_strjoin(tmp_str, "=")))
-				exit (EXIT_FAILURE);
-		}
-		else
-		{
-			if (!(tmp_str = ft_strjoin_f(tmp_str, "=", 0)))
+		if (shenv->attr[i] && ft_strchr(shenv->var[i], '='))
+			if (!(env[u++] = ft_strdup(shenv->var[i])))
 				exit(EXIT_FAILURE);
-			if (!((*env)->content = ft_strjoin_f(tmp_str, (char*)argv[2], 0)))
-				exit(EXIT_FAILURE);
-		}
+		i++;
 	}
-	return (0);
-}
-
-int32_t		ft_unsetenv(t_list **env, char const **argv)
-{
-	t_list	*tmp;
-	t_list	*buf;
-	t_list	*tmp_env;
-
-	tmp = NULL;
-	tmp_env = *env;
-	if (!argv[1])
-		return (-1);
-	if ((tmp = ft_find_lst_env(*env, (char*)argv[1])))
-	{
-		if (tmp == *env)
-		{
-			buf = (*env)->next;
-			free(*env);
-			*env = buf;
-			return (0);
-		}
-		while (tmp->next != tmp_env)
-			tmp = tmp->next;
-		buf = tmp->next;
-		free(tmp);
-		tmp_env->next = buf;
-		return (0);
-	}
-	return (-1);
+	environ->variable_count = count;
+	environ->env = env;
+	return (environ);
 }

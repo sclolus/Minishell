@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/16 20:47:23 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/17 00:00:35 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/17 05:07:22 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,44 @@ void	ft_move_next_word(t_string *buf)
 		else
 			in_word = 0;
 		ft_move_right_cursor(buf);
+	}
+}
+
+void	ft_termcaps_putstr(t_string *buf, char *str)
+{
+	static struct winsize	window;
+	char					*res;
+	uint32_t				len;
+	uint32_t				len_print;
+	uint32_t				len_to_restore;
+
+	ioctl(STDOUT_FILENO, TIOCGWINSZ, &window);
+	len = ft_strlen(str);
+	len_print = 0;
+	while (len > len_print)
+	{
+		if (buf->offset / window.ws_col == 0)
+			len_to_restore = window.ws_col - (buf->offset + PROMPT_LEN);
+		else
+			len_to_restore = window.ws_col - buf->offset;
+		write(1, str + len_print, (len - len_print) % len_to_restore);
+		len_print += (len - len_print) % len_to_restore;
+		if (len > len_print)
+		{
+			res = tgetstr("do", NULL);
+			tputs(res, 1, &ft_putterm);
+		}
+	}
+	len_print = 0;
+	while (len > len_print)
+	{
+		if (buf->offset / window.ws_col == 0)
+			len_to_restore = window.ws_col - (buf->offset + PROMPT_LEN);
+		else
+			len_to_restore = window.ws_col - buf->offset;
+		write(1, buf->string + buf->offset + len_print, (len - len_print) % len_to_restore);
+		len_print += (len - len_print) % len_to_restore;
+		res = tgetstr("do", NULL);
+		tputs(res, 1, &ft_putterm);
 	}
 }

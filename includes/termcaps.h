@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 03:26:22 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/17 00:13:54 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/17 05:00:52 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct	s_term_event
 int32_t				ft_completion(t_string *buf, t_shenv *shenv);
 
 int					ft_putterm(int c);
+void				ft_termcaps_putstr(t_string *buf, char *str);
 t_termcaps_state	*ft_get_term_state(void);
 void				ft_set_term_state(t_string *buf);
 void				ft_put_term_state(t_termcaps_state *state);

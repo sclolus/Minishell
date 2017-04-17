@@ -6,7 +6,7 @@
 /*   By: aalves <aalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 13:51:53 by aalves            #+#    #+#             */
-/*   Updated: 2017/04/17 00:17:23 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/17 04:57:03 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,17 +66,19 @@ void		ft_move_right_cursor(t_string *buf)
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &window);
 	if (buf->offset < buf->len)
 	{
-		if (0 == (buf->offset + PROMPT_LEN) % window.ws_col)
+		if ((0 == (buf->offset + PROMPT_LEN) % (window.ws_col - 1))
+			&& buf->offset / window.ws_col == 0)
 		{
 			res = tgetstr("do", NULL);
+			tputs(res, 1, &ft_putterm);
 			buf->offset++;
 		}
 		else
 		{
 			res = tgetstr("nd", NULL);
 			buf->offset++;
+			tputs(res, 1, &ft_putterm);
 		}
-		tputs(res, 1, &ft_putterm);
 	}
 	else
 		ft_putchar(7);

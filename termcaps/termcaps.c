@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 02:07:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/16 23:42:01 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/17 05:06:38 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,12 +130,17 @@ uint32_t	ft_termget(char **line, t_shenv *shenv)
 			}
 			if (ft_isprint(*tmp))
 			{
-				ft_putchar(*tmp);
 				tmp[1] = 0;
 				if (buf.offset == buf.len)
+				{
+					ft_putchar(*tmp);
 					ft_t_string_concat(&buf, tmp);
+				}
 				else
+				{
+					ft_termcaps_putstr(&buf, tmp);
 					ft_t_string_insert(&buf, tmp);
+				}
 			}
 		}
 		ft_memset(tmp + 1, 0, 7);

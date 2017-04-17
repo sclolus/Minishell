@@ -6,7 +6,7 @@
 /*   By: aalves <aalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 13:53:21 by aalves            #+#    #+#             */
-/*   Updated: 2017/04/17 00:17:46 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/17 01:52:31 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void		ft_move_end_line(t_string *buf)
 {
 	while (buf->offset < buf->len)
 		ft_move_right_cursor(buf);
-//	ft_move_right_cursor(buf);
 }
 
 void		ft_erase_line(void)

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 03:26:22 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/18 07:31:31 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/18 07:51:58 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 # define ID_MOVE_END_LINE 0x5
 # define ID_MOVE_START_LINE_HOME 0x485B1B
 # define ID_MOVE_END_LINE_END 0x465B1B
-# define ID_MOVE_DOWN_CURSOR 0xE
-# define ID_MOVE_UP_CURSOR 0x10
+# define ID_MOVE_DOWN_CURSOR 425b1b1b
+# define ID_MOVE_UP_CURSOR 415b1b1b
 # define ID_MOVE_PREV_WORD 0x445b1b1b
 # define ID_MOVE_NEXT_WORD 0x435b1b1b
 # define ID_DELETE_CHAR 0x7F

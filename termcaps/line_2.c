@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/16 20:47:23 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/17 05:07:22 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/17 08:09:31 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,21 +72,51 @@ void	ft_termcaps_putstr(t_string *buf, char *str)
 	static struct winsize	window;
 	char					*res;
 	uint32_t				len;
-	uint32_t				len_print;
-	uint32_t				len_to_restore;
+	uint32_t				i;
 
+	if (buf)
+		;
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &window);
 	len = ft_strlen(str);
+	res = tgetstr("cd", NULL);
+	tputs(res, 1, &ft_putterm);
+	ft_putstr(str);
+	ft_putstr(buf->string + buf->offset);
+	res = tgetstr("le", NULL);
+	i = 1;
+	while (i < len + (buf->len - buf->offset))
+	{
+		tputs(res, 1, &ft_putterm);
+		i++;
+		}
+	# if 0
+	uint32_t				len_print;
+	uint32_t				len_to_restore;
+	uint32_t				len_to_print;
+
 	len_print = 0;
-	while (len > len_print)
+	len_to_restore = 0;
+	ft_putstr("window.ws_col == ");
+	ft_putnbr(window.ws_col);
+	ft_putchar('\n');
+	ft_putstr("len_to_print == ");
+	len_to_print = (buf->offset + PROMPT_LEN / window.ws_col);
+
+	ft_putnbr(len_to_print);
+	ft_putchar('\n');
+	ft_putstr("is len_to_restore == ");
+	ft_putnbr((buf->offset + len_print + len_to_print) / window.ws_col >
+			  (buf->offset + len_print) / window.ws_col);
+	#endif
+/*	while (len > len_print)
 	{
 		if (buf->offset / window.ws_col == 0)
-			len_to_restore = window.ws_col - (buf->offset + PROMPT_LEN);
+			len_to_print = len % (window.ws_col - (buf->offset + PROMPT_LEN));
 		else
-			len_to_restore = window.ws_col - buf->offset;
-		write(1, str + len_print, (len - len_print) % len_to_restore);
-		len_print += (len - len_print) % len_to_restore;
-		if (len > len_print)
+			len_to_print = len % (window.ws_col - (buf->offset & window.ws_col));
+		write(1, str + len_print, len_to_print);
+		len_print += len_to_print;
+		if (len > len_print && len_print + buf->offset < buf->len)
 		{
 			res = tgetstr("do", NULL);
 			tputs(res, 1, &ft_putterm);
@@ -103,5 +133,5 @@ void	ft_termcaps_putstr(t_string *buf, char *str)
 		len_print += (len - len_print) % len_to_restore;
 		res = tgetstr("do", NULL);
 		tputs(res, 1, &ft_putterm);
-	}
+		}*/
 }

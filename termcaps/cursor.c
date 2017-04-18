@@ -6,7 +6,7 @@
 /*   By: aalves <aalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 13:51:53 by aalves            #+#    #+#             */
-/*   Updated: 2017/04/18 07:29:45 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/18 09:38:07 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ void		ft_move_up_cursor(t_string *buf)
 	static struct winsize	window;
 
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &window);
-	if ((buf->offset + 10) / window.ws_col)
+	if ((buf->offset + PROMPT_LEN) / window.ws_col)
 	{
-		if ((buf->offset + 10) % window.ws_col < 10)
+		if ((buf->offset + PROMPT_LEN) % window.ws_col < PROMPT_LEN
+			&& (buf->offset + PROMPT_LEN) / window.ws_col == 1)
 			ft_move_start_line(buf);
 		else
 		{
@@ -30,7 +31,11 @@ void		ft_move_up_cursor(t_string *buf)
 		}
 	}
 	else
+	{
+		if (buf->offset)
+			ft_move_start_line(buf);
 		ft_putchar(7);
+	}
 }
 
 void		ft_move_down_cursor(t_string *buf)

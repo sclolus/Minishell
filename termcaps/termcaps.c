@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 02:07:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/17 08:07:33 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/18 07:31:24 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	ft_exec_term_event(char	*command, t_string *buf, t_shenv *shenv)
 	{
 		if (term_events[i].id == *(int*)command)
 		{
+			ft_putchar(7);
 			term_events[i].f(buf);
 			return (1);
 		}
@@ -138,8 +139,8 @@ uint32_t	ft_termget(char **line, t_shenv *shenv)
 				}
 				else
 				{
-					ft_termcaps_putstr(&buf, tmp);
 					ft_t_string_insert(&buf, tmp);
+					ft_termcaps_putstr(&buf, tmp);
 				}
 			}
 		}

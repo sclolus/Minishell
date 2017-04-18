@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/16 20:47:23 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/17 08:09:31 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/18 07:31:08 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,69 +69,20 @@ void	ft_move_next_word(t_string *buf)
 
 void	ft_termcaps_putstr(t_string *buf, char *str)
 {
-	static struct winsize	window;
 	char					*res;
-	uint32_t				len;
-	uint32_t				i;
+	int64_t					old_offset;
 
-	if (buf)
-		;
-	ioctl(STDOUT_FILENO, TIOCGWINSZ, &window);
-	len = ft_strlen(str);
-	res = tgetstr("cd", NULL);
-	tputs(res, 1, &ft_putterm);
-	ft_putstr(str);
-	ft_putstr(buf->string + buf->offset);
+	old_offset = buf->offset;
+	buf->offset -= ft_strlen(str);
+	ft_move_start_line(buf);
 	res = tgetstr("le", NULL);
-	i = 1;
-	while (i < len + (buf->len - buf->offset))
-	{
-		tputs(res, 1, &ft_putterm);
-		i++;
-		}
-	# if 0
-	uint32_t				len_print;
-	uint32_t				len_to_restore;
-	uint32_t				len_to_print;
-
-	len_print = 0;
-	len_to_restore = 0;
-	ft_putstr("window.ws_col == ");
-	ft_putnbr(window.ws_col);
-	ft_putchar('\n');
-	ft_putstr("len_to_print == ");
-	len_to_print = (buf->offset + PROMPT_LEN / window.ws_col);
-
-	ft_putnbr(len_to_print);
-	ft_putchar('\n');
-	ft_putstr("is len_to_restore == ");
-	ft_putnbr((buf->offset + len_print + len_to_print) / window.ws_col >
-			  (buf->offset + len_print) / window.ws_col);
-	#endif
-/*	while (len > len_print)
-	{
-		if (buf->offset / window.ws_col == 0)
-			len_to_print = len % (window.ws_col - (buf->offset + PROMPT_LEN));
-		else
-			len_to_print = len % (window.ws_col - (buf->offset & window.ws_col));
-		write(1, str + len_print, len_to_print);
-		len_print += len_to_print;
-		if (len > len_print && len_print + buf->offset < buf->len)
-		{
-			res = tgetstr("do", NULL);
-			tputs(res, 1, &ft_putterm);
-		}
-	}
-	len_print = 0;
-	while (len > len_print)
-	{
-		if (buf->offset / window.ws_col == 0)
-			len_to_restore = window.ws_col - (buf->offset + PROMPT_LEN);
-		else
-			len_to_restore = window.ws_col - buf->offset;
-		write(1, buf->string + buf->offset + len_print, (len - len_print) % len_to_restore);
-		len_print += (len - len_print) % len_to_restore;
-		res = tgetstr("do", NULL);
-		tputs(res, 1, &ft_putterm);
-		}*/
+	tputs(res, 1, &ft_putterm);
+	tputs(res, 1, &ft_putterm);
+	res = tgetstr("cd", NULL);
+	ft_putstr("$>");
+	tputs(res, 1, &ft_putterm);
+	write(1, buf->string, buf->len);
+	buf->offset += buf->len;
+	while (buf->offset > old_offset)
+		ft_move_left_cursor(buf);
 }

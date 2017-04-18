@@ -6,7 +6,7 @@
 /*   By: aalves <aalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 13:53:21 by aalves            #+#    #+#             */
-/*   Updated: 2017/04/17 08:03:27 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/18 07:31:49 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,5 @@ void		ft_paste_line(t_string *buf, char *command, t_list *paste_history)
 		ft_explore_paste_history(buf, &static_history, &history_base, &current_yanking);
 	}
 	ft_t_string_insert(buf, tmp);
-	ft_putstr(tmp);
+	ft_termcaps_putstr(buf, tmp);
 }

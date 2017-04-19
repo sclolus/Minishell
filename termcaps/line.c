@@ -6,7 +6,7 @@
 /*   By: aalves <aalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 13:53:21 by aalves            #+#    #+#             */
-/*   Updated: 2017/04/18 11:19:37 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/19 02:59:58 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,8 @@ void		ft_move_start_line(t_string *buf)
 
 void		ft_move_end_line(t_string *buf)
 {
-	if (buf)
-		;
-/*	while (buf->offset < buf->len)
-	ft_move_right_cursor(buf);*/
-/*	char	*res;
-
-	res = tgetstr("sr", NULL);
-	tputs(res, 1, &ft_putterm);*/
-	ft_putstr("\x1B[1F");
-
+	while (buf->offset < buf->len)
+		ft_move_right_cursor(buf);
 }
 
 void		ft_erase_line(void)

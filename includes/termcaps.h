@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 03:26:22 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/18 09:25:04 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/19 03:48:08 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,19 +56,6 @@ typedef enum	s_termcaps_state
 	ARGV = 3,
 }				t_termcaps_state;
 
-/*typedef	struct s_coord
-  {
-	int64_t		x;
-	int64_t		y;
-	}				t_coord;
-	
-	typedef struct	s_cursor
-	{
-	t_coord		pos;
-	t_coord		pos_end;
-	int64_t		buff_len;
-	}				t_cursor;*/
-
 typedef int32_t (*t_comp_event)(t_string*, t_shenv *);
 
 typedef struct	s_term_event
@@ -87,7 +74,7 @@ void				ft_put_term_state(t_termcaps_state *state);
 
 int32_t				ft_set_term(void);
 
-uint32_t			ft_termget(char **line, t_shenv *shenv);
+int64_t				ft_termget(char **line, t_shenv *shenv);
 int32_t				ft_term_line_continuation(char *line);
 uint32_t			ft_termget_complete_line(char **line, t_shenv *shenv);
 

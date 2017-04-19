@@ -39,6 +39,8 @@ char		**ft_get_env_value(char **env, char *variable)
 	return (path);
 }
 
+// TODO ctrl+d ctrl+c
+
 int main(int argc, char **argv, char **env)
 {
 	char		*line;

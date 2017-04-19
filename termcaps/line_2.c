@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/16 20:47:23 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/18 07:31:08 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/19 02:55:33 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ void	ft_termcaps_putstr(t_string *buf, char *str)
 	int64_t					old_offset;
 
 	old_offset = buf->offset;
-	buf->offset -= ft_strlen(str);
+	if (str)
+		buf->offset -= ft_strlen(str);
 	ft_move_start_line(buf);
 	res = tgetstr("le", NULL);
 	tputs(res, 1, &ft_putterm);

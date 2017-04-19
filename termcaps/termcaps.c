@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 02:07:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/18 09:30:29 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/19 03:46:54 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_exec_special_event(t_shenv *shenv, t_string *buf
 {
 	t_list							*tmp;
 
-	if (*command == '\n')
+	if ((*(long*)command == '\n' || *(long*)command == 4))
 	{
 		if (!(tmp = ft_lstnew(buf->string, buf->len)))
 			exit (EXIT_FAILURE);
@@ -105,7 +105,7 @@ int32_t	ft_term_line_continuation(char *line)
 	return (0);
 }
 
-uint32_t	ft_termget(char **line, t_shenv *shenv)
+int64_t	ft_termget(char **line, t_shenv *shenv)
 {
 	static t_string	buf = {256, 0, 0, NULL};
 	static char		tmp[8] = "\0\0\0\0\0\0\0\0";
@@ -145,16 +145,19 @@ uint32_t	ft_termget(char **line, t_shenv *shenv)
 		ft_memset(tmp + 1, 0, 7);
 	}
 	*line = buf.string;
+	if (*(long*)tmp == 4)
+		return (-1);
 	return (buf.len);
 }
 
 uint32_t	ft_termget_complete_line(char **line, t_shenv *shenv)
 {
-	uint32_t	len;
-	uint32_t	ret;
-	char		*line_tmp;
+	int64_t			len;
+	uint32_t		ret;
+	char			*line_tmp;
 
-	len = ft_termget(line, shenv);
+	if ((len = ft_termget(line, shenv)) == -1) // ctrl+ d on every line
+		return (ft_strlen(*line));
 	while ((ret = ft_term_line_continuation(*line)))
 	{
 		if (ret != 1)

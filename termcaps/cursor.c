@@ -6,7 +6,7 @@
 /*   By: aalves <aalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 13:51:53 by aalves            #+#    #+#             */
-/*   Updated: 2017/04/18 09:38:07 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/19 03:01:25 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void		ft_move_left_cursor(t_string *buf)
 	if (buf->offset > 0)
 	{
 		buf->offset--;
+		
 		res = tgetstr("le", NULL);
 		tputs(res, 1, &ft_putterm);
 	}

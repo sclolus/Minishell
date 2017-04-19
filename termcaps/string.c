@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 02:07:08 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/04 05:06:55 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/19 02:54:22 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void		ft_delete_char(t_string *buf)
 		buf->len--;
 		res = tgetstr("dc", NULL);
 		tputs(res, 1, &ft_putterm);
+		ft_termcaps_putstr(buf, NULL);
 	}
 }
 

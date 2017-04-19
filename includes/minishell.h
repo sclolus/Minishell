@@ -206,6 +206,7 @@ void		ft_free_t_shenv(t_shenv *shenv);
 
 t_process	*ft_start_process(t_parser *simple_cmd, pid_t gpid, int *stdfd, t_shenv *shenv);
 int32_t	ft_exec_pipeline(t_parser *parser, t_shenv *shenv);
+int32_t	ft_exec_pipe_sequence(t_parser *parser, t_shenv *shenv);
 int32_t	ft_exec_and_or(t_parser *parser, t_shenv *shenv);
 int32_t	ft_exec_env_assignment(t_parser *parser, t_shenv *shenv);
 void	ft_exec_cmd(char **argv, t_shenv *shenv);

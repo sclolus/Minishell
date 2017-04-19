@@ -64,8 +64,8 @@ int main(int argc, char **argv, char **env)
 	ft_putstr("posix job control");	
 # endif
 #if 1
-	# define test 1
-# if test
+	# define test 0
+# if test == 1
 	if (!(grammar = ft_strdup("<command>		::= <sp> <list> <sp> \n\
 							   <list>			::= (<and_or> <sp> <separator> <sp>)* <and_or> <sp> (<separator>)* | <and_or> <sp> (<separator>)* \n\
 							   <and_or>			::= (<sp> \"&&\" <sp> <simple_cmd> | <sp> \"||\" <sp> <simple_cmd> | <sp> <simple_cmd>)+\n\
@@ -86,9 +86,24 @@ int main(int argc, char **argv, char **env)
 							   <sp>				::= (\' \' | \'\t\')* \n\
 							   <separator>		::= \'&\' | \';\' \n")))
 		exit(EXIT_FAILURE);
-#elif test == 0
-	if (!(grammar = ft_strdup("<expression> ::= \"||\"\n")))
-		exit (EXIT_FAILURE);
+	#else
+		if (!(grammar = ft_strdup("<pipeline>		::= <pipe_sequence> | '!' <pipe_sequence> \n\
+							   <pipe_sequence>	::= <simple_cmd> | (<simple_cmd> '|')+ <simple_cmd> \n\
+							   <simple_cmd>		::= <sp> (<cmd_prefix>)* <command_name> <sp> (<cmd_postfix> <sp>)*  | <cmd_prefix> <sp>\n\
+							   <cmd_postfix>	::= <io_redirect> | <arg> \n\
+							   <cmd_prefix>		::= <env_assignment> <sp> | <io_redirect> <sp> \n \
+							   <io_redirect>	::= <io_number> <io_file> | <io_file> \n\
+							   <io_number>		::= ('0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9')+ \n\
+							   <io_file>        ::= \'>\' <io_filename> | \">&\" <sp> <io_number> | \'<\' <io_filename> | \"<&\" <sp> <io_number> | \"<<\" <io_filename> | \"<>\" <io_filename> | \">>\" <io_filename> | \">|\" <io_filename> \n\
+							   <io_filename>	::= <sp> ('/' | '.' | '~'| 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z')+ \n\
+							   <env_assignment>	::= <var_name> '=' <var_value> \n\
+							   <var_name>		::= ('A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z' | '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9')+ \n\
+							   <var_value>		::= ('~' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z' | '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z')+ \n\
+							   <command_name>	::= ('~'| '.' | '/' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z')+ \n\
+							   <arg>			::= ('\'' | '\"' | '-' | '/' | '.' | '~' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z' | '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9')+ \n\
+							   <sp>				::= (\' \' | \'\t\')* \n\
+							   <separator>		::= \'&\' | \';\' \n")))
+		exit(EXIT_FAILURE);
 #endif
 
 	int32_t	fd;
@@ -119,15 +134,15 @@ int main(int argc, char **argv, char **env)
 		if (ft_eval_input(parser, &line))
 		{
 			ft_put_ast_tokens(parser);
-/*			ft_putendl("");
-			ft_exec_parser(parser, &s_env);*/
+			ft_putendl("");
+//			ft_exec_parser(parser, shenv);
+			kill(ft_start_process(OR_PARSER_N(OR_PARSER_N(MULTIPLY_PARSER_N(parser, 0), 0), 0), 0, (int[]){0, 1}, shenv)->pid, SIGCONT);
 		}
 		else
 		{
 			ft_putendl("parsing error ::= ");
 			ft_put_ast_tokens(parser);
 		}
-//		line = ft_line_continuation(line);
 	}
 	if (ft_set_term() == -1)
 		exit(EXIT_FAILURE);

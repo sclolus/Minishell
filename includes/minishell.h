@@ -204,13 +204,13 @@ void		ft_free_t_shenv(t_shenv *shenv);
 
 /* test*/
 
-t_process	*ft_start_process(t_parser *simple_cmd, pid_t gpid, int *stdfd, t_env *env);
-int32_t	ft_exec_pipeline(t_parser *parser, t_env *env);
-int32_t	ft_exec_and_or(t_parser *parser, t_env *env);
-int32_t	ft_exec_env_assignment(t_parser *parser, t_env *env);
-void	ft_exec_cmd(char **argv, t_env *env);
-void	ft_exec_simple_cmd(char **argv, t_parser *parser, t_env *env);
-int32_t	ft_exec_command(t_parser *parser, t_env *env);
-int32_t	ft_exec_parser(t_parser *parser, t_env *env);
+t_process	*ft_start_process(t_parser *simple_cmd, pid_t gpid, int *stdfd, t_shenv *shenv);
+int32_t	ft_exec_pipeline(t_parser *parser, t_shenv *shenv);
+int32_t	ft_exec_and_or(t_parser *parser, t_shenv *shenv);
+int32_t	ft_exec_env_assignment(t_parser *parser, t_shenv *shenv);
+void	ft_exec_cmd(char **argv, t_shenv *shenv);
+void	ft_exec_simple_cmd(char **argv, t_parser *parser, t_shenv *shenv);
+int32_t	ft_exec_command(t_parser *parser, t_shenv *shenv);
+int32_t	ft_exec_parser(t_parser *parser, t_shenv *shenv);
 char		**ft_get_env_value(char **env, char *variable);
 #endif

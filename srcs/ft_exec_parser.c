@@ -6,13 +6,12 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 22:14:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/20 12:42:51 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/21 00:47:10 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-#define revert 0
 
 static uint32_t	ft_get_arg_count(t_parser *cmd_postfixes)
 {
@@ -62,20 +61,17 @@ static char		**ft_get_argv(t_parser *simple_cmd)
 
 int32_t	ft_exec_list(t_parser *parser, t_shenv *shenv)
 {
-//	uint32_t	i;
-//	uint32_t	n;
+	uint32_t	i;
+	uint32_t	n;
 
 	if (parser || shenv)
 		;
-#if revert == 1
 	if (IS_RETAINED(OR_PARSER_N(parser, 0)))
 	{
 		parser = OR_PARSER_N(parser, 0);
 		i = 0;
 		n = MULTIPLY_N(AND_PARSER_N(parser, 0));
-		ft_putendl("____");
-		ft_put_ast_tokens(AND_PARSER_N(parser, 1));
-		ft_putendl("____");
+//		ft_put_ast_tokens(AND_PARSER_N(parser, 1));
 		while (i < n)
 		{
 			ft_exec_and_or(AND_PARSER_N(MULTIPLY_PARSER_N(AND_PARSER_N(parser, 0), i), 0), shenv);
@@ -94,22 +90,16 @@ int32_t	ft_exec_list(t_parser *parser, t_shenv *shenv)
 	}
 	else
 		return (-1);
-	#endif
-	#define DELAMERDE ~0 -1
-	return (DELAMERDE);
 }
 
 int32_t	ft_exec_and_or(t_parser *parser, t_shenv *shenv)
 {
 	uint32_t	i;
 	uint32_t	n;
-//	uint32_t	ret;
+	uint32_t	ret;
 
 	i = 0;
 	n = PLUS_N(parser);
-	if (shenv)
-		;
-	#if revert == 1
 	while (i < n)
 	{
 		if (OR_PARSER_N(PLUS_PARSER_N(parser, i), 0)->retained && !ret)
@@ -120,9 +110,7 @@ int32_t	ft_exec_and_or(t_parser *parser, t_shenv *shenv)
 			ret = ft_exec_simple_cmd(AND_PARSER_N(OR_PARSER_N(PLUS_PARSER_N(parser, i), 2), 1), shenv);
 		i++;
 	}
-	#endif
-//	return (ret);
-	return (-1);
+	return (ret);
 }
 
 int32_t	ft_exec_pipeline(t_parser *parser, t_shenv *shenv)
@@ -171,12 +159,34 @@ t_process		*ft_create_pipeline(t_parser *pipe_sequence, t_shenv *shenv)
 			close(curr_stdin);
 		if (curr_stdout != STDOUT_FILENO)
 			close(curr_stdout);
-//		mypipe[3] = curr_stdout;
 		curr_stdin = mypipe[0];
 		mypipe[2] = mypipe[1];
 	}
 	
 	return (processes); //
+}
+
+int32_t	ft_exec_built_in(t_parser *parser, t_shenv *shenv)
+{
+	char	**argv;
+	int32_t	ret;
+
+	if (IS_RETAINED(OR_PARSER_N(parser, 0)))
+		parser = OR_PARSER_N(parser, 0);
+	else
+		return (EXIT_ILLEGAL_CMD);
+	if (ft_is_built_in(parser))
+	{
+		argv = ft_get_argv(parser);
+		shenv->env = ft_get_env(shenv);
+//		ft_expansions(parser, env);
+	   	if (ft_redirections(parser) == -1)
+			exit(EXIT_REDIREC_ERROR);
+		ret = ft_built_in(argv, shenv);
+		free(argv);
+		return (POSIX_EXIT_STATUS(ret));
+	}
+	return (EXIT_ILLEGAL_CMD); // /
 }
 
 int32_t	ft_exec_pipe_sequence(t_parser *parser, t_shenv *shenv)
@@ -187,11 +197,14 @@ int32_t	ft_exec_pipe_sequence(t_parser *parser, t_shenv *shenv)
 	if (IS_RETAINED(OR_PARSER_N(parser, 1)))
 	{
 		parser = OR_PARSER_N(parser, 1);
-		processes = ft_start_process(parser, 0, (int[]){0, 1, 0, 1}, shenv);
-		ft_put_processes_in_foreground(processes, 0);
-		waitpid(processes->gpid, &ret, 0);
-		ft_put_shell_in_foreground();
-		ft_clear_processes(&processes);
+		if ((ret = ft_exec_built_in(parser, shenv)) == EXIT_ILLEGAL_CMD)
+		{
+			processes = ft_start_process(parser, 0, (int[]){0, 1, 0, 1}, shenv);
+			ft_put_processes_in_foreground(processes, 0);
+			waitpid(processes->gpid, &ret, 0);
+			ft_put_shell_in_foreground();
+			ft_clear_processes(&processes);
+		}
 	}
 	else
 	{
@@ -286,7 +299,7 @@ void	ft_exec_cmd(char **argv, t_shenv *shenv) //last arg test
 		}
 		ft_error_exit(2, (char *[]){"Command not found: ", argv[0]}, EXIT_ILLEGAL_CMD);
 	}
-	if (!(path = ft_strjoin(path, "/")))
+	if (!(path = ft_strjoin_f(path, "/", 0)))
 		ft_error_exit(2, (char *[]){"Internal memory management failed at: ", argv[0]}, EXIT_FAILURE);
 	if (!(bin = ft_strjoin(path, argv[0])))
 		ft_error_exit(2, (char *[]){"Internal memory management failed at: ", bin}, EXIT_FAILURE);

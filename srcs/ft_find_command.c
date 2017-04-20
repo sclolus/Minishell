@@ -10,6 +10,8 @@ char	*ft_find_command(char *filename, char **path)
 	getcwd(oldpwd, MAX_PATH); // not protected;
 	if (!path)
 		return (NULL);
+	if (*filename == '/')
+		filename++;
 	while (path[i])
 	{
 		if (chdir(path[i]) == -1)

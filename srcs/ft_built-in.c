@@ -6,11 +6,35 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 07:46:43 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/16 18:02:46 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/20 23:08:30 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int32_t	ft_is_built_in(t_parser *parser)
+{
+	uint32_t			i;
+	static const char	*f_built_in[] = {"cd",
+										 "echo",
+										 "exit",
+										 "env",
+										 "setenv",
+										 "unsetenv",
+										 "history",
+										 "unset",
+										 "export"};
+
+	i = 0;
+	while (i < sizeof(f_built_in) / sizeof(char *))
+	{
+		if (!ft_strcmp(AND_PARSER_N(parser, 2)->parser.str_any_of.str
+					, f_built_in[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 int32_t	ft_built_in(char **argv, t_shenv *shenv)
 {

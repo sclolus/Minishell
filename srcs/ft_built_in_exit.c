@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 16:00:44 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/16 16:48:23 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/20 23:10:49 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int32_t		ft_built_in_exit(char **argv, t_shenv *shenv)
 	i = 0;
 	ft_putendl("exit");
 	exit_status = 0;
-	ft_set_term();
+	ft_unset_term();
+	ft_unset_insert();
 	if (shenv)
 		;
 	if (argv[1])

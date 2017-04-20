@@ -2,6 +2,8 @@
 #include "minishell.h"
 #include "get_next_line.h"
 
+t_process	*current_process = NULL;
+
 char		*ft_find_env(char const **env, char const *variable)
 {
 	uint32_t	i;
@@ -51,17 +53,13 @@ int main(int argc, char **argv, char **env)
 	line = NULL;
 	if (argc || argv)
 	{};
-	if (ft_setup_sighandlers() == -1)
-	{
-		ft_putstr_fd("Signal handlers setup failed", 2);
-		exit(EXIT_FAILURE);
-	}
+	ft_init_shell();
 /*							   <env_assignment>	::= <var_name> '=' <var_value> \n\
 							   <var_name>		::= ('A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z' | '0' | '1' | '2' | '3 ' | '4' | '5' | '6' | '7' | '8' | '9')+ \n\
 							   <var_value>		::= ('A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z' | '0' | '1' | '2' | '3 ' | '4' | '5' | '6' | '7' | '8' | '9' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z')+ \n\
 */
 #if _POSIX_JOB_CONTROL
-	ft_putstr("posix job control");	
+	ft_putstr("posix job control");
 # endif
 #if 1
 	# define test 0
@@ -88,7 +86,7 @@ int main(int argc, char **argv, char **env)
 		exit(EXIT_FAILURE);
 	#else
 		if (!(grammar = ft_strdup("<pipeline>		::= <pipe_sequence> | '!' <pipe_sequence> \n\
-							   <pipe_sequence>	::= <simple_cmd> | (<simple_cmd> '|')+ <simple_cmd> \n\
+							   <pipe_sequence>	::= (<simple_cmd> '|')+ <simple_cmd> | <simple_cmd> \n\
 							   <simple_cmd>		::= <sp> (<cmd_prefix>)* <command_name> <sp> (<cmd_postfix> <sp>)*  | <cmd_prefix> <sp>\n\
 							   <cmd_postfix>	::= <io_redirect> | <arg> \n\
 							   <cmd_prefix>		::= <env_assignment> <sp> | <io_redirect> <sp> \n \
@@ -118,8 +116,6 @@ int main(int argc, char **argv, char **env)
 	}
 	parser = ft_get_grammar_syntax(bnf_parser);
 	ft_optimizer(parser);
-	if (ft_set_term() == -1)
-		exit(EXIT_FAILURE);
 	t_shenv	*shenv;
 
 	shenv = ft_init_shenv(ft_get_env_count(env), env);
@@ -127,6 +123,7 @@ int main(int argc, char **argv, char **env)
 	{
 		ft_putstr("\n$>");
 		ft_termget_complete_line(&line, shenv);
+		ft_putendl("\nCommand line acquired");
 		if (!*line)
 			continue ;
 		if (!ft_strcmp(line, "exit"))
@@ -136,7 +133,7 @@ int main(int argc, char **argv, char **env)
 			ft_put_ast_tokens(parser);
 			ft_putendl("");
 //			ft_exec_parser(parser, shenv);
-			kill(ft_start_process(OR_PARSER_N(OR_PARSER_N(MULTIPLY_PARSER_N(parser, 0), 0), 0), 0, (int[]){0, 1}, shenv)->pid, SIGCONT);
+			ft_exec_pipe_sequence(OR_PARSER_N(MULTIPLY_PARSER_N(parser, 0), 0), shenv);
 		}
 		else
 		{
@@ -144,8 +141,8 @@ int main(int argc, char **argv, char **env)
 			ft_put_ast_tokens(parser);
 		}
 	}
-	if (ft_set_term() == -1)
-		exit(EXIT_FAILURE);
+	ft_exit_shell();
+	exit(EXIT_FAILURE);
 #endif
 	ft_putstr("test");
 	return (0);

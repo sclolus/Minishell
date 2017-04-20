@@ -1,0 +1,16 @@
+struct s_test
+{
+	int i;
+	t_tetri *tetri;
+}
+
+tetri = 0x123
+
+i = 0;
+
+(*tetri).tetri++;
+tetri = 0x124
+
+ft_func(tetri);
+
+tetri = 0x124

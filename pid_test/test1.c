@@ -1,16 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_is_power_of_two.c                               :+:      :+:    :+:   */
+/*   test1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/09 04:30:16 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/19 20:27:33 by sclolus          ###   ########.fr       */
+/*   Created: 2017/04/06 19:14:54 by sclolus           #+#    #+#             */
+/*   Updated: 2017/04/06 19:15:58 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-unsigned int	ft_is_power_of_two(unsigned long long nbr)
+#include "libft.h"
+
+int main(void)
 {
-	return ((nbr & (nbr - 1)) == 0);
+	while (1)
+		ft_putendl("yes");
+	return (0);
 }

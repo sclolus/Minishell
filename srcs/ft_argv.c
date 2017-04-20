@@ -1,16 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_is_power_of_two.c                               :+:      :+:    :+:   */
+/*   ft_argv.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/09 04:30:16 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/19 20:27:33 by sclolus          ###   ########.fr       */
+/*   Created: 2017/04/20 02:11:54 by sclolus           #+#    #+#             */
+/*   Updated: 2017/04/20 02:14:53 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-unsigned int	ft_is_power_of_two(unsigned long long nbr)
+#include "minishell.h"
+
+/*
+** ft_free_argv() assumes that argv is a NULL-terminated array of strings
+*/
+
+void	ft_free_argv(char **argv)
 {
-	return ((nbr & (nbr - 1)) == 0);
+	uint32_t	i;
+
+	i = 0;
+	while (argv[i])
+		free(argv[i++]);
+	free(argv);
 }

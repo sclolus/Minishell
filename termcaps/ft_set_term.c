@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 00:36:26 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/13 05:58:04 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/20 05:16:24 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,30 +16,24 @@ int32_t		ft_set_term(void)
 {	
 	char					*name_term = "xterm-256color";
 	static struct termios	term;
-	static struct termios	default_term;
-	static uint32_t			status = 0;
 
-	if (status == 0)
-	{
-		if (tgetent(NULL, name_term) == -1)
-			return (-1);
-		if (tcgetattr(0, &term) == -1)
-			return (-1);
-		if (tcgetattr(0, &default_term) == -1)
-			return (-1);
-		term.c_lflag &= ~(ICANON);
-		term.c_lflag &= ~(ECHO);
-		if (tcsetattr(0, TCSADRAIN, &term) == -1)
-			return (-1);
-		ft_set_insert();
-		status = 1;
-	}
-	else
-	{
-		ft_unset_insert();
-		if (tcsetattr(0, TCSANOW, &default_term) == -1)
-			return (-1);
-		status = 0;
-	}
+	
+	if (tgetent(NULL, name_term) == -1)
+		return (-1);
+	if (tcgetattr(0, &term) == -1)
+		return (-1);
+	term.c_lflag &= ~(ICANON);
+	term.c_lflag &= ~(ECHO);
+	if (tcsetattr(0, TCSADRAIN, &term) == -1)
+		return (-1);
+	ft_set_insert();
 	return (0);
+}
+
+int32_t		ft_unset_term(void)
+{
+	if (tcsetattr(0, TCSADRAIN, &shell->backup_term) == -1)
+		ft_error_exit(1, (char*[])
+					  {"warning: Shell's parent term mode restoration failed"}, 1);
+	return (1);
 }

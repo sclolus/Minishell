@@ -2,6 +2,7 @@ NAME= minishell
 CC= gcc
 FLAGS= -Wall -Werror -Wextra -g -fsanitize=address -fsanitize-blacklist=my_ignores.txt
 SRC= srcs/minishell.c \
+	srcs/ft_init_shell.c \
 	srcs/ft_signal.c \
 	srcs/ft_find_command.c \
 	srcs/ft_built-in_echo.c \
@@ -22,9 +23,11 @@ SRC= srcs/minishell.c \
 	srcs/ft_expansions.c \
 	srcs/ft_built-in_history.c \
 	srcs/ft_exec_parser.c \
+	srcs/ft_process.c \
 	srcs/ft_error.c \
 	srcs/ft_redirection.c \
 	srcs/ft_check_file.c \
+	srcs/ft_argv.c \
 	termcaps/termcaps.c \
 	termcaps/line.c \
 	termcaps/line_2.c \

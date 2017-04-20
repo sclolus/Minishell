@@ -70,6 +70,9 @@
 typedef struct s_env t_env;
 typedef uint8_t	t_bool;
 typedef struct	s_shenv t_shenv;
+typedef struct	s_shell	t_shell;
+
+t_shell		*shell;
 
 typedef struct	s_shenv
 {
@@ -96,6 +99,7 @@ typedef struct	s_process
 	struct s_process	*next;
 	struct s_process	*prev;
 	pid_t				pid;
+	pid_t				gpid;
 	char				**argv;
 }				t_process;
 
@@ -107,7 +111,16 @@ typedef struct	s_job
 	pid_t			pgid;
 }				t_job;
 
+typedef struct	s_shell
+{
+	int				terminal;
+	int				interactive;
+	pid_t			shell_pgid;
+	struct termios	backup_term;
+}				t_shell;
+
 int32_t		ft_setup_sighandlers(void);
+void		ft_init_shell(void);
 
 char		*ft_find_command(char *filename, char **path);
 /*char		**ft_parse_line(char *line);
@@ -126,6 +139,8 @@ char		*ft_strjoin_f(char *a, char *b, int32_t mode);
 
 uint32_t	ft_is_escaped(char *input, uint32_t index);
 uint32_t	ft_is_quoted(char *input, uint32_t index);
+
+void	ft_exit_shell(void);
 
 /*
 ** redirections
@@ -202,6 +217,43 @@ int32_t		ft_unset_var(t_shenv *shenv, char *var);
 void		ft_free_t_env(t_env *env);
 void		ft_free_t_shenv(t_shenv *shenv);
 
+/*
+** Signal Handling
+*/
+
+int32_t		ft_setup_sighandlers(void);
+void		ft_reset_signals(void);
+void		ft_ignore_signals(void);
+
+/*
+** Miscellaneous Free functions
+*/
+
+void	ft_free_argv(char **argv);
+
+/*
+** Processes
+*/
+
+void		ft_clear_processes(t_process **processes);
+void		ft_t_process_print(t_process *process);
+void		ft_put_processes_in_foreground(t_process *process, int cont);
+
+/*
+** Term setup
+*/
+
+int32_t		ft_unset_term(void);
+int32_t		ft_set_term(void);
+
+/*
+** Shell utilities
+*/
+
+void	ft_put_shell_in_foreground(void);
+void	ft_exit_shell(void);
+void	ft_init_shell(void);
+
 /* test*/
 
 t_process	*ft_start_process(t_parser *simple_cmd, pid_t gpid, int *stdfd, t_shenv *shenv);
@@ -214,4 +266,6 @@ void	ft_exec_simple_cmd(char **argv, t_parser *parser, t_shenv *shenv);
 int32_t	ft_exec_command(t_parser *parser, t_shenv *shenv);
 int32_t	ft_exec_parser(t_parser *parser, t_shenv *shenv);
 char		**ft_get_env_value(char **env, char *variable);
+t_process	*ft_t_process_add(t_process **processes, t_process *new);
+
 #endif

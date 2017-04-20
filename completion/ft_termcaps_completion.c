@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 09:50:12 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/18 09:24:11 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/20 07:14:46 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,6 @@ int32_t		ft_put_max_completion(t_ltree *ltree, t_string *buf, char *prefix, uint
 	{
 		if (*max_completion)
 		{
-//			ft_putstr(max_completion);
 			ft_t_string_insert(buf, max_completion);
 			ft_termcaps_putstr(buf, max_completion);
 			free(max_completion);

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 22:14:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/20 05:22:28 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/20 12:42:51 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,32 +139,41 @@ t_process		*ft_create_pipeline(t_parser *pipe_sequence, t_shenv *shenv)
 	pid_t		pipeline_pgid;
 	int			curr_stdin;
 	int			curr_stdout;
-	int			mypipe[3];
+	int			mypipe[5];
 	uint32_t	i;
 
 	i = 0;
 	curr_stdin = 0;
-	if (pipe(mypipe + 1) == -1)
+	if (pipe(mypipe + 3) == -1)
 		exit(ft_error(1, (char*[]){"Pipe() failed"}, EXIT_REDIREC_ERROR));
-	processes = ft_start_process(AND_PARSER_N(pipe_sequence, 1), 0, (int[]){mypipe[1], 1}, shenv);
+	processes = ft_start_process(AND_PARSER_N(pipe_sequence, 1), 0, (int[]){mypipe[3], 1, mypipe[4], 1}, shenv);
 	pipeline_pgid = processes->pid;
+	mypipe[2] = 0;
 	while (i < MULTIPLY_N(AND_PARSER_N(pipe_sequence, 0)))
 	{
 		if (i == MULTIPLY_N(AND_PARSER_N(pipe_sequence, 0)) - 1)
-			curr_stdout = mypipe[2];
+		{
+			curr_stdout = mypipe[4];
+			mypipe[3] = 1;
+		}
 		else if (pipe(mypipe) == -1)
 			exit(ft_error(1, (char*[]){"Pipe() failed"}, EXIT_REDIREC_ERROR));
 		else
+		{
 			curr_stdout = mypipe[1];
+			mypipe[3] = mypipe[0];
+		}
 		ft_t_process_add(&processes, ft_start_process(AND_PARSER_N(MULTIPLY_PARSER_N(
 							AND_PARSER_N(pipe_sequence, 0), i), 0), pipeline_pgid
-		, (int[]){curr_stdin, curr_stdout}, shenv));
+								  , (int[]){curr_stdin, curr_stdout, mypipe[2], mypipe[3]}, shenv));
 		i++;
 		if (curr_stdin != STDIN_FILENO)
 			close(curr_stdin);
-		if (curr_stdin != STDOUT_FILENO)
+		if (curr_stdout != STDOUT_FILENO)
 			close(curr_stdout);
+//		mypipe[3] = curr_stdout;
 		curr_stdin = mypipe[0];
+		mypipe[2] = mypipe[1];
 	}
 	
 	return (processes); //
@@ -174,11 +183,11 @@ int32_t	ft_exec_pipe_sequence(t_parser *parser, t_shenv *shenv)
 {
 	t_process	*processes;
 	int			ret;
-	
+
 	if (IS_RETAINED(OR_PARSER_N(parser, 1)))
 	{
 		parser = OR_PARSER_N(parser, 1);
-		processes = ft_start_process(parser, 0, (int[]){0, 1}, shenv);
+		processes = ft_start_process(parser, 0, (int[]){0, 1, 0, 1}, shenv);
 		ft_put_processes_in_foreground(processes, 0);
 		waitpid(processes->gpid, &ret, 0);
 		ft_put_shell_in_foreground();
@@ -189,8 +198,9 @@ int32_t	ft_exec_pipe_sequence(t_parser *parser, t_shenv *shenv)
 		parser = OR_PARSER_N(parser, 0);
 		processes = ft_create_pipeline(parser, shenv);
 		ft_put_processes_in_foreground(processes, 0);
-		waitpid(processes->gpid, &ret, 0);
+		waitpid(processes->gpid, &ret, 0);	
 		ft_put_shell_in_foreground();
+		kill(processes->gpid, SIGKILL);
 		ft_clear_processes(&processes);
 	}
 	return (ret);
@@ -223,10 +233,11 @@ t_process	*ft_start_process(t_parser *simple_cmd, pid_t gpid, int *stdfd, t_shen
 	{
 		if (!(process = (t_process*)malloc(sizeof(t_process))))
 			exit(EXIT_FAILURE);
-		ft_put_stds(argv, stdfd);
+		if (!gpid)
+			gpid = pid;
 		setpgid(pid, gpid);
 		process->pid = pid;
-		process->gpid = getpgid(pid);
+		process->gpid = gpid;
 		process->next = NULL;
 		process->prev = NULL;
 		process->argv = argv;
@@ -236,13 +247,15 @@ t_process	*ft_start_process(t_parser *simple_cmd, pid_t gpid, int *stdfd, t_shen
 	{
 		if (!gpid)
 			gpid = getpid();
+		setpgid(0, gpid);
 		tcsetpgrp(shell->terminal, gpid);
 		ft_reset_signals();
-		setpgid(0, gpid);
 		dup2(stdfd[0], STDIN_FILENO);
 		stdfd[0] == STDIN_FILENO ? 0 : close(stdfd[0]);
 		dup2(stdfd[1], STDOUT_FILENO);
 		stdfd[1] == STDOUT_FILENO ? 0 : close(stdfd[1]);
+		stdfd[2] == STDIN_FILENO ? 0 : close(stdfd[2]);
+		stdfd[3] == STDOUT_FILENO ? 0 : close(stdfd[3]);		
 		ft_exec_simple_cmd(argv, simple_cmd, shenv);
 		return (NULL);
 	}
@@ -266,7 +279,7 @@ void	ft_exec_cmd(char **argv, t_shenv *shenv) //last arg test
 	{
 		if (ft_find_file(argv[0], shenv->env) > 0)
 		{
-			if (ft_check_exec_perm(argv[0])) // use stat with geteuid
+			if (!ft_check_exec_perm(argv[0])) // use stat with geteuid
 				exit(EXIT_NO_PERM);
 			execve(argv[0], argv, shenv->env->env);
 			ft_error_exit(2, (char *[]){"Permission denied: ", argv[0]}, EXIT_NO_PERM);

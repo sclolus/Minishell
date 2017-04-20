@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 00:36:26 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/20 05:16:24 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/20 11:56:29 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int32_t		ft_set_term(void)
 {	
 	char					*name_term = "xterm-256color";
 	static struct termios	term;
-
 	
 	if (tgetent(NULL, name_term) == -1)
 		return (-1);

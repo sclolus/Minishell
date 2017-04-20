@@ -66,7 +66,7 @@ int main(int argc, char **argv, char **env)
 # if test == 1
 	if (!(grammar = ft_strdup("<command>		::= <sp> <list> <sp> \n\
 							   <list>			::= (<and_or> <sp> <separator> <sp>)* <and_or> <sp> (<separator>)* | <and_or> <sp> (<separator>)* \n\
-							   <and_or>			::= (<sp> \"&&\" <sp> <simple_cmd> | <sp> \"||\" <sp> <simple_cmd> | <sp> <simple_cmd>)+\n\
+							   <and_or>			::= (<sp> \"&&\" <sp> <pipeline> | <sp> \"||\" <sp> <pipeline> | <sp> <pipeline>)+\n\
 							   <simple_cmd>		::= <sp> (<cmd_prefix>)* <command_name> <sp> (<cmd_postfix> <sp>)*  | <cmd_prefix> <sp>\n\
 							   <cmd_postfix>	::= <io_redirect> | <arg> \n\
 							   <cmd_prefix>		::= <env_assignment> <sp> | <io_redirect> <sp> \n \

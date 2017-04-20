@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 22:14:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/21 00:47:10 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/21 00:50:38 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int32_t	ft_exec_list(t_parser *parser, t_shenv *shenv)
 	else if (IS_RETAINED(OR_PARSER_N(parser, 1)))
 	{
 		parser = OR_PARSER_N(parser, 1);
-		ft_exec_simple_cmd(AND_PARSER_N(parser, 0), shenv);
+		ft_exec_and_or(AND_PARSER_N(parser, 0), shenv);
 		return (1);
 	}
 	else
@@ -103,11 +103,11 @@ int32_t	ft_exec_and_or(t_parser *parser, t_shenv *shenv)
 	while (i < n)
 	{
 		if (OR_PARSER_N(PLUS_PARSER_N(parser, i), 0)->retained && !ret)
-			ret = ft_exec_simple_cmd(AND_PARSER_N(OR_PARSER_N(PLUS_PARSER_N(parser, i), 0), 3), shenv);
+			ret = ft_exec_pipeline(AND_PARSER_N(OR_PARSER_N(PLUS_PARSER_N(parser, i), 0), 3), shenv);
 		else if (OR_PARSER_N(PLUS_PARSER_N(parser, i), 1)->retained && ret)
-			ret = ft_exec_simple_cmd(AND_PARSER_N(OR_PARSER_N(PLUS_PARSER_N(parser, i), 1), 3), shenv);
+			ret = ft_exec_pipeline(AND_PARSER_N(OR_PARSER_N(PLUS_PARSER_N(parser, i), 1), 3), shenv);
 		else if (OR_PARSER_N(PLUS_PARSER_N(parser, i), 2)->retained)
-			ret = ft_exec_simple_cmd(AND_PARSER_N(OR_PARSER_N(PLUS_PARSER_N(parser, i), 2), 1), shenv);
+			ret = ft_exec_pipeline(AND_PARSER_N(OR_PARSER_N(PLUS_PARSER_N(parser, i), 2), 1), shenv);
 		i++;
 	}
 	return (ret);

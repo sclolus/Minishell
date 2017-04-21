@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 22:14:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/21 03:42:04 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/21 05:22:22 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,12 @@ int32_t	ft_exec_list(t_parser *parser, t_shenv *shenv)
 		i = 0;
 		n = MULTIPLY_N(AND_PARSER_N(parser, 0));
 //		ft_put_ast_tokens(AND_PARSER_N(parser, 1));
+
 		while (i < n)
 		{
 			ft_exec_and_or(AND_PARSER_N(MULTIPLY_PARSER_N(AND_PARSER_N(parser, 0), i), 0), shenv);
 			i++;
 		}
-		ft_put_ast_tokens(AND_PARSER_N(parser, 1));
 		ft_exec_and_or(AND_PARSER_N(parser, 1), shenv);
 		return (1);
 	}
@@ -265,9 +265,9 @@ t_process	*ft_start_process(t_parser *simple_cmd, pid_t gpid, int *stdfd, t_shen
 		tcsetpgrp(shell->terminal, gpid);
 		ft_reset_signals();
 		dup2(stdfd[0], STDIN_FILENO);
-		stdfd[0] == STDIN_FILENO ? 0 : close(stdfd[0]);
+//		stdfd[0] == STDIN_FILENO ? 0 : close(stdfd[0]);
 		dup2(stdfd[1], STDOUT_FILENO);
-		stdfd[1] == STDOUT_FILENO ? 0 : close(stdfd[1]);
+//		stdfd[1] == STDOUT_FILENO ? 0 : close(stdfd[1]);
 		stdfd[2] == STDIN_FILENO ? 0 : close(stdfd[2]);
 		stdfd[3] == STDOUT_FILENO ? 0 : close(stdfd[3]);
 		ft_exec_simple_cmd(argv, simple_cmd, shenv);

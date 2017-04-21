@@ -62,7 +62,7 @@ int main(int argc, char **argv, char **env)
 	ft_putstr("posix job control");
 # endif
 #if 1
-	# define test 0
+	# define test 1
 # if test == 1
 	if (!(grammar = ft_strdup("<command>		::= <sp> <list> <sp> \n\
 							   <list>			::= (<and_or> <sp> <separator> <sp>)* <and_or> <sp> (<separator>)* | <and_or> <sp> (<separator>)* \n\
@@ -71,7 +71,7 @@ int main(int argc, char **argv, char **env)
 							   <cmd_postfix>	::= <io_redirect> | <arg> \n\
 							   <cmd_prefix>		::= <env_assignment> <sp> | <io_redirect> <sp> \n \
 							   <pipeline>		::= <pipe_sequence> | '!' <pipe_sequence> \n\
-							   <pipe_sequence>	::= <simple_cmd> | (<simple_cmd> '|')+ <simple_cmd> \n\
+							   <pipe_sequence>	::= (<simple_cmd> '|')+ <simple_cmd> | <simple_cmd> \n\
 							   <io_redirect>	::= <io_number> <io_file> | <io_file> \n\
 							   <io_number>		::= ('0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9')+ \n\
 							   <io_file>        ::= \'>\' <io_filename> | \">&\" <sp> <io_number> | \'<\' <io_filename> | \"<&\" <sp> <io_number> | \"<<\" <io_filename> | \"<>\" <io_filename> | \">>\" <io_filename> | \">|\" <io_filename> \n\
@@ -132,8 +132,8 @@ int main(int argc, char **argv, char **env)
 		{
 			ft_put_ast_tokens(parser);
 			ft_putendl("");
-//			ft_exec_parser(parser, shenv);
-			ft_exec_pipe_sequence(OR_PARSER_N(MULTIPLY_PARSER_N(parser, 0), 0), shenv);
+			ft_exec_parser(parser, shenv);
+//			ft_exec_pipe_sequence(OR_PARSER_N(MULTIPLY_PARSER_N(parser, 0), 0), shenv);
 		}
 		else
 		{

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 22:14:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/21 05:22:22 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/21 07:27:26 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ int32_t	ft_exec_built_in(t_parser *parser, t_shenv *shenv)
 	{
 		argv = ft_get_argv(parser);
 		shenv->env = ft_get_env(shenv);
-//		ft_expansions(parser, env);
+		ft_expansions(parser, shenv);
 	   	if (ft_redirections(parser) == -1)
 			exit(EXIT_REDIREC_ERROR);
 		ret = ft_built_in(argv, shenv);
@@ -277,12 +277,30 @@ t_process	*ft_start_process(t_parser *simple_cmd, pid_t gpid, int *stdfd, t_shen
 
 int32_t	ft_exec_env_assignment(t_parser *parser, t_shenv *shenv)
 {
-	/* todo */
-	if (parser || shenv)
-		;
+	char	*var;
+
+	var = ft_strjoin(AND_PARSER_N(parser, 0)->parser.str_any_of.str, "=");
+	var = ft_strjoin_f(var, AND_PARSER_N(parser, 2)->parser.str_any_of.str);
+	ft_modify_var(shenv, var);
+	free(var);
 	return (0);
 }
 
+int32_t	ft_exec_cmd_prefix(t_parser *cmd_prefix, t_shenv *shenv)
+{
+	uint32_t	i;
+	uint32_t	n;
+
+	i = 0;
+	n = MULITPLY_N(cmd_prefix);
+	while (i < n)
+	{
+		if (IS_RETAINED(OR_PARSER_N(MULTIPLY_N_PARSER(cmd_prefix, i), 0)))
+			ft_exec_env_assignment(AND_PARSER_N(
+					OR_PARSER_N(MULTIPLY_N_PARSER(cmd_prefix, i), 0), 0), shenv);
+		i++;
+	}
+}
 
 void	ft_exec_cmd(char **argv, t_shenv *shenv) //last arg test
 {
@@ -316,7 +334,7 @@ void		ft_exec_simple_cmd(char **argv, t_parser *parser, t_shenv *shenv)
 	if (IS_RETAINED(OR_PARSER_N(parser, 0)))
 	{
 		shenv->env = ft_get_env(shenv);
-//		ft_expansions(parser, env);
+		ft_expansions(parser, shenv);
 		parser = OR_PARSER_N(parser, 0);
 	   	if (ft_redirections(parser) == -1)
 			exit(EXIT_REDIREC_ERROR);

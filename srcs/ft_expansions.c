@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 05:08:11 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/14 21:08:47 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/21 07:38:18 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static uint32_t	ft_get_tilde_count(char *word)
 	return (count);
 }
 #endif
-void		ft_tilde_expansion(char **word, t_env *env)
+void		ft_tilde_expansion(char **word, t_shenv *shenv)
 {
 	char		*word_tmp;
 	char		*home_tmp;
@@ -39,7 +39,7 @@ void		ft_tilde_expansion(char **word, t_env *env)
 	if (!(*word))
 		return ;
 	word_len = ft_strlen(*word);
-	if (!(home_tmp = ft_find_env((const char**)env->env, "HOME")))
+	if (!(home_tmp = *ft_find_var(shenv, "HOME")))
 	{
 		ft_putstr_fd("HOME not defined, tilde expansion not possible", 2);
 		return ;
@@ -149,19 +149,34 @@ int32_t	ft_find_file(char *file, t_env *env)
 	return (0);
 }
 
-int32_t	ft_expansions(t_parser *simple_cmd, t_env *env)
+void	ft_var_expansions(char **word, t_shenv *shenv)
+{
+	uint32_t	i;
+
+	i = 0;
+	while (word[0][i])
+	{
+		if (word[0][i] == '$' && ft_is_quoted(*word, i) != 1)
+		{
+			
+		}
+		i++;
+	}
+}
+
+int32_t	ft_expansions(t_parser *simple_cmd, t_shenv *shenv)
 {
 	// test version
 	uint32_t	i;
 	uint32_t	n;
 
 	i = 0;
-	n = MULTIPLY_N((AND_PARSER_N(OR_PARSER_N(simple_cmd, 1), 2)));
-	ft_tilde_expansion(&(AND_PARSER_N(OR_PARSER_N(simple_cmd, 1), 0)->parser.str_any_of.str), env);
+	n = MULTIPLY_N((AND_PARSER_N(OR_PARSER_N(simple_cmd, 0), 4)));
+	ft_tilde_expansion(&(AND_PARSER_N(OR_PARSER_N(simple_cmd, 0), 2)->parser.str_any_of.str), shenv);
 	while (i < n)
 	{
 		ft_tilde_expansion(&(AND_PARSER_N(MULTIPLY_PARSER_N(
-											  AND_PARSER_N(OR_PARSER_N(simple_cmd, 1), 2), i), 0)->parser.str_any_of.str), env);
+											  AND_PARSER_N(OR_PARSER_N(simple_cmd, 0), 4), i), 0)->parser.str_any_of.str), shenv);
 		i++;
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 22:14:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/21 00:50:38 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/21 03:42:04 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ int32_t	ft_exec_list(t_parser *parser, t_shenv *shenv)
 			ft_exec_and_or(AND_PARSER_N(MULTIPLY_PARSER_N(AND_PARSER_N(parser, 0), i), 0), shenv);
 			i++;
 		}
-		CHECK(TEST);
 		ft_put_ast_tokens(AND_PARSER_N(parser, 1));
 		ft_exec_and_or(AND_PARSER_N(parser, 1), shenv);
 		return (1);
@@ -162,7 +161,6 @@ t_process		*ft_create_pipeline(t_parser *pipe_sequence, t_shenv *shenv)
 		curr_stdin = mypipe[0];
 		mypipe[2] = mypipe[1];
 	}
-	
 	return (processes); //
 }
 
@@ -200,7 +198,7 @@ int32_t	ft_exec_pipe_sequence(t_parser *parser, t_shenv *shenv)
 		if ((ret = ft_exec_built_in(parser, shenv)) == EXIT_ILLEGAL_CMD)
 		{
 			processes = ft_start_process(parser, 0, (int[]){0, 1, 0, 1}, shenv);
-			ft_put_processes_in_foreground(processes, 0);
+			ft_put_processes_in_foreground(processes, 1);
 			waitpid(processes->gpid, &ret, 0);
 			ft_put_shell_in_foreground();
 			ft_clear_processes(&processes);
@@ -210,10 +208,10 @@ int32_t	ft_exec_pipe_sequence(t_parser *parser, t_shenv *shenv)
 	{
 		parser = OR_PARSER_N(parser, 0);
 		processes = ft_create_pipeline(parser, shenv);
-		ft_put_processes_in_foreground(processes, 0);
-		waitpid(processes->gpid, &ret, 0);	
+		ft_put_processes_in_foreground(processes, 1);
+		waitpid(processes->gpid, &ret, 0);
 		ft_put_shell_in_foreground();
-		kill(processes->gpid, SIGKILL);
+		kill(-processes->gpid, SIGKILL);
 		ft_clear_processes(&processes);
 	}
 	return (ret);
@@ -235,6 +233,7 @@ t_process	*ft_start_process(t_parser *simple_cmd, pid_t gpid, int *stdfd, t_shen
 	t_process	*process;
 	pid_t		pid;
 	char		**argv;
+	int			ret;
 
 	if (IS_RETAINED(OR_PARSER_N(simple_cmd, 0)))
 		argv = ft_get_argv(OR_PARSER_N(simple_cmd, 0));
@@ -244,6 +243,8 @@ t_process	*ft_start_process(t_parser *simple_cmd, pid_t gpid, int *stdfd, t_shen
 		exit(ft_error(1, (char*[]){"fork() failed due to insufficient ressource"}, EXIT_REDIREC_ERROR));
 	if (pid)
 	{
+		while (!waitpid(pid, &ret, WNOHANG | WUNTRACED) && !WIFSTOPPED(ret))
+			kill(pid, SIGTSTP);
 		if (!(process = (t_process*)malloc(sizeof(t_process))))
 			exit(EXIT_FAILURE);
 		if (!gpid)
@@ -268,9 +269,9 @@ t_process	*ft_start_process(t_parser *simple_cmd, pid_t gpid, int *stdfd, t_shen
 		dup2(stdfd[1], STDOUT_FILENO);
 		stdfd[1] == STDOUT_FILENO ? 0 : close(stdfd[1]);
 		stdfd[2] == STDIN_FILENO ? 0 : close(stdfd[2]);
-		stdfd[3] == STDOUT_FILENO ? 0 : close(stdfd[3]);		
+		stdfd[3] == STDOUT_FILENO ? 0 : close(stdfd[3]);
 		ft_exec_simple_cmd(argv, simple_cmd, shenv);
-		return (NULL);
+		exit(EXIT_FAILURE);
 	}
 }
 

@@ -2,7 +2,7 @@
 #include "minishell.h"
 #include "get_next_line.h"
 
-t_process	*current_process = NULL;
+t_process	*current_process = NULL; // not used
 
 char		*ft_find_env(char const **env, char const *variable)
 {

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 22:14:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/21 07:27:26 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/21 08:00:33 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,7 +280,7 @@ int32_t	ft_exec_env_assignment(t_parser *parser, t_shenv *shenv)
 	char	*var;
 
 	var = ft_strjoin(AND_PARSER_N(parser, 0)->parser.str_any_of.str, "=");
-	var = ft_strjoin_f(var, AND_PARSER_N(parser, 2)->parser.str_any_of.str);
+	var = ft_strjoin_f(var, AND_PARSER_N(parser, 2)->parser.str_any_of.str, 0);
 	ft_modify_var(shenv, var);
 	free(var);
 	return (0);
@@ -292,14 +292,15 @@ int32_t	ft_exec_cmd_prefix(t_parser *cmd_prefix, t_shenv *shenv)
 	uint32_t	n;
 
 	i = 0;
-	n = MULITPLY_N(cmd_prefix);
+	n = MULTIPLY_N(cmd_prefix);
 	while (i < n)
 	{
-		if (IS_RETAINED(OR_PARSER_N(MULTIPLY_N_PARSER(cmd_prefix, i), 0)))
+		if (IS_RETAINED(OR_PARSER_N(MULTIPLY_PARSER_N(cmd_prefix, i), 0)))
 			ft_exec_env_assignment(AND_PARSER_N(
-					OR_PARSER_N(MULTIPLY_N_PARSER(cmd_prefix, i), 0), 0), shenv);
+					OR_PARSER_N(MULTIPLY_PARSER_N(cmd_prefix, i), 0), 0), shenv);
 		i++;
 	}
+	return (0); // ? 
 }
 
 void	ft_exec_cmd(char **argv, t_shenv *shenv) //last arg test

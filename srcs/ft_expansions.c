@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 05:08:11 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/21 07:38:18 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/21 07:57:22 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,8 @@ void	ft_var_expansions(char **word, t_shenv *shenv)
 	uint32_t	i;
 
 	i = 0;
+	if (shenv)
+		;
 	while (word[0][i])
 	{
 		if (word[0][i] == '$' && ft_is_quoted(*word, i) != 1)

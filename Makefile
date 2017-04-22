@@ -21,6 +21,10 @@ SRC= srcs/minishell.c \
 	srcs/ft_line_continuation.c \
 	srcs/ft_is_quoted.c \
 	srcs/ft_expansions.c \
+	srcs/ft_var_expansion.c \
+	srcs/ft_expansions_cmd_prefix.c \
+	srcs/ft_expansions_cmd_postfix.c \
+	srcs/ft_expansions_io_redirect.c \
 	srcs/ft_built-in_history.c \
 	srcs/ft_exec_parser.c \
 	srcs/ft_process.c \

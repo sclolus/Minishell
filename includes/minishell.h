@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/21 07:27:25 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/22 08:24:15 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,12 @@
 # define CHARSET_LOGICAL "&|"
 # define CHARSET_END_OF_EXPRESSION " ;"
 # define ESCAPE_CHAR "\\"
+# define CHARSET_VAR_NAME "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 # define MAX_PATH_NAME 4096
 # define MAX_FILE_NAME 255
 # define MAX_PATH 4096
+# define MAX_VAR_NAME 1024
 
 # define EXIT_NO_PERM 126
 # define EXIT_ILLEGAL_CMD 127
@@ -173,10 +175,17 @@ int32_t		ft_read_write_redirect(t_parser *redirect);
 */
 
 int32_t		ft_expansions(t_parser *simple_cmd, t_shenv *env);
+void		ft_var_expansion(char **word, t_shenv *shenv);
 void		ft_tilde_expansion(char **word, t_shenv *env);
 int32_t		ft_find_file(char *filename, t_env *env);
 char		*ft_get_file_name(char *file);
 char		*ft_get_path_name(char *file);
+void		ft_expansions_cmd_prefix(t_parser *cmd_prefix, t_shenv *shenv);
+void		ft_expansions_cmd_postfix(t_parser *cmd_postfix, t_shenv *shenv);
+void		ft_expansions_io_filename(t_parser *io_filename, t_shenv *shenv);
+void		ft_expansions_io_number(t_parser *io_number, t_shenv *shenv);
+void		ft_expansions_io_redirect(t_parser *io_redirect, t_shenv *shenv);
+void		ft_expansions_io_file(t_parser *io_file, t_shenv *shenv);
 
 /*
 ** built_ins
@@ -267,17 +276,17 @@ void	ft_exit_shell(void);
 void	ft_init_shell(void);
 
 /* test*/
-int32_t	ft_is_built_in(t_parser *parser);
+int32_t		ft_is_built_in(t_parser *parser);
 t_process	*ft_start_process(t_parser *simple_cmd, pid_t gpid, int *stdfd, t_shenv *shenv);
-int32_t	ft_exec_pipeline(t_parser *parser, t_shenv *shenv);
-int32_t	ft_exec_pipe_sequence(t_parser *parser, t_shenv *shenv);
-int32_t	ft_exec_and_or(t_parser *parser, t_shenv *shenv);
-int32_t	ft_exec_env_assignment(t_parser *parser, t_shenv *shenv);
-int32_t	ft_exec_cmd_prefix(t_parser *cmd_prefix, t_shenv *shenv);
-void	ft_exec_cmd(char **argv, t_shenv *shenv);
-void	ft_exec_simple_cmd(char **argv, t_parser *parser, t_shenv *shenv);
-int32_t	ft_exec_command(t_parser *parser, t_shenv *shenv);
-int32_t	ft_exec_parser(t_parser *parser, t_shenv *shenv);
+int32_t		ft_exec_pipeline(t_parser *parser, t_shenv *shenv);
+int32_t		ft_exec_pipe_sequence(t_parser *parser, t_shenv *shenv);
+int32_t		ft_exec_and_or(t_parser *parser, t_shenv *shenv);
+int32_t		ft_exec_env_assignment(t_parser *parser, t_shenv *shenv);
+int32_t		ft_exec_cmd_prefix(t_parser *cmd_prefix, t_shenv *shenv);
+void		ft_exec_cmd(char **argv, t_shenv *shenv);
+int32_t		ft_exec_simple_cmd(t_parser *simple_cmd, t_shenv *shenv);
+int32_t		ft_exec_command(t_parser *parser, t_shenv *shenv);
+int32_t		ft_exec_parser(t_parser *parser, t_shenv *shenv);
 char		**ft_get_env_value(char **env, char *variable);
 t_process	*ft_t_process_add(t_process **processes, t_process *new);
 

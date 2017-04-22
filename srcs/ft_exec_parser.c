@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 22:14:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/21 08:00:33 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/22 08:07:56 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,11 @@ int32_t	ft_exec_list(t_parser *parser, t_shenv *shenv)
 	uint32_t	i;
 	uint32_t	n;
 
-	if (parser || shenv)
-		;
 	if (IS_RETAINED(OR_PARSER_N(parser, 0)))
 	{
 		parser = OR_PARSER_N(parser, 0);
 		i = 0;
 		n = MULTIPLY_N(AND_PARSER_N(parser, 0));
-//		ft_put_ast_tokens(AND_PARSER_N(parser, 1));
-
 		while (i < n)
 		{
 			ft_exec_and_or(AND_PARSER_N(MULTIPLY_PARSER_N(AND_PARSER_N(parser, 0), i), 0), shenv);
@@ -195,7 +191,7 @@ int32_t	ft_exec_pipe_sequence(t_parser *parser, t_shenv *shenv)
 	if (IS_RETAINED(OR_PARSER_N(parser, 1)))
 	{
 		parser = OR_PARSER_N(parser, 1);
-		if ((ret = ft_exec_built_in(parser, shenv)) == EXIT_ILLEGAL_CMD)
+		if (!(ft_is_built_in(parser) || IS_RETAINED(OR_PARSER_N(parser, 1))))
 		{
 			processes = ft_start_process(parser, 0, (int[]){0, 1, 0, 1}, shenv);
 			ft_put_processes_in_foreground(processes, 1);
@@ -203,6 +199,8 @@ int32_t	ft_exec_pipe_sequence(t_parser *parser, t_shenv *shenv)
 			ft_put_shell_in_foreground();
 			ft_clear_processes(&processes);
 		}
+		else
+			ret = ft_exec_simple_cmd(parser, shenv);
 	}
 	else
 	{
@@ -214,7 +212,7 @@ int32_t	ft_exec_pipe_sequence(t_parser *parser, t_shenv *shenv)
 		kill(-processes->gpid, SIGKILL);
 		ft_clear_processes(&processes);
 	}
-	return (ret);
+	return (POSIX_EXIT_STATUS(ret));
 }
 
 void		ft_put_stds(char **argv, int *stdfd)
@@ -235,16 +233,14 @@ t_process	*ft_start_process(t_parser *simple_cmd, pid_t gpid, int *stdfd, t_shen
 	char		**argv;
 	int			ret;
 
-	if (IS_RETAINED(OR_PARSER_N(simple_cmd, 0)))
-		argv = ft_get_argv(OR_PARSER_N(simple_cmd, 0));
-	else
-		exit(EXIT_FAILURE); //
 	if (-1 == (pid = fork()))
 		exit(ft_error(1, (char*[]){"fork() failed due to insufficient ressource"}, EXIT_REDIREC_ERROR));
 	if (pid)
 	{
 		while (!waitpid(pid, &ret, WNOHANG | WUNTRACED) && !WIFSTOPPED(ret))
 			kill(pid, SIGTSTP);
+		if (IS_RETAINED(OR_PARSER_N(simple_cmd, 0)))
+			argv = ft_get_argv(OR_PARSER_N(simple_cmd, 0));
 		if (!(process = (t_process*)malloc(sizeof(t_process))))
 			exit(EXIT_FAILURE);
 		if (!gpid)
@@ -265,12 +261,10 @@ t_process	*ft_start_process(t_parser *simple_cmd, pid_t gpid, int *stdfd, t_shen
 		tcsetpgrp(shell->terminal, gpid);
 		ft_reset_signals();
 		dup2(stdfd[0], STDIN_FILENO);
-//		stdfd[0] == STDIN_FILENO ? 0 : close(stdfd[0]);
 		dup2(stdfd[1], STDOUT_FILENO);
-//		stdfd[1] == STDOUT_FILENO ? 0 : close(stdfd[1]);
 		stdfd[2] == STDIN_FILENO ? 0 : close(stdfd[2]);
 		stdfd[3] == STDOUT_FILENO ? 0 : close(stdfd[3]);
-		ft_exec_simple_cmd(argv, simple_cmd, shenv);
+		ft_exec_simple_cmd(simple_cmd, shenv);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -330,25 +324,30 @@ void	ft_exec_cmd(char **argv, t_shenv *shenv) //last arg test
 	exit(EXIT_FAILURE);
 }
 
-void		ft_exec_simple_cmd(char **argv, t_parser *parser, t_shenv *shenv)
+int32_t		ft_exec_simple_cmd(t_parser *simple_cmd, t_shenv *shenv)
 {
-	if (IS_RETAINED(OR_PARSER_N(parser, 0)))
+	char	**argv;
+	int		ret;
+
+	ret = 0;
+	ft_expansions(simple_cmd, shenv);
+	if (IS_RETAINED(OR_PARSER_N(simple_cmd, 0)))
 	{
 		shenv->env = ft_get_env(shenv);
-		ft_expansions(parser, shenv);
-		parser = OR_PARSER_N(parser, 0);
-	   	if (ft_redirections(parser) == -1)
+		simple_cmd = OR_PARSER_N(simple_cmd, 0);
+		ft_exec_cmd_prefix(AND_PARSER_N(simple_cmd, 1), shenv);
+		argv = ft_get_argv(simple_cmd);
+	   	if (ft_redirections(simple_cmd) == -1)
 			exit(EXIT_REDIREC_ERROR);
-		if (ft_built_in(argv, shenv) == EXIT_ILLEGAL_CMD)
+		if ((ret = ft_built_in(argv, shenv)) == EXIT_ILLEGAL_CMD)
 			ft_exec_cmd(argv, shenv);
-		exit(EXIT_ILLEGAL_CMD);
 	}
 	else
 	{
-		ft_putendl("not supported");
-		exit(EXIT_ILLEGAL_CMD);
-//		return (-1);
+		simple_cmd = OR_PARSER_N(simple_cmd, 1);
+		ft_exec_cmd_prefix(AND_PARSER_N(simple_cmd, 0), shenv);
 	}
+	return (ret);
 }
 
 int32_t	ft_exec_command(t_parser *parser, t_shenv *shenv)

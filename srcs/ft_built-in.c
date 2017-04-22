@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 07:46:43 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/20 23:08:30 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/22 05:55:21 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ int32_t	ft_is_built_in(t_parser *parser)
 										 "export"};
 
 	i = 0;
+	if (!(IS_RETAINED(OR_PARSER_N(parser, 0))))
+		return (0);
+	parser = OR_PARSER_N(parser, 0);
 	while (i < sizeof(f_built_in) / sizeof(char *))
 	{
 		if (!ft_strcmp(AND_PARSER_N(parser, 2)->parser.str_any_of.str

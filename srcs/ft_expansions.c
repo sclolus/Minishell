@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 05:08:11 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/21 07:57:22 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/22 08:26:10 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,37 +149,20 @@ int32_t	ft_find_file(char *file, t_env *env)
 	return (0);
 }
 
-void	ft_var_expansions(char **word, t_shenv *shenv)
-{
-	uint32_t	i;
-
-	i = 0;
-	if (shenv)
-		;
-	while (word[0][i])
-	{
-		if (word[0][i] == '$' && ft_is_quoted(*word, i) != 1)
-		{
-			
-		}
-		i++;
-	}
-}
-
 int32_t	ft_expansions(t_parser *simple_cmd, t_shenv *shenv)
 {
-	// test version
-	uint32_t	i;
-	uint32_t	n;
-
-	i = 0;
-	n = MULTIPLY_N((AND_PARSER_N(OR_PARSER_N(simple_cmd, 0), 4)));
-	ft_tilde_expansion(&(AND_PARSER_N(OR_PARSER_N(simple_cmd, 0), 2)->parser.str_any_of.str), shenv);
-	while (i < n)
+	if (IS_RETAINED(OR_PARSER_N(simple_cmd, 0)))
 	{
-		ft_tilde_expansion(&(AND_PARSER_N(MULTIPLY_PARSER_N(
-											  AND_PARSER_N(OR_PARSER_N(simple_cmd, 0), 4), i), 0)->parser.str_any_of.str), shenv);
-		i++;
+		simple_cmd = OR_PARSER_N(simple_cmd, 0);
+		ft_expansions_cmd_prefix(AND_PARSER_N(simple_cmd, 1), shenv);
+		ft_tilde_expansion(&(AND_PARSER_N(simple_cmd, 2)->parser.str_any_of.str), shenv);
+		ft_var_expansion(&(AND_PARSER_N(simple_cmd, 2)->parser.str_any_of.str), shenv);
+		ft_expansions_cmd_postfix(AND_PARSER_N(simple_cmd, 4), shenv);
+	}
+	else
+	{
+		simple_cmd = OR_PARSER_N(simple_cmd, 1);
+		ft_expansions_cmd_prefix(AND_PARSER_N(simple_cmd, 0), shenv);
 	}
 	return (1);
 }

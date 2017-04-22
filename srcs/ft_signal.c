@@ -10,20 +10,6 @@
 		ft_putstr_fd("signal handling error", 2);
 		}*/
 
-static void	ft_handler_int(int signum)
-{
-	if (signum == SIGINT)
-	{
-/*		ft_set_term();
-		kill(0, SIGINT);
-		exit(0);*/
-	}
-	else
-		ft_putstr_fd("signal handling error", 2);
-}
-
-
-
 void		ft_handler_tstp(int signum)
 {
 	if (signum == SIGTSTP)
@@ -33,7 +19,7 @@ void		ft_handler_tstp(int signum)
 
 int32_t		ft_setup_sighandlers(void)
 {
-	if (signal(SIGINT, &ft_handler_int) == SIG_ERR)
+	if (signal(SIGINT, SIG_DFL) == SIG_ERR)
 		return (ft_error(1, (char*[]){"Signal handling error"}, -1));
 	if (signal(SIGCHLD, SIG_DFL) == SIG_ERR)
 		return (ft_error(1, (char*[]){"Signal handling error"}, -1));

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 07:44:52 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/22 08:34:27 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/22 08:47:07 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,11 @@ void	ft_expansions_io_redirect(t_parser *io_redirect, t_shenv *shenv)
 	{
 		io_redirect = OR_PARSER_N(io_redirect, 0);
 		ft_expansions_io_number(AND_PARSER_N(io_redirect, 0), shenv);
-		CHECK(TEST);
 		ft_expansions_io_file(AND_PARSER_N(io_redirect, 1), shenv);
 	}
 	else
 	{
 		io_redirect = OR_PARSER_N(io_redirect, 1);
-		ft_expansions_io_file(AND_PARSER_N(io_redirect, 1), shenv);
+		ft_expansions_io_file(io_redirect, shenv);
 	}
 }

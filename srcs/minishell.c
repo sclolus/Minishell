@@ -69,7 +69,7 @@ int main(int argc, char **argv, char **env)
 							   <and_or>			::= (<sp> \"&&\" <sp> <pipeline> | <sp> \"||\" <sp> <pipeline> | <sp> <pipeline>)+\n\
 							   <simple_cmd>		::= <sp> (<cmd_prefix>)* <command_name> <sp> (<cmd_postfix> <sp>)*  | (<cmd_prefix>)+ <sp>\n\
 							   <cmd_postfix>	::= <io_redirect> | <arg> \n\
-							   <cmd_prefix>		::= <env_assignment> <sp> | <io_redirect> <sp> \n \
+							   <cmd_prefix>		::= <env_assignment> <sp> | <io_redirect> <sp> \n\
 							   <pipeline>		::= <pipe_sequence> | '!' <pipe_sequence> \n\
 							   <pipe_sequence>	::= (<simple_cmd> '|')+ <simple_cmd> | <simple_cmd> \n\
 							   <io_redirect>	::= <io_number> <io_file> | <io_file> \n\

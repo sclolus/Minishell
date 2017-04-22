@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/22 08:24:15 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/22 17:27:20 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@
 # define CHARSET_LOGICAL "&|"
 # define CHARSET_END_OF_EXPRESSION " ;"
 # define ESCAPE_CHAR "\\"
-# define CHARSET_VAR_NAME "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+# define CHARSET_VAR_NAME "_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 # define MAX_PATH_NAME 4096
 # define MAX_FILE_NAME 255
@@ -76,6 +76,7 @@
 # define EXIT_REDIREC_ERROR 55
 # define EXIT_SIG_ERROR 11
 # define EXIT_VAR_NOT_FOUND 56
+# define EXIT_HEREDOC_FILE 57
 
 # define POSIX_EXIT_STATUS(x) (x & 0xFF)
 
@@ -92,8 +93,10 @@ typedef struct	s_shenv
 {
 	t_env		*env;
 	char		**var;
-	t_bool		*attr;
+	t_bool		*attr;	
 	uint32_t	count;
+	t_list		*heredocs;
+	uint32_t	heredocs_count;
 }				t_shenv;
 
 typedef struct	s_built_in
@@ -290,4 +293,6 @@ int32_t		ft_exec_parser(t_parser *parser, t_shenv *shenv);
 char		**ft_get_env_value(char **env, char *variable);
 t_process	*ft_t_process_add(t_process **processes, t_process *new);
 
+void		ft_create_heredocs(char *input, t_shenv *shenv);
+void		ft_put_heredocs(t_shenv *shenv);
 #endif

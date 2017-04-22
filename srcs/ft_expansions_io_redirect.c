@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 07:44:52 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/22 08:47:07 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/22 08:51:16 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_expansions_io_number(t_parser *io_number, t_shenv *shenv) // NOT WORKING
 
 void	ft_expansions_io_file(t_parser *io_file, t_shenv *shenv)
 {
-	if (io_file->parser.or.matched == 1 || io_file->parser.or.matched == 2)
+	if (io_file->parser.or.matched == 1 || io_file->parser.or.matched == 3)
 		ft_expansions_io_number(AND_PARSER_N(OR_PARSER_N(io_file
 					, io_file->parser.or.matched), 2), shenv);
 	else

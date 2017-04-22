@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 06:23:22 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/22 06:49:59 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/22 09:44:10 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ static uint32_t	ft_get_var_name_len(char *var_name)
 	while (var_name[i])
 	{
 		if (!ft_strchr(CHARSET_VAR_NAME, var_name[i]))
-			return (i - 1);
+			return (i);
 		i++;
 	}
-	return (i);
+	return (i + 1);
 }
 
 static char		*ft_get_var_name(char *var_name)
@@ -41,7 +41,7 @@ void			ft_var_expansion(char **word, t_shenv *shenv)
 {
 	char		*tmp;
 	char		*var_name;
-	char		*var_value;
+	char		**var_value;
 	uint32_t	i;
 	uint32_t	len;
 
@@ -53,14 +53,14 @@ void			ft_var_expansion(char **word, t_shenv *shenv)
 			tmp = *word;
 			var_name = ft_get_var_name(word[0] + i + 1);
 			len = ft_strlen(var_name);
-			if (!(var_value = *ft_find_var(shenv, var_name)))
-			{
-				i++;
-				continue;
-			}
-			*word = ft_strreplace(tmp, i
-								  , i + len + 1, var_value + len + 1);
-			//		free(tmp);
+			var_value = ft_find_var(shenv, var_name);
+			if (var_value)
+				*word = ft_strreplace(tmp, i
+									  , i + len + 1, *var_value + len + 1);
+			else
+				*word = ft_strreplace(tmp, i
+									  , i + len + 1, "\0");
+			free(tmp);
 		}
 		i++;
 	}

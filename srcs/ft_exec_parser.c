@@ -6,12 +6,11 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 22:14:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/22 08:07:56 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/22 18:04:21 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 static uint32_t	ft_get_arg_count(t_parser *cmd_postfixes)
 {
@@ -66,6 +65,7 @@ int32_t	ft_exec_list(t_parser *parser, t_shenv *shenv)
 
 	if (IS_RETAINED(OR_PARSER_N(parser, 0)))
 	{
+		CHECK(TEST);
 		parser = OR_PARSER_N(parser, 0);
 		i = 0;
 		n = MULTIPLY_N(AND_PARSER_N(parser, 0));

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 /*
 static char			**ft_find_env_value(t_env *env, char *variable)
 {
@@ -46,6 +47,7 @@ static void			ft_extand_env(char *argv, char **tmp, t_env *env)
 	env->variable_count++;
 }
 */
+
 static int32_t		ft_modify_env(char **argv, uint32_t count, t_shenv *shenv)
 {
 	uint32_t	i;

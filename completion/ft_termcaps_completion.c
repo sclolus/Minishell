@@ -155,7 +155,7 @@ int32_t			ft_put_max_completion(t_ltree *ltree, t_string *buf,
 	return (-1);
 }
 
-int32_t			ft_put_completion(t_ltree *ltree, char **completion,
+int32_t			ft_put_completion(t_ltree *ltree, char **completions,
 									t_string *buf, char *prefix)
 {
 	uint32_t	i;

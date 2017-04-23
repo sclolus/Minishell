@@ -12,13 +12,13 @@
 
 #include "minishell.h"
 
-static void	ft_expansions_env_assignment(t_parser *env_assignment
-										, t_shenv *shenv)
+static void	ft_expansions_env_assignment(t_parser *env_assignment,
+											t_shenv *shenv)
 {
-	ft_tilde_expansion(&(AND_PARSER_N(env_assignment
-									, 2)->parser.str_any_of.str), shenv);
-	ft_var_expansion(&(AND_PARSER_N(env_assignment
-									, 2)->parser.str_any_of.str), shenv);
+	ft_tilde_expansion(&(AND_PARSER_N(env_assignment,
+									2)->parser.str_any_of.str), shenv);
+	ft_var_expansion(&(AND_PARSER_N(env_assignment,
+									2)->parser.str_any_of.str), shenv);
 }
 
 void		ft_expansions_cmd_prefix(t_parser *cmd_prefix, t_shenv *shenv)

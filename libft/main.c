@@ -12,12 +12,12 @@
 
 #include "libft.h"
 
-
-int main(int argc, char **argv)
+int		main(int argc, char **argv)
 {
 	uint32_t	i;
+	char		*string;
 
-	char	*string = ft_strdup("salut les gens");
+	*string = ft_strdup("salut les gens");
 	i = 0;
 	while (i < 10)
 	{

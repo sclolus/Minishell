@@ -16,14 +16,14 @@ int32_t	ft_is_built_in(t_parser *parser)
 {
 	uint32_t			i;
 	static const char	*f_built_in[] = {"cd",
-										 "echo",
-										 "exit",
-										 "env",
-										 "setenv",
-										 "unsetenv",
-										 "history",
-										 "unset",
-										 "export"};
+										"echo",
+										"exit",
+										"env",
+										"setenv",
+										"unsetenv",
+										"history",
+										"unset",
+										"export"};
 
 	i = 0;
 	if (!(IS_RETAINED(OR_PARSER_N(parser, 0))))
@@ -41,8 +41,8 @@ int32_t	ft_is_built_in(t_parser *parser)
 
 int32_t	ft_built_in(char **argv, t_shenv *shenv)
 {
-	uint32_t	i;
-	static const t_built_in	f_built_in[BUILT_IN_COUNT] = {
+	uint32_t		i;
+	static const	t_built_in	f_built_in[BUILT_IN_COUNT] = {
 		{"cd", NULL},
 		{"echo", &ft_built_in_echo},
 		{"exit", &ft_built_in_exit},

@@ -21,6 +21,7 @@
 # define STATIC_BUF_SIZE 4096
 # define STATIC_PUT_FLUSH 1
 # undef tab
+
 typedef struct	s_list
 {
 	void			*content;

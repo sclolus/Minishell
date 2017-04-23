@@ -67,4 +67,3 @@ int32_t	ft_is_dir(char *pathname)
 	else
 		return (0);
 }
-

@@ -1,4 +1,4 @@
- /* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_termcaps_completion.c                           :+:      :+:    :+:   */
@@ -65,8 +65,8 @@ static uint32_t	*ft_get_lens_tab(char **strings, uint32_t n)
 	return (tab);
 }
 
-# if 1
-static void	ft_termcaps_go_back_to_offset(t_string *buf, int64_t old_offset)
+ # if 1
+static void		ft_termcaps_go_back_to_offset(t_string *buf, int64_t old_offset)
 {
 	char	*res;
 
@@ -77,9 +77,10 @@ static void	ft_termcaps_go_back_to_offset(t_string *buf, int64_t old_offset)
 		tputs(res, 1, &ft_putterm);
 	}
 }
-#endif
+ #endif
 
-int32_t		ft_put_completions(t_string *buf, char **completions, uint32_t n, char *prefix)
+int32_t			ft_put_completions(t_string *buf, char **completions,
+									uint32_t n, char *prefix)
 {
 	static struct winsize	window;
 	static char				buffer[1024];
@@ -126,10 +127,11 @@ int32_t		ft_put_completions(t_string *buf, char **completions, uint32_t n, char 
 	return (n);
 }
 
-int32_t		ft_put_max_completion(t_ltree *ltree, t_string *buf, char *prefix, uint32_t n)
+int32_t			ft_put_max_completion(t_ltree *ltree, t_string *buf,
+										char *prefix, uint32_t n)
 {
 	char		*max_completion;
-	
+
 	if ((max_completion = ft_ltree_get_completion(ltree, prefix)))
 	{
 		if (*max_completion)
@@ -153,8 +155,8 @@ int32_t		ft_put_max_completion(t_ltree *ltree, t_string *buf, char *prefix, uint
 	return (-1);
 }
 
-int32_t		ft_put_completion(t_ltree *ltree, char **completions
-							  , t_string *buf, char *prefix)
+int32_t			ft_put_completion(t_ltree *ltree, char **completions,
+									t_string *buf, char *prefix)
 {
 	uint32_t	i;
 	uint32_t	n;
@@ -180,7 +182,8 @@ int32_t		ft_put_completion(t_ltree *ltree, char **completions
 	return (1);
 }
 
-int32_t		ft_complete_path_commands(t_string *buf, t_shenv *shenv, char *command_prefix)
+int32_t			ft_complete_path_commands(t_string *buf, t_shenv *shenv,
+											char *command_prefix)
 {
 	char		**completions;
 	char		**path;
@@ -204,13 +207,12 @@ int32_t		ft_complete_path_commands(t_string *buf, t_shenv *shenv, char *command_
 	free(path);
 	if (!(completions = ft_get_ltree_suffixes(ltree, command_prefix)))
 		return (0);
-	ret = ft_put_completion(ltree, completions
-							, buf, command_prefix);
+	ret = ft_put_completion(ltree, completions, buf, command_prefix);
 	ft_free_ltree(ltree);
 	return (ret);
 }
 
-int32_t		ft_complete_command_directory(t_string *buf, t_shenv *shenv, char *command_prefix)
+int32_t			ft_complete_command_directory(t_string *buf, t_shenv *shenv, char *command_prefix)
 {
 	char		**completions;
 	t_ltree		*ltree;
@@ -234,12 +236,12 @@ int32_t		ft_complete_command_directory(t_string *buf, t_shenv *shenv, char *comm
 	return (ret);
 }
 
-int32_t		ft_complete_command_name(t_string *buf, t_shenv *shenv)
+int32_t			ft_complete_command_name(t_string *buf, t_shenv *shenv)
 {
 	char		*command_prefix;
 	int32_t		ret;
 
-    command_prefix = ft_get_current_token(buf);
+	command_prefix = ft_get_current_token(buf);
 	if ((ret = ft_complete_path_commands(buf, shenv, command_prefix)))
 	{
 		free(command_prefix);
@@ -255,9 +257,9 @@ int32_t		ft_complete_command_name(t_string *buf, t_shenv *shenv)
 	}
 }
 
-int32_t		ft_complete_argv(t_string *buf, t_shenv *shenv)
+int32_t			ft_complete_argv(t_string *buf, t_shenv *shenv)
 {
-	char	*command_prefix;
+	char		*command_prefix;
 	char		**completions;
 	t_ltree		*ltree;
 	char		*path;
@@ -283,7 +285,7 @@ int32_t		ft_complete_argv(t_string *buf, t_shenv *shenv)
 	return (ret);
 }
 
-int32_t		ft_completion_normal_state(t_string *buf, t_shenv *shenv)
+int32_t			ft_completion_normal_state(t_string *buf, t_shenv *shenv)
 {
 	if (buf && shenv)
 		;
@@ -291,7 +293,7 @@ int32_t		ft_completion_normal_state(t_string *buf, t_shenv *shenv)
 	return (0);
 }
 
-int32_t		ft_completion(t_string *buf, t_shenv *shenv)
+int32_t			ft_completion(t_string *buf, t_shenv *shenv)
 {
 	static const t_comp_event	events[] = {
 		NULL,

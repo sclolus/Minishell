@@ -23,7 +23,8 @@ static uint32_t	ft_get_arg_count(t_parser *cmd_postfixes)
 	n = MULTIPLY_N(cmd_postfixes);
 	while (i < n)
 	{
-		if (OR_PARSER_N(AND_PARSER_N(MULTIPLY_PARSER_N(cmd_postfixes, i), 0), 1)->retained)
+		if (OR_PARSER_N(AND_PARSER_N(MULTIPLY_PARSER_N(cmd_postfixes, i),
+														0), 1)->retained)
 			count++;
 		i++;
 	}
@@ -48,9 +49,12 @@ static char		**ft_get_argv(t_parser *simple_cmd)
 	i = 0;
 	while (i < n)
 	{
-		if (OR_PARSER_N(AND_PARSER_N(MULTIPLY_PARSER_N(AND_PARSER_N(simple_cmd, 4), i), 0), 1)->retained)
+		if (OR_PARSER_N(AND_PARSER_N(MULTIPLY_PARSER_N(AND_PARSER_N(simple_cmd,
+													4), i), 0), 1)->retained)
 		{
-			argv[count + 1] = OR_PARSER_N(AND_PARSER_N(MULTIPLY_PARSER_N(AND_PARSER_N(simple_cmd, 4), i), 0), 1)->parser.str_any_of.str;
+			argv[count + 1] = OR_PARSER_N(AND_PARSER_N(MULTIPLY_PARSER_N(
+						AND_PARSER_N(simple_cmd, 4), i), 0),
+						1)->parser.str_any_of.str;
 			count++;
 		}
 		i++;
@@ -70,7 +74,8 @@ int32_t	ft_exec_list(t_parser *parser, t_shenv *shenv)
 		n = MULTIPLY_N(AND_PARSER_N(parser, 0));
 		while (i < n)
 		{
-			ft_exec_and_or(AND_PARSER_N(MULTIPLY_PARSER_N(AND_PARSER_N(parser, 0), i), 0), shenv);
+			ft_exec_and_or(AND_PARSER_N(MULTIPLY_PARSER_N(AND_PARSER_N(parser,
+															0), i), 0), shenv);
 			i++;
 		}
 		ft_exec_and_or(AND_PARSER_N(parser, 1), shenv);
@@ -97,11 +102,14 @@ int32_t	ft_exec_and_or(t_parser *parser, t_shenv *shenv)
 	while (i < n)
 	{
 		if (OR_PARSER_N(PLUS_PARSER_N(parser, i), 0)->retained && !ret)
-			ret = ft_exec_pipeline(AND_PARSER_N(OR_PARSER_N(PLUS_PARSER_N(parser, i), 0), 3), shenv);
+			ret = ft_exec_pipeline(AND_PARSER_N(OR_PARSER_N(
+				PLUS_PARSER_N(parser, i), 0), 3), shenv);
 		else if (OR_PARSER_N(PLUS_PARSER_N(parser, i), 1)->retained && ret)
-			ret = ft_exec_pipeline(AND_PARSER_N(OR_PARSER_N(PLUS_PARSER_N(parser, i), 1), 3), shenv);
+			ret = ft_exec_pipeline(AND_PARSER_N(OR_PARSER_N(
+				PLUS_PARSER_N(parser, i), 1), 3), shenv);
 		else if (OR_PARSER_N(PLUS_PARSER_N(parser, i), 2)->retained)
-			ret = ft_exec_pipeline(AND_PARSER_N(OR_PARSER_N(PLUS_PARSER_N(parser, i), 2), 1), shenv);
+			ret = ft_exec_pipeline(AND_PARSER_N(OR_PARSER_N(
+				PLUS_PARSER_N(parser, i), 2), 1), shenv);
 		i++;
 	}
 	return (ret);
@@ -112,7 +120,8 @@ int32_t	ft_exec_pipeline(t_parser *parser, t_shenv *shenv)
 	if (OR_PARSER_N(parser, 0)->retained)
 		return (ft_exec_pipe_sequence(OR_PARSER_N(parser, 0), shenv));
 	else
-		return (!ft_exec_pipe_sequence(AND_PARSER_N(OR_PARSER_N(parser, 1), 1), shenv));
+		return (!ft_exec_pipe_sequence(AND_PARSER_N(OR_PARSER_N(parser,
+														1), 1), shenv));
 }
 
 t_process		*ft_create_pipeline(t_parser *pipe_sequence, t_shenv *shenv)
@@ -128,7 +137,8 @@ t_process		*ft_create_pipeline(t_parser *pipe_sequence, t_shenv *shenv)
 	curr_stdin = 0;
 	if (pipe(mypipe + 3) == -1)
 		exit(ft_error(1, (char*[]){"Pipe() failed"}, EXIT_REDIREC_ERROR));
-	processes = ft_start_process(AND_PARSER_N(pipe_sequence, 1), 0, (int[]){mypipe[3], 1, mypipe[4], 1}, shenv);
+	processes = ft_start_process(AND_PARSER_N(pipe_sequence, 1), 0,
+									(int[]){mypipe[3], 1, mypipe[4], 1}, shenv);
 	pipeline_pgid = processes->pid;
 	mypipe[2] = 0;
 	while (i < MULTIPLY_N(AND_PARSER_N(pipe_sequence, 0)))
@@ -145,9 +155,10 @@ t_process		*ft_create_pipeline(t_parser *pipe_sequence, t_shenv *shenv)
 			curr_stdout = mypipe[1];
 			mypipe[3] = mypipe[0];
 		}
-		ft_t_process_add(&processes, ft_start_process(AND_PARSER_N(MULTIPLY_PARSER_N(
-							AND_PARSER_N(pipe_sequence, 0), i), 0), pipeline_pgid
-								  , (int[]){curr_stdin, curr_stdout, mypipe[2], mypipe[3]}, shenv));
+		ft_t_process_add(&processes, ft_start_process(AND_PARSER_N(
+			MULTIPLY_PARSER_N(AND_PARSER_N(pipe_sequence, 0), i), 0),
+			pipeline_pgid, (int[]){curr_stdin, curr_stdout, mypipe[2],
+			mypipe[3]}, shenv));
 		i++;
 		if (curr_stdin != STDIN_FILENO)
 			close(curr_stdin);
@@ -156,7 +167,7 @@ t_process		*ft_create_pipeline(t_parser *pipe_sequence, t_shenv *shenv)
 		curr_stdin = mypipe[0];
 		mypipe[2] = mypipe[1];
 	}
-	return (processes); //
+	return (processes);
 }
 
 int32_t	ft_exec_built_in(t_parser *parser, t_shenv *shenv)
@@ -179,7 +190,7 @@ int32_t	ft_exec_built_in(t_parser *parser, t_shenv *shenv)
 		free(argv);
 		return (POSIX_EXIT_STATUS(ret));
 	}
-	return (EXIT_ILLEGAL_CMD); // /
+	return (EXIT_ILLEGAL_CMD);
 }
 
 int32_t	ft_exec_pipe_sequence(t_parser *parser, t_shenv *shenv)
@@ -228,7 +239,8 @@ void		ft_put_stds(char **argv, int *stdfd)
 	ft_putendl("");
 }
 
-t_process	*ft_start_process(t_parser *simple_cmd, pid_t gpid, int *stdfd, t_shenv *shenv)
+t_process	*ft_start_process(t_parser *simple_cmd, pid_t gpid,
+									int *stdfd, t_shenv *shenv)
 {
 	t_process	*process;
 	pid_t		pid;
@@ -236,7 +248,8 @@ t_process	*ft_start_process(t_parser *simple_cmd, pid_t gpid, int *stdfd, t_shen
 	int			ret;
 
 	if (-1 == (pid = fork()))
-		exit(ft_error(1, (char*[]){"fork() failed due to insufficient ressource"}, EXIT_REDIREC_ERROR));
+		exit(ft_error(1, (char*[]){"fork() failed due to insufficient \
+			ressource"}, EXIT_REDIREC_ERROR));
 	if (pid)
 	{
 		while (!waitpid(pid, &ret, WNOHANG | WUNTRACED) && !WIFSTOPPED(ret))
@@ -294,7 +307,7 @@ int32_t	ft_exec_cmd_prefix(t_parser *cmd_prefix, t_shenv *shenv)
 					OR_PARSER_N(MULTIPLY_PARSER_N(cmd_prefix, i), 0), 0), shenv);
 		i++;
 	}
-	return (0); // ? 
+	return (0); // ?
 }
 
 void	ft_exec_cmd(char **argv, t_shenv *shenv) //last arg test
@@ -302,7 +315,8 @@ void	ft_exec_cmd(char **argv, t_shenv *shenv) //last arg test
 	char	*bin;
 	char	*path;
 
-	if (!(path = ft_find_command(argv[0], ft_get_env_value(shenv->env->env, "PATH"))))
+	if (!(path = ft_find_command(argv[0], ft_get_env_value(shenv->env->env,
+																"PATH"))))
 	{
 		if (ft_find_file(argv[0], shenv->env) > 0)
 		{

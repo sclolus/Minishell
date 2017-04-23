@@ -27,7 +27,8 @@ void		ft_expansions_cmd_postfix(t_parser *cmd_postfix, t_shenv *shenv)
 	n = MULTIPLY_N(cmd_postfix);
 	while (i < n)
 	{
-		if (IS_RETAINED(OR_PARSER_N(AND_PARSER_N(MULTIPLY_PARSER_N(cmd_postfix, i), 0), 1)))
+		if (IS_RETAINED(OR_PARSER_N(AND_PARSER_N(MULTIPLY_PARSER_N(cmd_postfix,
+																	i), 0), 1)))
 			ft_expansions_arg(OR_PARSER_N(AND_PARSER_N
 				(MULTIPLY_PARSER_N(cmd_postfix, i), 0), 1), shenv);
 		else

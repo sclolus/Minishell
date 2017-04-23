@@ -29,6 +29,7 @@ static uint32_t	ft_get_tilde_count(char *word)
 	return (count);
 }
 #endif
+
 void		ft_tilde_expansion(char **word, t_shenv *shenv)
 {
 	char		*word_tmp;
@@ -155,8 +156,10 @@ int32_t	ft_expansions(t_parser *simple_cmd, t_shenv *shenv)
 	{
 		simple_cmd = OR_PARSER_N(simple_cmd, 0);
 		ft_expansions_cmd_prefix(AND_PARSER_N(simple_cmd, 1), shenv);
-		ft_tilde_expansion(&(AND_PARSER_N(simple_cmd, 2)->parser.str_any_of.str), shenv);
-		ft_var_expansion(&(AND_PARSER_N(simple_cmd, 2)->parser.str_any_of.str), shenv);
+		ft_tilde_expansion(&(AND_PARSER_N(simple_cmd, 2)->parser.str_any_of.str),
+																	shenv);
+		ft_var_expansion(&(AND_PARSER_N(simple_cmd, 2)->parser.str_any_of.str),
+																	shenv);
 		ft_expansions_cmd_postfix(AND_PARSER_N(simple_cmd, 4), shenv);
 	}
 	else

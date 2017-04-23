@@ -45,24 +45,24 @@
 
 # define PROMPT_LEN 2
 
-typedef struct s_env t_env;
-typedef struct	s_shenv t_shenv;
+typedef struct s_env	t_env;
+typedef struct s_shenv	t_shenv;
 
-typedef enum	s_termcaps_state
+typedef enum		s_termcaps_state
 {
 	COMPLETION_SHOWN = 0,
 	NORMAL = 1,
 	COMMAND_NAME = 2,
 	ARGV = 3,
-}				t_termcaps_state;
+}					t_termcaps_state;
 
-typedef int32_t (*t_comp_event)(t_string*, t_shenv *);
+typedef int32_t		(*t_comp_event)(t_string*, t_shenv *);
 
-typedef struct	s_term_event
+typedef struct		s_term_event
 {
-	int32_t		id;
-	void		(*f)(t_string*);
-}				t_term_event;
+	int32_t			id;
+	void			(*f)(t_string*);
+}					t_term_event;
 
 int32_t				ft_completion(t_string *buf, t_shenv *shenv);
 
@@ -90,7 +90,8 @@ void				ft_move_next_word(t_string *buf);
 void				ft_screen_clear(void);
 void				ft_delete_char(t_string *buf);
 void				ft_kill_line(t_string *buf, t_list **paste_history);
-void				ft_paste_line(t_string *buf, char *command, t_list *paste_history);
+void				ft_paste_line(t_string *buf, char *command,
+									t_list *paste_history);
 void				ft_set_insert(void);
 void				ft_unset_insert(void);
 void				ft_set_am(void);
@@ -99,10 +100,12 @@ void				ft_print_history(t_string *buf, char *history);
 t_string			*ft_t_string_concat(t_string *string, char *str);
 t_string			*ft_t_string_insert(t_string *string, char *str);
 t_list				**ft_get_history_list(void);
-void				ft_get_history(t_list *history, char *command, t_string *buf);
-void				ft_explore_paste_history(t_string *buf, t_list **static_history,
-											 t_list **history_base, t_list **current_yanking);
-int					ft_exec_special_event(t_shenv *shenv, t_string *buf
-								  , t_list **paste_history, char *command);
+void				ft_get_history(t_list *history, char *command,
+										t_string *buf);
+void				ft_explore_paste_history(t_string *buf,
+						t_list **static_history, t_list **history_base,
+						t_list **current_yanking);
+int					ft_exec_special_event(t_shenv *shenv, t_string *buf,
+									t_list **paste_history, char *command);
 void				ft_erase_line(void);
 #endif

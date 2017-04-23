@@ -26,7 +26,6 @@ struct		s_ltree
 	char		c;
 };
 
-
 char		**ft_get_matching_filenames(char *prefix);
 
 /*
@@ -51,7 +50,6 @@ int32_t		ft_ltree_search(t_ltree *root, char *word);
 t_ltree		*ft_get_alternative_node(t_ltree *root, char c);
 int32_t		ft_ltree_search(t_ltree *root, char *word);
 
-
 /*
 **	Get suffixes
 */
@@ -72,7 +70,6 @@ t_ltree		*ft_get_ltree_dictionary(uint32_t size, char **strings);
 t_ltree		*ft_get_ltree_directory(char *path);
 int32_t		ft_ltree_add_directory(t_ltree **ltree, char *path);
 int32_t		ft_ltree_add_directory_bin(t_ltree **ltree, char *path);
-
 
 /*
 ** Sanitization of completions

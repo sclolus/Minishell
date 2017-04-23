@@ -30,7 +30,6 @@ SRC= srcs/minishell.c \
 	srcs/ft_process.c \
 	srcs/ft_error.c \
 	srcs/ft_redirection.c \
-	srcs/ft_heredocs.c \
 	srcs/ft_check_file.c \
 	srcs/ft_argv.c \
 	termcaps/termcaps.c \

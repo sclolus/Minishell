@@ -31,6 +31,7 @@ static void	ft_print_argv(char **argv)
 void		ft_t_process_print(t_process *process)
 {
 	int ret;
+
 	while (process)
 	{
 		ft_putstr_fd("\ncurrent process: ", 2);
@@ -69,7 +70,7 @@ void		ft_clear_processes(t_process **processes)
 
 void		ft_put_processes_in_foreground(t_process *process, int cont)
 {
-	ft_unset_term();	
+	ft_unset_term();
 	tcsetpgrp(shell->terminal, process->gpid);
 	if (cont)
 		kill(-process->gpid, SIGCONT);

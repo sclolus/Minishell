@@ -59,7 +59,7 @@ int32_t	ft_check_exec_write(char *pathname)
 int32_t	ft_is_dir(char *pathname)
 {
 	struct stat	file_stats;
-	
+
 	if (stat(pathname, &file_stats) == -1)
 		return (0);
 	if ((file_stats.st_mode & S_IFDIR) != 0)
@@ -67,4 +67,3 @@ int32_t	ft_is_dir(char *pathname)
 	else
 		return (0);
 }
-

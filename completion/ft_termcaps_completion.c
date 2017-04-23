@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 09:50:12 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/22 05:06:25 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/23 07:57:47 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ int32_t		ft_put_completions(t_string *buf, char **completions, uint32_t n, char 
 	int64_t					old_offset;
 
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &window);
+	if (!window.ws_col)
+		return (0);
 	if (buffer[0] == 0)
 		ft_memset(buffer, ' ', 1023);
 	i = 0;

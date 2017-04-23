@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 22:14:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/22 18:04:21 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/23 08:46:05 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int32_t	ft_exec_list(t_parser *parser, t_shenv *shenv)
 
 	if (IS_RETAINED(OR_PARSER_N(parser, 0)))
 	{
-		CHECK(TEST);
 		parser = OR_PARSER_N(parser, 0);
 		i = 0;
 		n = MULTIPLY_N(AND_PARSER_N(parser, 0));
@@ -195,8 +194,9 @@ int32_t	ft_exec_pipe_sequence(t_parser *parser, t_shenv *shenv)
 		{
 			processes = ft_start_process(parser, 0, (int[]){0, 1, 0, 1}, shenv);
 			ft_put_processes_in_foreground(processes, 1);
-			waitpid(processes->gpid, &ret, 0);
+			waitpid(processes->gpid, &ret, WUNTRACED);
 			ft_put_shell_in_foreground();
+			kill(-processes->gpid, SIGKILL);
 			ft_clear_processes(&processes);
 		}
 		else
@@ -207,9 +207,11 @@ int32_t	ft_exec_pipe_sequence(t_parser *parser, t_shenv *shenv)
 		parser = OR_PARSER_N(parser, 0);
 		processes = ft_create_pipeline(parser, shenv);
 		ft_put_processes_in_foreground(processes, 1);
-		waitpid(processes->gpid, &ret, 0);
-		ft_put_shell_in_foreground();
+		waitpid(processes->gpid, &ret, WUNTRACED);
+		ft_t_process_print(processes);
 		kill(-processes->gpid, SIGKILL);
+		ft_put_shell_in_foreground();
+		ft_t_process_print(processes);
 		ft_clear_processes(&processes);
 	}
 	return (POSIX_EXIT_STATUS(ret));
@@ -241,15 +243,13 @@ t_process	*ft_start_process(t_parser *simple_cmd, pid_t gpid, int *stdfd, t_shen
 			kill(pid, SIGTSTP);
 		if (IS_RETAINED(OR_PARSER_N(simple_cmd, 0)))
 			argv = ft_get_argv(OR_PARSER_N(simple_cmd, 0));
-		if (!(process = (t_process*)malloc(sizeof(t_process))))
+		if (!(process = (t_process*)ft_memalloc(sizeof(t_process))))
 			exit(EXIT_FAILURE);
 		if (!gpid)
 			gpid = pid;
 		setpgid(pid, gpid);
 		process->pid = pid;
 		process->gpid = gpid;
-		process->next = NULL;
-		process->prev = NULL;
 		process->argv = argv;
 		return (process);
 	}

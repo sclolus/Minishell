@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/22 13:46:08 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/23 08:39:39 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,7 +309,6 @@ void			ft_free_parser_oneof(t_parser *parser);
 void			ft_free_parser_func(t_parser *parser);
 void			ft_free_parser_func(t_parser *parser);
 void			ft_free_parser_undefined(t_parser *parser);
-
 
 void			ft_optimizer(t_parser *parser);
 

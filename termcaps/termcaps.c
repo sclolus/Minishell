@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 02:07:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/23 08:44:46 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/23 10:38:17 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int64_t	ft_termget(char **line, t_shenv *shenv)
 	*buf.string = 0;
 	while (1)
 	{
-		if ((read(0, tmp, 1)) == -1)
+		if ((read(0, tmp, 8)) == -1)
 			exit(EXIT_FAILURE);
 //		printf("%lx", *(long*)tmp);
 		if (!ft_exec_term_event(tmp, &buf, shenv))

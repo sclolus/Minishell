@@ -106,13 +106,15 @@ int main(int argc, char **argv, char **env)
 			continue ;
 		if (!ft_strcmp(line, "exit"))
 			break ;
+		char	*tmp;
+		tmp = line;
 		if (ft_eval_input(parser, &line))
 		{
 			ft_put_ast_tokens(parser);
-					ft_putendl("");
+					ft_put_tokens(ft_lexer(tmp));
 //			ft_create_heredocs(tmp, shenv);
 //			ft_put_heredocs(shenv);
-			ft_exec_parser(parser, shenv);
+//			ft_exec_parser(parser, shenv);
 		}
 		else
 		{

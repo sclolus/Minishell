@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/11 16:44:35 by sclolus           #+#    #+#             */
-/*   Updated: 2016/12/11 17:16:07 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/23 10:19:06 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void		*ft_lsttotab(t_list *lst, unsigned int len)
 
 	i = 0;
 	u = 0;
-	if (!(tab = (unsigned char*)malloc(lst->content_size * len)))
+	if (!(tab = (unsigned char*)ft_memalloc(lst->content_size * len)))
 		return (0);
 	while (i < len)
 	{

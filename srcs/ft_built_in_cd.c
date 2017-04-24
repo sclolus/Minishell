@@ -81,15 +81,11 @@ static char		cdpath_search(t_string *curpath, char *op, t_shenv *shenv)
 
 	if (!(cdpath = ft_find_var(shenv, "CDPATH")))
 		return (0);
-		printf("found cdpath\n");
-		printf("CDPATH >%s\n", *cdpath);
 	path = ft_strchr(*cdpath, '=') + 1;
-	printf("path >%s\n", path);
 	while (path && *path)
 	{
 		end = ft_strchr(path, ':');
 		len = end ? end - path : ft_strlen(path);
-		printf("len = %zu\n", len);
 		if (!len)
 		{
 			ft_t_string_concat(curpath, "./");
@@ -99,13 +95,11 @@ static char		cdpath_search(t_string *curpath, char *op, t_shenv *shenv)
 			ft_memcpy(curpath->string, path, len);
 		curpath->string[len] = (curpath->string[len - 1] == '/') ? '\0' : '/';
 		ft_t_string_concat(curpath, op);
-		printf("final >%s<\n", curpath->string);
 		if ((dir = opendir(curpath->string)))
 		{
                   closedir(dir);
                   return (1);
 		}
-		perror("lol");
 		ft_bzero(curpath->string, MAX_PATH_NAME);
 		curpath->len = 0;
 		curpath->offset = 0;
@@ -161,7 +155,6 @@ static int32_t	convert_path(t_string *path)
         if (path->string[ft_strlen(path->string) - 1] != '/')
           ft_t_string_concat(path, "/");
 	path->offset = 0;
-        printf("input >%s\n", path->string);
 	while (path->string[path->offset])
 	{
 		if (!ft_strncmp(path->string + path->offset, "./", 2))
@@ -207,8 +200,6 @@ static int32_t	set_env(char *cwd, t_shenv *shenv)
 		return (ft_error(1, (char*[]){"cd: Unable to get current working directory"}, -1));
         ft_strcpy(tmp + 4, cwd);
         ft_modify_var(shenv, tmp);
-        printf("old = %s\n", *ft_find_var(shenv, "OLDPWD"));
-        printf("pwd = %s\n", *ft_find_var(shenv, "PWD"));
         return (0);
 }
 
@@ -228,24 +219,18 @@ int32_t	ft_built_in_cd(char **argv, t_shenv *shenv)
         curpath.len = 0;
         flags = ft_get_cd_flags(argv);
 	op = 1 + (flags & 1) + ((flags>>1) & 1);
-	printf("op = %u, argv[op] = %s\n", op, argv[op]);
-	printf("flags = %x\n", flags);
-	if (!getcwd(cwd, MAX_PATH_NAME))
+        if (!getcwd(cwd, MAX_PATH_NAME))
 		return (ft_error(1, (char*[]){"cd: Unable to get current working directory"}, -1));
-	printf("cwd = %s\n", cwd);
 	if (!argv[1] && !get_home(&curpath, shenv))
 		return (ft_error(1, (char*[]){"cd: ENV or path required"}, -1));
 	else if (argv[op] && (*argv[op] == '/' || *argv[op] == '.'))
 		ft_t_string_concat(&curpath, argv[op]);
 	else
 		cdpath_search(&curpath, argv[op], shenv);
-        printf("preloaded = %s\n", curpath.string);
 	if (!(flags & 2) && curpath.string[0] != '/')
 		create_path(&curpath, cwd, argv[op]);
-	printf("precurpath = %s\n", curpath.string);
 	if (!convert_path(&curpath))
 		return (ft_error(3, (char*[]){"cd: ", curpath.string, ": Invalid pathname"}, -1));
-		printf("curpath = %s\n", curpath.string);
 	if (curpath.len > MAX_PATH_NAME)
 		return (ft_error(3, (char*[]){"cd: ", curpath.string, ": File name too long"}, -1));
 	if (chdir(curpath.string) == -1)

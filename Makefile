@@ -7,6 +7,7 @@ SRC= srcs/minishell.c \
 	srcs/ft_find_command.c \
 	srcs/ft_built-in_echo.c \
 	srcs/ft_built-in.c \
+	srcs/ft_built_in_cd.c \
 	srcs/ft_built_in_exit.c \
 	srcs/ft_built_in_env.c \
 	srcs/ft_built_in_setenv.c \
@@ -49,6 +50,11 @@ SRC= srcs/minishell.c \
 	parser/ast/ft_get_grammar.c \
 	parser/ast/ft_optimizer.c \
 	parser/ast/ft_put_parser.c \
+	parser/ast/ft_eval_tokens/ft_eval_tokens.c \
+	parser/ast/ft_eval_tokens/ft_eval_tokens_chars.c \
+	parser/ast/ft_eval_tokens/ft_eval_tokens_logicals.c \
+	parser/ast/ft_eval_tokens/ft_eval_tokens_misc.c \
+	parser/ast/ft_eval_tokens/ft_eval_tokens_strings.c \
 	completion/ft_completion.c \
 	completion/ft_termcaps_completion.c \
 	completion/ft_sanitize_completion.c \
@@ -78,4 +84,3 @@ fclean: clean
 
 re: fclean all
 	make -C libft/ re
-

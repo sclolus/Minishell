@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/23 08:39:39 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/24 14:30:03 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,6 +224,18 @@ typedef struct	s_eval_parser
 	uint32_t	(*f)(t_parser*, char **);
 }				t_eval_parser;
 
+typedef struct	s_tokens
+{
+	char		**tokens;
+	uint32_t	*lens;
+	uint32_t	index;
+}				t_tokens;
+
+typedef struct	s_eval_tokens
+{
+	uint32_t	(*f)(t_parser*, t_tokens*);
+}				t_eval_tokens;
+
 typedef struct	s_free_parser
 {
 	void	(*f)(t_parser*);
@@ -279,6 +291,24 @@ uint32_t		ft_eval_parser_multiply(t_parser *parser, char **string);
 uint32_t		ft_eval_parser_oneof(t_parser *parser, char **string);
 uint32_t		ft_eval_delayed(t_parser *parser, char **string);
 
+uint32_t		ft_eval_tokens(t_parser *parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_input(t_parser *parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_oneof(t_parser *parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_onechar(t_parser *parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_any(t_parser *parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_char_range(t_parser *parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_satisfy(t_parser *parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_or(t_parser	*parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_and(t_parser	*parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_not(t_parser	*parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_plus(t_parser *parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_multiply(t_parser *parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_satisfy_str(t_parser *parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_str(t_parser *parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_str_any_of(t_parser *parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_str_any(t_parser *parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_undefined(t_parser *parser, t_tokens *tokens);
+
 t_parser		*ft_get_grammar_literal(t_parser *literal);
 t_parser		*ft_get_grammar_term(t_parser *term);
 t_parser		*ft_get_grammar_list(t_parser *list);
@@ -309,6 +339,30 @@ void			ft_free_parser_oneof(t_parser *parser);
 void			ft_free_parser_func(t_parser *parser);
 void			ft_free_parser_func(t_parser *parser);
 void			ft_free_parser_undefined(t_parser *parser);
+
+/*
+**	Sanitizer
+*/
+
+void			ft_sanitize_parser(t_parser *parser);
+void			ft_sanitize_parser_undefined(t_parser *parser);
+void			ft_sanitize_parser_func(t_parser *parser);
+void			ft_sanitize_parser_not(t_parser *parser);
+void			ft_sanitize_parser_oneof(t_parser *parser);
+void			ft_sanitize_parser_satisfy_str(t_parser *parser);
+void			ft_sanitize_parser_satisfy(t_parser *parser);
+void			ft_sanitize_parser_char_range(t_parser *parser);
+void			ft_sanitize_parser_multiply(t_parser *parser);
+void			ft_sanitize_parser_plus(t_parser *parser);
+void			ft_sanitize_parser_or_n(t_parser *parser);
+void			ft_sanitize_parser_and_n(t_parser *parser);
+void			ft_sanitize_parser_regexp(t_parser *parser);
+void			ft_sanitize_parser_str(t_parser *parser);
+void			ft_sanitize_parser_str_any(t_parser *parser);
+void			ft_sanitize_parser_any(t_parser *parser);
+void			ft_sanitize_parser_str_any_of(t_parser *parser);
+void			ft_sanitize_parser_ref(t_parser *parser);
+void			ft_sanitize_parser_onechar(t_parser *parser);
 
 void			ft_optimizer(t_parser *parser);
 

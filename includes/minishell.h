@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/23 10:17:00 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/24 16:01:35 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,8 @@ void		ft_expansions_io_file(t_parser *io_file, t_shenv *shenv);
 */
 
 int32_t		ft_built_in_echo(char **argv, t_shenv *shenv);
-int32_t		ft_built_in(char **argv, t_shenv *env);
+int32_t		ft_built_in(char **argv, t_shenv *shenv);
+int32_t		ft_built_in_cd(char **argv, t_shenv *shenv);
 int32_t		ft_built_in_history(char **argv, t_env *env);
 int32_t		ft_built_in_exit(char **argv, t_shenv *shenv);
 int32_t		ft_built_in_setenv(char **argv, t_shenv *shenv);
@@ -298,4 +299,6 @@ void		ft_put_heredocs(t_shenv *shenv);
 
 void	ft_put_tokens(char **tokens);
 char	**ft_lexer(char *input);
+t_tokens	*ft_get_tokens(char *input);
+uint32_t	ft_get_tokens_count(char **tokens);
 #endif

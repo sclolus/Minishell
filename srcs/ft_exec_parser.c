@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 22:14:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/23 08:46:05 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/24 07:42:48 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,16 @@ int32_t	ft_exec_list(t_parser *parser, t_shenv *shenv)
 	{
 		parser = OR_PARSER_N(parser, 0);
 		i = 0;
+		n = MULTIPLY_N(parser);
+		while (i < n)
+			ft_exec_and_or(AND_PARSER_N(MULTIPLY_PARSER_N(parser
+														, i++), 0), shenv);
+		return (1);
+	}
+	else if (IS_RETAINED(OR_PARSER_N(parser, 1)))
+	{
+		parser = OR_PARSER_N(parser, 1);
+		i = 0;
 		n = MULTIPLY_N(AND_PARSER_N(parser, 0));
 		while (i < n)
 		{
@@ -79,12 +89,6 @@ int32_t	ft_exec_list(t_parser *parser, t_shenv *shenv)
 			i++;
 		}
 		ft_exec_and_or(AND_PARSER_N(parser, 1), shenv);
-		return (1);
-	}
-	else if (IS_RETAINED(OR_PARSER_N(parser, 1)))
-	{
-		parser = OR_PARSER_N(parser, 1);
-		ft_exec_and_or(AND_PARSER_N(parser, 0), shenv);
 		return (1);
 	}
 	else
@@ -206,8 +210,8 @@ int32_t	ft_exec_pipe_sequence(t_parser *parser, t_shenv *shenv)
 			processes = ft_start_process(parser, 0, (int[]){0, 1, 0, 1}, shenv);
 			ft_put_processes_in_foreground(processes, 1);
 			waitpid(processes->gpid, &ret, WUNTRACED);
-			ft_put_shell_in_foreground();
 			kill(-processes->gpid, SIGKILL);
+			ft_put_shell_in_foreground();
 			ft_clear_processes(&processes);
 		}
 		else
@@ -219,10 +223,8 @@ int32_t	ft_exec_pipe_sequence(t_parser *parser, t_shenv *shenv)
 		processes = ft_create_pipeline(parser, shenv);
 		ft_put_processes_in_foreground(processes, 1);
 		waitpid(processes->gpid, &ret, WUNTRACED);
-		ft_t_process_print(processes);
-		kill(-processes->gpid, SIGKILL);
 		ft_put_shell_in_foreground();
-		ft_t_process_print(processes);
+		kill(-processes->gpid, SIGKILL);
 		ft_clear_processes(&processes);
 	}
 	return (POSIX_EXIT_STATUS(ret));

@@ -65,7 +65,7 @@ int main(int argc, char **argv, char **env)
 	# define test 1
 # if test == 1
 	if (!(grammar = ft_strdup("<command>		::= <sp> <list> <sp> \n\
-							   <list>			::= (<and_or> <sp> <separator> <sp>)* <and_or> <sp> (<separator>)* | <and_or> <sp> (<separator>)* \n\
+							   <list>			::= (<and_or> <sp> <separator> <sp>)+ | (<and_or> <sp> <separator> <sp>)* <and_or> \n\
 							   <and_or>			::= (<sp> \"&&\" <sp> <pipeline> | <sp> \"||\" <sp> <pipeline> | <sp> <pipeline>)+\n\
 							   <simple_cmd>		::= <sp> (<cmd_prefix>)* <command_name> <sp> (<cmd_postfix> <sp>)*  | (<cmd_prefix>)+ <sp>\n\
 							   <cmd_postfix>	::= <io_redirect> | <arg> \n\
@@ -96,11 +96,13 @@ int main(int argc, char **argv, char **env)
 	parser = ft_get_grammar_syntax(bnf_parser);
 	ft_optimizer(parser);
 	t_shenv	*shenv;
+	t_tokens	*tokens;
 
 	shenv = ft_init_shenv(ft_get_env_count(env), env);
+	ft_putchar('\n');
 	while (1)
 	{
-		ft_putstr("\n$>");
+		ft_putstr("$>");
 		ft_termget_complete_line(&line, shenv);
 		if (!*line)
 			continue ;
@@ -108,10 +110,11 @@ int main(int argc, char **argv, char **env)
 			break ;
 		char	*tmp;
 		tmp = line;
-		if (ft_eval_input(parser, &line))
+		if (!(tokens = ft_get_tokens(line)))
+			exit(EXIT_FAILURE);
+		if (ft_eval_tokens(parser, tokens))
 		{
 			ft_put_ast_tokens(parser);
-					ft_put_tokens(ft_lexer(tmp));
 //			ft_create_heredocs(tmp, shenv);
 //			ft_put_heredocs(shenv);
 //			ft_exec_parser(parser, shenv);
@@ -120,7 +123,7 @@ int main(int argc, char **argv, char **env)
 		{
 			ft_putendl("parsing error ::= ");
 			ft_put_ast_tokens(parser);
-		}
+			}
 //		ft_sanitize_parser(parser);
 	}
 	ft_exit_shell();

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 07:46:43 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/23 09:45:45 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/24 07:11:11 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ int32_t	ft_is_built_in(t_parser *parser)
 
 int32_t	ft_built_in(char **argv, t_shenv *shenv)
 {
-	uint32_t		i;
-	static const	t_built_in	f_built_in[BUILT_IN_COUNT] = {
-		{"cd", NULL},
+	uint32_t					i;
+	static const	t_built_in	f_built_in[] = {
+		{"cd", &ft_built_in_cd},
 		{"echo", &ft_built_in_echo},
 		{"exit", &ft_built_in_exit},
 		{"env", &ft_built_in_env},
@@ -54,7 +54,7 @@ int32_t	ft_built_in(char **argv, t_shenv *shenv)
 		{"export", &ft_built_in_export}};
 
 	i = 0;
-	while (i < BUILT_IN_COUNT)
+	while (i < sizeof(f_built_in) / sizeof(t_built_in))
 	{
 		if (!ft_strcmp(argv[0], f_built_in[i].id))
 			return (f_built_in[i].f(argv, shenv));

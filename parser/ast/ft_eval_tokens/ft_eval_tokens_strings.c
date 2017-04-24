@@ -22,7 +22,7 @@ uint32_t		ft_eval_tokens_str(t_parser *parser, t_tokens *tokens)
         return (1);
     }
 	else
-		return (0);
+            return (0);
 }
 
 
@@ -50,6 +50,9 @@ uint32_t		ft_eval_tokens_str_any_of(t_parser *parser, t_tokens *tokens)
             ++i;
         else
             return (0);
+    parser->parser.str_any.str = ft_strdup(tokens->tokens[tokens->index]);
+    if (!parser->parser.str_any.str)
+        exit(EXIT_FAILURE);
     tokens->index++;
     return (1);
 }
@@ -57,6 +60,8 @@ uint32_t		ft_eval_tokens_str_any_of(t_parser *parser, t_tokens *tokens)
 uint32_t		ft_eval_tokens_str_any(t_parser *parser, t_tokens *tokens)
 {
     parser->parser.str_any.str = ft_strdup(tokens->tokens[tokens->index]);
+    if (!parser->parser.str_any.str)
+        exit(EXIT_FAILURE);
     parser->parser.str_any.len = tokens->lens[tokens->index];
     tokens->index++;
     return (1);

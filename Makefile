@@ -33,7 +33,7 @@ SRC= srcs/minishell.c \
 	srcs/ft_redirection.c \
 	srcs/ft_check_file.c \
 	srcs/ft_argv.c \
-	test/ft_lexer.c \
+	srcs/ft_lexer.c \
 	termcaps/termcaps.c \
 	termcaps/line.c \
 	termcaps/line_2.c \

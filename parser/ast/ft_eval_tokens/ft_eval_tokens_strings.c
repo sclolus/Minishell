@@ -17,7 +17,10 @@ uint32_t		ft_eval_tokens_str(t_parser *parser, t_tokens *tokens)
     if (tokens->lens[tokens->index] == ft_strlen(parser->parser.string.str) &&
         !(ft_memcmp(parser->parser.string.str, tokens->tokens[tokens->index]
 		, parser->parser.string.len)))
-		return (1);
+    {
+        tokens->index++;
+        return (1);
+    }
 	else
 		return (0);
 }
@@ -28,7 +31,10 @@ uint32_t		ft_eval_tokens_satisfy_str(t_parser *parser, t_tokens *tokens)
 	uint32_t	ret;
 
 	if ((ret = parser->parser.satisfy_str.f(tokens->tokens[tokens->index])))
-		return (1);
+        {
+            tokens->index++;
+            return (1);
+        }
 	else
 		return (0);
 }
@@ -44,6 +50,7 @@ uint32_t		ft_eval_tokens_str_any_of(t_parser *parser, t_tokens *tokens)
             ++i;
         else
             return (0);
+    tokens->index++;
     return (1);
 }
 
@@ -51,5 +58,6 @@ uint32_t		ft_eval_tokens_str_any(t_parser *parser, t_tokens *tokens)
 {
     parser->parser.str_any.str = ft_strdup(tokens->tokens[tokens->index]);
     parser->parser.str_any.len = tokens->lens[tokens->index];
+    tokens->index++;
     return (1);
 }

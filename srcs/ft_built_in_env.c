@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 06:54:33 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/16 18:17:34 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/25 10:22:23 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,16 +78,18 @@ static t_shenv		*ft_create_new_shenv(char **argv
 	t_shenv		*new_shenv;
 
 	i = 1;
-	free(shenv->env->env);
+	CHECK(TES);
 	ft_free_t_env(shenv->env);
+	CHECK(TES2);
 	ft_free_t_shenv(shenv);
 	if (!(new_shenv = (t_shenv*)ft_memalloc(sizeof(t_shenv))))
 		exit(EXIT_FAILURE);
 	if (!(new_shenv->var = (char**)ft_memalloc(sizeof(char*) * (count + 1))))
 		exit(EXIT_FAILURE);
+	CHECK(TES);
 	while (i < count + 1)
 	{
-		ft_modify_var(shenv, argv[i]);
+		ft_modify_var(new_shenv, argv[i]);
 		i++;
 	}
 	return (new_shenv);
@@ -160,12 +162,17 @@ int32_t				ft_built_in_env(char **argv, t_shenv *shenv)
 		if ((flag = ft_get_flag(argv[1])) == -1)
 			return (1);
 		argc = ft_count_values(argv + flag);
+		ft_putnbr(argc);
 		if (flag == 1)
 			shenv = ft_create_new_shenv(argv + 1, argc, shenv);
 		else
 			ft_modify_env(argv, argc, shenv);
+		CHECK(TEST);
 		shenv->env = ft_get_env(shenv);
-//		ft_exec_cmd(argv + argc + 1 + flag, shenv->env); TODO
+		ft_putendl_fd("_______", 2);
+		ft_put_tokens(argv + 1 + flag);
+		ft_putendl_fd("_______", 2);
+		ft_exec_cmd(argv + argc + 1 + flag, shenv); //TODO
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 18:39:20 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/25 10:03:18 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/25 10:18:27 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void		ft_sanitize_backslashes(char *word)
         if (word[i] == '\\'  && ft_strchr(CHARSET_ESCAPE_BCKSLH, word[i + 1])
 			&& ft_is_quoted(word, i) != 1)
         {
-//            printf("deleted %c, ", word[i]);
+			//        printf("deleted %c, \n", word[i]);
             ft_strcpy(word + i, word + i + 1);
         }
         ++i;
@@ -39,16 +39,19 @@ static uint32_t		ft_sanitize_quotes(char *word, uint32_t *indexes
 	uint32_t	u;
 
 	u = 0;
-        while (u + 1 < offset)
-        {
-            ft_memcpy(word + indexes[u] - u
-                      , word + indexes[u] + 1, indexes[u + 1] - indexes[u]);
-            word[indexes[u + 1]] = '\0';
-            u++;
+	while (u + 1 < offset)
+	{
+		ft_memcpy(word + indexes[u] - u
+				, word + indexes[u] + 1, indexes[u + 1] - indexes[u]);
+		word[indexes[u + 1]] = '\0';
+		u++;
 	}
-	ft_memcpy(word + indexes[u] - u
-			  , word + indexes[u] + 1, u);
-	word[indexes[u] - u] = '\0';
+	if (offset)
+	{
+		ft_memcpy(word + indexes[u] - u
+				, word + indexes[u] + 1, u);
+		word[indexes[u] - u] = '\0';
+	}
 	return (i - offset);
 }
 

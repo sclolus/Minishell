@@ -45,7 +45,7 @@ static char		ft_get_cd_flags(char **argv)
 			flags |= ret;
 		}
 		else
-			break;
+ 			break;
 		i++;
 	}
 	return (flags);
@@ -203,6 +203,29 @@ static int32_t	set_env(char *cwd, t_shenv *shenv)
         return (0);
 }
 
+static int32_t	set_oldpath(t_shenv *shenv)
+{
+    char		**oldpwd;
+    char		tmp[MAX_PATH_NAME + 10];
+    char		cwd[MAX_PATH_NAME];
+    
+    if (!(oldpwd = ft_find_var(shenv, "OLDPWD")))
+        ft_putchar('\n');
+    else
+    {
+       	if (!getcwd(cwd, MAX_PATH_NAME))
+		return (ft_error(1, (char*[]){"cd: Unable to get current working directory"}, -1));
+        if (chdir(*oldpwd + 7)  == -1)
+            return(ft_error(3, (char*[]){"cd: ", (*oldpwd + 7), ": No such file or directory"}, -1));
+        ft_putendl(*oldpwd + 7);
+        ft_modify_var(shenv, *oldpwd + 3);
+        ft_strcpy(tmp, "OLDPWD=");
+        ft_strcpy(tmp + 7, cwd);
+        ft_modify_var(shenv, tmp);
+    }
+        return (0);
+}
+
 int32_t	ft_built_in_cd(char **argv, t_shenv *shenv)
 {
 	char				cwd[MAX_PATH_NAME];
@@ -223,6 +246,8 @@ int32_t	ft_built_in_cd(char **argv, t_shenv *shenv)
 		return (ft_error(1, (char*[]){"cd: Unable to get current working directory"}, -1));
 	if (!argv[1] && !get_home(&curpath, shenv))
 		return (ft_error(1, (char*[]){"cd: ENV or path required"}, -1));
+        else if (argv[op] && !ft_strcmp(argv[op], "-") )
+            return (set_oldpath(shenv));
 	else if (argv[op] && (*argv[op] == '/' || *argv[op] == '.'))
 		ft_t_string_concat(&curpath, argv[op]);
 	else

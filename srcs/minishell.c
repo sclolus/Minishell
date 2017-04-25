@@ -106,7 +106,7 @@ int main(int argc, char **argv, char **env)
 	ft_putchar('\n');
 	while (1)
 	{
-		ft_putstr("$>");
+		ft_putstr("\n$>");
 		ft_termget_complete_line(&line, shenv);
 		if (!*line)
 			continue ;
@@ -116,22 +116,20 @@ int main(int argc, char **argv, char **env)
 		tmp = line;
 		if (!(tokens = ft_get_tokens(line)))
 			exit(EXIT_FAILURE);
-		ft_put_tokens(tokens->tokens);
 		if (ft_eval_tokens_input(parser, tokens))
 		{
-			ft_put_ast_tokens(parser);
-			ft_putendl("");
-//			ft_create_heredocs(tmp, shenv);
-//			ft_put_heredocs(shenv);
-			ft_exec_parser(parser, shenv);
+/* 			ft_putendl(""); */
+/* 			ft_create_heredocs(tokens, shenv); */
+/* 			ft_put_heredocs(shenv); */
+ 			ft_exec_parser(parser, shenv);
 		}
 		else
 		{
 			ft_putendl("parsing error ::= ");
 			ft_put_ast_tokens(parser);
-			CHECK(TOKENS ^);
-			}
-//		ft_sanitize_parser(parser);
+		}
+		free(tokens);
+		ft_sanitize_parser(parser);
 	}
 	ft_exit_shell();
 	exit(EXIT_FAILURE);

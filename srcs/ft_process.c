@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/19 21:30:16 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/21 05:57:20 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/25 18:45:14 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,9 @@ void		ft_put_processes_in_foreground(t_process *process, int cont)
 {
 	ft_unset_term();
 	tcsetpgrp(shell->terminal, process->gpid);
+	if (tcgetpgrp(shell->interactive) != process->gpid)
+		while (1)
+			;
 	if (cont)
 		kill(-process->gpid, SIGCONT);
 }

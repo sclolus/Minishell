@@ -6,53 +6,35 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 05:08:11 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/24 19:54:11 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/25 18:51:03 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-# if 0
-static uint32_t	ft_get_tilde_count(char *word)
-{
-	uint32_t	i;
-	uint32_t	count;
-
-	i = 0;
-	count = 0;
-	while (word[i])
-	{
-		if (word[i] == '~' && !ft_is_quoted(word, i))
-			count++;
-		i++;
-	}
-	return (count);
-}
-#endif
-
 void		ft_tilde_expansion(char **word, t_shenv *shenv)
 {
 	char		*word_tmp;
-	char		*home_tmp;
+	char		**home_tmp;
 	uint32_t	home_len;
 	uint32_t	word_len;
 
 	if (!(*word))
 		return ;
 	word_len = ft_strlen(*word);
-	if (!(home_tmp = *ft_find_var(shenv, "HOME")))
+	if (!(home_tmp = ft_find_var(shenv, "HOME")))
 	{
-		ft_putstr_fd("HOME not defined, tilde expansion not possible", 2);
+//		ft_error(1, (char*[]){"HOME not defined, tilde expansion not possible"}, 2);
 		return ;
 	}
-	home_len = ft_strlen(home_tmp) - 5;
+	home_len = ft_strlen(*home_tmp) - 5;
 	if (**word != '~')
 		return ;
 	if (word_len > 1 && (*word)[1] != '/')
 		return ;
 	if (!(word_tmp = ft_strnew(sizeof(char) * (home_len + word_len))))
 		exit(EXIT_FAILURE);
-	ft_memcpy(word_tmp, home_tmp + 5, home_len);
+	ft_memcpy(word_tmp, *home_tmp + 5, home_len);
 	ft_memcpy(word_tmp + home_len, *word + 1, word_len - 1);
 	free(*word);
 	*word = word_tmp;

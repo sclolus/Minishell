@@ -21,12 +21,11 @@ static void	ft_handler_cont(int signum)
 {
 	if (signum == SIGCONT)
 	{
-		shell->shell_pgid = getpid();
+		shell->shell_pgid = getpgrp();
 		shell->interactive = isatty(shell->terminal);
 		while (tcgetpgrp(shell->interactive)
 			   != (shell->shell_pgid))
 			kill(-shell->shell_pgid, SIGSTOP);
-		ft_set_term();
 	}
 	else
 		ft_putstr_fd("signal handling error", 2);

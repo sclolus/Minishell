@@ -1,6 +1,6 @@
 NAME= minishell
 CC= gcc
-FLAGS= -Wall -Werror -Wextra -g -fsanitize=address -fsanitize-blacklist=my_ignores.txt
+FLAGS= -Wall -Werror -Wextra -g  -fsanitize=address -fsanitize-blacklist=my_ignores.txt
 SRC= srcs/minishell.c \
 	srcs/ft_init_shell.c \
 	srcs/ft_signal.c \
@@ -15,6 +15,7 @@ SRC= srcs/minishell.c \
 	srcs/ft_built_in_unset.c \
 	srcs/ft_built_in_export.c \
 	srcs/ft_shenv.c \
+	srcs/ft_heredocs.c \
 	srcs/ft_env.c \
 	srcs/ft_var_attr.c \
 	srcs/ft_env.c \
@@ -50,6 +51,7 @@ SRC= srcs/minishell.c \
 	parser/ast/ft_free_parser.c \
 	parser/ast/ft_get_grammar.c \
 	parser/ast/ft_optimizer.c \
+	parser/ast/ft_sanitizer.c \
 	parser/ast/ft_put_parser.c \
 	parser/ast/ft_eval_tokens/ft_eval_tokens.c \
 	parser/ast/ft_eval_tokens/ft_eval_tokens_chars.c \

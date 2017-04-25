@@ -19,7 +19,7 @@ uint32_t	ft_is_escaped(char *input, uint32_t index)
 
 	backslash = 0;
 	i = index;
-	while (i > 0)
+	while (i > 0)// and (input[i - 1] == '\\')
 	{
 		if (input[i - 1] == '\\')
 		{
@@ -41,25 +41,15 @@ uint32_t	ft_is_quoted(char *input, uint32_t index)
 	i = 0;
 	while (i < index)
 	{
-		if (input[i] == '\'' || input[i] == '\"')
-		{
-			if (!quotes && ft_is_escaped(input, index))
-				;
-			else
-			{
-				
-			}
-		}
-		else if (input[i] == '\'' && quotes != 2)
+		if (input[i] == '\'' && quotes != 2)
 			quotes ^= 1;
 		else if (input[i] == '\"' && quotes != 1 && !ft_is_escaped(input, i))
 			quotes ^= 2;
 		i++;
 	}
 
-/*	if (quotes != 1 && ft_is_escaped(input, index))
-	return (1);*/
-	/*	else*/ if (input[i] == '\'' && quotes == 1)
+
+        if (input[i] == '\'' && quotes == 1)
 		quotes ^= 1;
 	else if (input[i] == '\"' && quotes == 2 && !ft_is_escaped(input, i))
 		quotes ^= 2;

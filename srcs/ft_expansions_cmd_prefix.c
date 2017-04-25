@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 08:17:34 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/22 08:26:09 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/25 19:06:20 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static void	ft_expansions_env_assignment(t_parser *env_assignment,
 									2)->parser.str_any_of.str), shenv);
 	ft_var_expansion(&(AND_PARSER_N(env_assignment,
 									2)->parser.str_any_of.str), shenv);
+	ft_quote_removal(&(AND_PARSER_N(env_assignment,
+									2)->parser.str_any_of.str));
 }
 
 void		ft_expansions_cmd_prefix(t_parser *cmd_prefix, t_shenv *shenv)

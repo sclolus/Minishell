@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 08:19:06 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/22 08:42:28 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/25 19:06:59 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void	ft_expansions_arg(t_parser *arg, t_shenv *shenv)
 {
 	ft_tilde_expansion(&arg->parser.str_any_of.str, shenv);
 	ft_var_expansion(&arg->parser.str_any_of.str, shenv);
+	ft_quote_removal(&arg->parser.str_any_of.str);
 }
 
 void		ft_expansions_cmd_postfix(t_parser *cmd_postfix, t_shenv *shenv)

@@ -245,7 +245,7 @@ int32_t	ft_built_in_cd(char **argv, t_shenv *shenv)
         if (!getcwd(cwd, MAX_PATH_NAME))
 		return (ft_error(1, (char*[]){"cd: Unable to get current working directory"}, -1));
 	if (!argv[1] && !get_home(&curpath, shenv))
-		return (ft_error(1, (char*[]){"cd: ENV or path required"}, -1));
+		return (ft_error(1, (char*[]){"cd: HOME or path required"}, -1));
         else if (argv[op] && !ft_strcmp(argv[op], "-") )
             return (set_oldpath(shenv));
 	else if (argv[op] && (*argv[op] == '/' || *argv[op] == '.'))

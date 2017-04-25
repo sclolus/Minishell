@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 07:44:52 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/22 08:51:16 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/25 19:08:15 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,15 @@ void	ft_expansions_io_filename(t_parser *io_filename, t_shenv *shenv)
 									, 1)->parser.str_any_of.str), shenv);
 	ft_var_expansion(&(AND_PARSER_N(io_filename
 									, 1)->parser.str_any_of.str), shenv);
+	ft_quote_removal(&(AND_PARSER_N(io_filename
+									, 1)->parser.str_any_of.str));
 }
 
 void	ft_expansions_io_number(t_parser *io_number, t_shenv *shenv) // NOT WORKING
 {
 	ft_tilde_expansion(&(io_number->parser.str_any_of.str), shenv);
 	ft_var_expansion(&(io_number->parser.str_any_of.str), shenv);
+	ft_quote_removal(&(io_number->parser.str_any_of.str));
 }
 
 void	ft_expansions_io_file(t_parser *io_file, t_shenv *shenv)

@@ -6,13 +6,13 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 18:39:20 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/25 04:40:57 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/25 10:03:18 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-#define CHARSET_QUOTES "'\"\\"
+#define CHARSET_QUOTES "'\""
 #define CHARSET_ESCAPE_BCKSLH "$`\"\\\n"
 #define	QUOTE_REMOVAL_BUFF_SIZE 256
 
@@ -23,9 +23,10 @@ static void		ft_sanitize_backslashes(char *word)
     i = 0;
     while (word[i])
     {
-        if (word[i] == '\\'  && ft_strchr(CHARSET_ESCAPE_BCKSLH, word[i + 1]))
+        if (word[i] == '\\'  && ft_strchr(CHARSET_ESCAPE_BCKSLH, word[i + 1])
+			&& ft_is_quoted(word, i) != 1)
         {
-            printf("deleted %c, ", *word);
+//            printf("deleted %c, ", word[i]);
             ft_strcpy(word + i, word + i + 1);
         }
         ++i;
@@ -77,7 +78,7 @@ void				ft_quote_removal(char **word)
             i++;
 	}
 	ft_sanitize_quotes(*word, indexes, offset, i);
-        ft_sanitize_backslashes(*word);
-        printf("final = %s\n", *word);
+	ft_sanitize_backslashes(*word);
+	printf("final = %s\n", *word);
 
 }

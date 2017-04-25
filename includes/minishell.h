@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/24 19:36:37 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/25 14:45:53 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,12 @@ typedef struct	s_shell	t_shell;
 
 t_shell		*shell;
 
+typedef struct	s_heredoc
+{
+	char	*filename;
+	char	*delimiter;
+}				t_heredoc;
+
 typedef struct	s_shenv
 {
 	t_env		*env;
@@ -158,6 +164,16 @@ uint32_t	ft_is_escaped(char *input, uint32_t index);
 uint32_t	ft_is_quoted(char *input, uint32_t index);
 
 void	ft_exit_shell(void);
+
+/*
+** Lexer
+*/
+
+char		**ft_lexer(char *input);
+t_tokens	*ft_get_tokens(char *input);
+void		ft_put_tokens(char **tokens);
+uint32_t	ft_get_tokens_count(char **tokens);
+void		ft_free_tokens(t_tokens *tokens);
 
 /*
 ** redirections
@@ -271,6 +287,9 @@ void		ft_put_processes_in_foreground(t_process *process, int cont);
 
 int32_t		ft_unset_term(void);
 int32_t		ft_set_term(void);
+int32_t		ft_unset_echo_mode(void);
+int32_t		ft_set_echo_mode(void);
+int32_t		ft_set_canonical_mode(void);
 
 /*
 ** Shell utilities
@@ -295,11 +314,8 @@ int32_t		ft_exec_parser(t_parser *parser, t_shenv *shenv);
 char		**ft_get_env_value(char **env, char *variable);
 t_process	*ft_t_process_add(t_process **processes, t_process *new);
 
-void		ft_create_heredocs(char *input, t_shenv *shenv);
+void		ft_create_heredocs(t_tokens *tokens, t_shenv *shenv);
+void		ft_clear_heredoc(t_list *heredoc);
 void		ft_put_heredocs(t_shenv *shenv);
 
-void	ft_put_tokens(char **tokens);
-char	**ft_lexer(char *input);
-t_tokens	*ft_get_tokens(char *input);
-uint32_t	ft_get_tokens_count(char **tokens);
 #endif

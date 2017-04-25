@@ -6,15 +6,17 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 11:10:55 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/22 17:37:16 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/25 14:21:18 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_create_heredoc_file(uint32_t index, t_shenv *shenv)
+char	*ft_create_heredoc_file(char *delimiter
+								, uint32_t index, t_shenv *shenv)
 {
 	char		*filename;
+	t_heredoc	*new_heredoc;
 	t_list		*lstnew;
 	int			fd;
 
@@ -27,7 +29,11 @@ char	*ft_create_heredoc_file(uint32_t index, t_shenv *shenv)
 	close(fd);
 	if (!(lstnew = ft_lstnew(0, 0)))
 		exit(EXIT_FAILURE);
-	lstnew->content = filename;
+	if (!(new_heredoc = (t_heredoc*)ft_memalloc(sizeof(t_heredoc))))
+		exit(EXIT_FAILURE);
+	lstnew->content = new_heredoc;
+	new_heredoc->filename = filename;
+	new_heredoc->delimiter = delimiter;
 	ft_lstadd(&shenv->heredocs, lstnew);
 	return (filename);
 }
@@ -64,43 +70,69 @@ int		ft_get_heredoc_index(uint32_t index, t_shenv *shenv)
 	return (-1);
 }
 
-uint32_t	ft_get_count_heredocs(char *input)
+char	*ft_get_heredoc_delimiter_index(t_tokens *tokens, uint32_t index)
 {
+	char		*delimiter;
 	uint32_t	i;
-	uint32_t	count;
 
 	i = 0;
-	count = 0;
-	while (input[i])
+	while (tokens->tokens[i])
 	{
-		if (*((short*)(input + i)) == 0x3C3C && !ft_is_quoted(input, i))
-			count++;
+		if (tokens->lens[i] == 2 && *((short*)(tokens->tokens[i])) == 0x3C3C)
+		{
+			if (!index)
+			{
+				if (!(delimiter = ft_strdup(tokens->tokens[i + 1])))
+					exit(EXIT_FAILURE);
+				return (delimiter);
+			}
+			index--;
+		}
 		i++;
 	}
-	return (count);
+	return (NULL);
 }
 
-void		ft_create_heredocs(char *input, t_shenv *shenv)
+void		ft_create_heredocs(t_tokens *tokens, t_shenv *shenv)
 {
-	uint32_t	i;
+	char		*delimiter;
 	uint32_t	count;
 
-	count = ft_get_count_heredocs(input);
-	i = 0;
-	while (i < count)
-		ft_create_heredoc_file(i++, shenv);
+	count = 0;
+	while (42)
+	{
+		if (!(delimiter = ft_get_heredoc_delimiter_index(tokens, count)))
+			break ;
+		ft_create_heredoc_file(delimiter, count, shenv);
+		count++;
+	}
 }
 
 void		ft_put_heredocs(t_shenv *shenv)
 {
-	t_list	*tmp;
+	t_list		*tmp;
+	uint32_t	i;
 
 	tmp = shenv->heredocs;
+	i = 0;
 	while (tmp)
 	{
-		ft_putendl(tmp->content);
+		ft_putstr("Heredoc n: ");
+		ft_putnbr(i);
+		ft_putstr("\nDelimiter: ");
+		ft_putendl(((t_heredoc*)tmp->content)->delimiter);
 		tmp = tmp->next;
+		i++;
 	}
+}
+
+void		ft_clear_heredoc(t_list *heredoc)
+{
+	free(((t_heredoc*)heredoc->content)->filename);
+	free(((t_heredoc*)heredoc->content)->delimiter);
+	heredoc->prev->next = NULL;
+	free(heredoc->content);
+	free(heredoc);
 }
 
 #if 0

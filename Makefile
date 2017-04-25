@@ -15,6 +15,7 @@ SRC= srcs/minishell.c \
 	srcs/ft_built_in_unset.c \
 	srcs/ft_built_in_export.c \
 	srcs/ft_shenv.c \
+	srcs/ft_heredocs.c \
 	srcs/ft_env.c \
 	srcs/ft_var_attr.c \
 	srcs/ft_env.c \

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 22:14:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/25 11:49:03 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/25 14:35:22 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,8 +210,8 @@ int32_t	ft_exec_pipe_sequence(t_parser *parser, t_shenv *shenv)
 			processes = ft_start_process(parser, 0, (int[]){0, 1, 0, 1}, shenv);
 			ft_put_processes_in_foreground(processes, 1);
 			waitpid(processes->gpid, &ret, WUNTRACED);
-			kill(-processes->gpid, SIGKILL);
 			ft_put_shell_in_foreground();
+			kill(-processes->gpid, SIGKILL);
 			ft_clear_processes(&processes);
 		}
 		else
@@ -223,8 +223,8 @@ int32_t	ft_exec_pipe_sequence(t_parser *parser, t_shenv *shenv)
 		processes = ft_create_pipeline(parser, shenv);
 		ft_put_processes_in_foreground(processes, 1);
 		waitpid(processes->gpid, &ret, WUNTRACED);
-		ft_put_shell_in_foreground();
 		kill(-processes->gpid, SIGKILL);
+		ft_put_shell_in_foreground();
 		ft_clear_processes(&processes);
 	}
 	return (POSIX_EXIT_STATUS(ret));

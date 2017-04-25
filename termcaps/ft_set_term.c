@@ -6,11 +6,47 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 00:36:26 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/23 10:36:54 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/25 14:49:31 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "termcaps.h"
+
+int32_t		ft_unset_echo_mode(void)
+{
+	static struct termios	term;
+	
+	if (tcgetattr(0, &term) == -1)
+		return (-1);
+	term.c_lflag &= ~(ECHO);
+	if (tcsetattr(0, TCSADRAIN, &term) == -1)
+		return (-1);
+	return (0);
+}
+
+int32_t		ft_set_echo_mode(void)
+{
+	static struct termios	term;
+	
+	if (tcgetattr(0, &term) == -1)
+		return (-1);
+	term.c_lflag |= (ECHO);
+	if (tcsetattr(0, TCSANOW, &term) == -1)
+		return (-1);
+	return (0);
+}
+
+int32_t		ft_set_canonical_mode(void)
+{
+	static struct termios	term;
+	
+	if (tcgetattr(0, &term) == -1)
+		return (-1);
+	term.c_lflag &= ~(ICANON);
+	if (tcsetattr(0, TCSADRAIN, &term) == -1)
+		return (-1);
+	return (0);
+}
 
 int32_t		ft_set_term(void)
 {	
@@ -25,6 +61,7 @@ int32_t		ft_set_term(void)
 	term.c_lflag &= ~(ECHO);
 	if (tcsetattr(0, TCSADRAIN, &term) == -1)
 		return (-1);
+	ft_unset_echo_mode();
 	ft_set_insert();
 	return (0);
 }

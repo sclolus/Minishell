@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/23 09:54:09 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/24 16:56:23 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/25 14:53:58 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,3 +166,14 @@ t_tokens	*ft_get_tokens(char *input)
 	return (tokens);
 }
 
+void		ft_free_tokens(t_tokens *token)
+{
+	uint32_t	i;
+
+	i = 0;
+	while (tokens->tokens[i])
+		free(tokens->tokens[i++]);
+	free(tokens->tokens);
+	free(tokens->lens);
+	free(tokens);
+}

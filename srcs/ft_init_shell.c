@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 03:24:20 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/24 23:07:06 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/25 14:34:26 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	ft_exit_shell(void)
 
 void	ft_put_shell_in_foreground(void)
 {
-	ft_unset_term();
+//	ft_unset_term();
 	ft_set_term();
 	tcsetpgrp(shell->terminal, shell->shell_pgid);
 }

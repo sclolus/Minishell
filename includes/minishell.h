@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/25 14:45:53 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/25 16:05:07 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,6 +290,7 @@ int32_t		ft_set_term(void);
 int32_t		ft_unset_echo_mode(void);
 int32_t		ft_set_echo_mode(void);
 int32_t		ft_set_canonical_mode(void);
+int32_t		ft_unset_echoctl_mode(void);
 
 /*
 ** Shell utilities

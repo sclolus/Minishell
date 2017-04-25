@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 00:36:26 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/25 14:49:31 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/25 17:56:39 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,19 @@ int32_t		ft_set_canonical_mode(void)
 	
 	if (tcgetattr(0, &term) == -1)
 		return (-1);
-	term.c_lflag &= ~(ICANON);
+	term.c_lflag |= ICANON;
+	if (tcsetattr(0, TCSADRAIN, &term) == -1)
+		return (-1);
+	return (0);
+}
+
+int32_t		ft_unset_echoctl_mode(void)
+{
+	static struct termios	term;
+	
+	if (tcgetattr(0, &term) == -1)
+		return (-1);
+	term.c_lflag &= ~(ECHOCTL);
 	if (tcsetattr(0, TCSADRAIN, &term) == -1)
 		return (-1);
 	return (0);
@@ -59,9 +71,10 @@ int32_t		ft_set_term(void)
 		return (-1);
 	term.c_lflag &= ~(ICANON);
 	term.c_lflag &= ~(ECHO);
+//	term.c_lflag &= ~(ECHOCTL);
+//	term.c_oflag |= ONOEOT;
 	if (tcsetattr(0, TCSADRAIN, &term) == -1)
 		return (-1);
-	ft_unset_echo_mode();
 	ft_set_insert();
 	return (0);
 }

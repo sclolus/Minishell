@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 23:23:12 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/16 18:23:30 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/25 10:58:48 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,7 @@ t_env		*ft_get_env(t_shenv *shenv)
 	char		**env;
 	t_env		*environ;
 
-	if (!(count = ft_shenv_get_env_count(shenv)))
-		return (NULL);
+	count = ft_shenv_get_env_count(shenv);
 	if (!(environ = (t_env*)malloc(sizeof(t_env)))
 		|| !(env = (char**)ft_memalloc(sizeof(char*) * (count + 1))))
 		exit(EXIT_FAILURE);

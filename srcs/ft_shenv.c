@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 22:22:26 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/16 18:16:27 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/25 12:00:02 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,11 @@ void	ft_modify_var(t_shenv *shenv, char *var)
 			exit(EXIT_FAILURE);
 	}
 	else
+	{
+		CHECK(TEST);
+
 		ft_add_var(shenv, var);
+	}
 }
 
 void	ft_add_var(t_shenv *shenv, char *var)

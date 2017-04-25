@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 22:14:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/24 07:42:48 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/25 11:49:03 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -323,7 +323,7 @@ void	ft_exec_cmd(char **argv, t_shenv *shenv) //last arg test
 		if (ft_find_file(argv[0], shenv->env) > 0)
 		{
 			if (!ft_check_exec_perm(argv[0])) // use stat with geteuid
-				exit(EXIT_NO_PERM);
+				ft_error_exit(2, (char *[]){"Permission denied: ", argv[0]}, EXIT_NO_PERM);
 			execve(argv[0], argv, shenv->env->env);
 			ft_error_exit(2, (char *[]){"Permission denied: ", argv[0]}, EXIT_NO_PERM);
 		}

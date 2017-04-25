@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 18:39:20 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/25 10:18:27 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/25 10:59:19 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,4 @@ void				ft_quote_removal(char **word)
 	}
 	ft_sanitize_quotes(*word, indexes, offset, i);
 	ft_sanitize_backslashes(*word);
-	printf("final = %s\n", *word);
-
 }

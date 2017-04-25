@@ -28,16 +28,20 @@ char		**ft_get_env_value(char **env, char *variable)
 	char		*tmp;
 	uint32_t	len;
 	uint32_t	variable_len;
+	char		*var;
 
 	path = NULL;
 	tmp = NULL;
 	variable_len = ft_strlen(variable);
-	if (!(path = ft_strsplit(ft_find_env((char const**)env, variable), ':')))
+	if (!(var = ft_find_env((char const**)env, variable)))
+		return (NULL);
+	if (!(path = ft_strsplit(var, ':')))
 		exit (EXIT_FAILURE);
 	if (!(tmp = ft_strdup(*path)))
 		exit(EXIT_FAILURE);
 	len = ft_strlen(tmp) - variable_len - 1; 
 	ft_strncpy(*path, tmp + variable_len + 1, len + 1);
+	free(tmp);
 	return (path);
 }
 

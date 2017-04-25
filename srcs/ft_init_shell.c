@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 03:24:20 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/23 07:21:06 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/24 23:07:06 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_init_shell(void)
 	{
 		while (tcgetpgrp(shell->interactive)
 			   != (shell->shell_pgid = getpgrp()))
-			kill(-shell->shell_pgid, SIGTTIN);
+			kill(-shell->shell_pgid, SIGSTOP);
 		ft_ignore_signals();
 		shell->shell_pgid = getpid();
 		if (-1 == (setpgid(shell->shell_pgid, shell->shell_pgid)))

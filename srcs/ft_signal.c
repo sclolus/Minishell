@@ -17,6 +17,21 @@ void		ft_handler_tstp(int signum)
 }
 
 
+static void	ft_handler_cont(int signum)
+{
+	if (signum == SIGCONT)
+	{
+		shell->shell_pgid = getpid();
+		shell->interactive = isatty(shell->terminal);
+		while (tcgetpgrp(shell->interactive)
+			   != (shell->shell_pgid))
+			kill(-shell->shell_pgid, SIGSTOP);
+		ft_set_term();
+	}
+	else
+		ft_putstr_fd("signal handling error", 2);
+}
+
 int32_t		ft_setup_sighandlers(void)
 {
 	if (signal(SIGINT, &ft_handler_int) == SIG_ERR)
@@ -24,12 +39,9 @@ int32_t		ft_setup_sighandlers(void)
 	if (signal(SIGCHLD, SIG_DFL) == SIG_ERR)
 		return (ft_error(1, (char*[]){"Signal handling error"}, -1));
 	if (signal(SIGTSTP, &ft_handler_tstp) == SIG_ERR)
-	return (ft_error(1, (char*[]){"Signal handling error"}, -1));
-/*	if (signal(SIGCONT, &ft_handler_cont) == SIG_ERR)
-	{
-		ft_putstr_fd("signal handling error", 2);
-		return (-1);
-		}*/
+		return (ft_error(1, (char*[]){"Signal handling error"}, -1));
+	if (signal(SIGCONT, &ft_handler_cont) == SIG_ERR)
+		return (ft_error(1, (char*[]){"Signal handling error"}, -1));
 	return (1);
 }
 

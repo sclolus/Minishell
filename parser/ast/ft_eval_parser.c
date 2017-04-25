@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 00:55:46 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/05 17:15:39 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/24 16:49:36 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -390,36 +390,7 @@ uint32_t		ft_eval_parser(t_parser *parser, char **string)
 	uint32_t	ret;
 
 	base = *string;
-/*	ft_putstr("\nentered :");
-	if (!parser)
-		exit(EXIT_FAILURE);
-	if (parser->name)
-	{
-		ft_putstr(parser->name);
-		ft_put_id(parser);
-
-	}
-	else
-	{
-		ft_put_id(parser);
-		if (parser->id == OR)
-			ft_putstr("yo");
-			}*/
 	ret = eval_parsers[parser->id].f(parser, string);
-/*	if (parser->name)
-	{
-		ft_putstr(parser->name);
-		ft_put_id(parser);
-
-	}
-	else
-	ft_put_id(parser);
-			  ft_putstr("returned = ");
-	ft_putnbr(ret);
-	ft_putstr(" || current parser :");
-	ft_putstr(*string);
-	ft_putchar('\n');
-*/
 	if (ret)
 		parser->retained = RETAINED;
 	else
@@ -427,7 +398,5 @@ uint32_t		ft_eval_parser(t_parser *parser, char **string)
 		parser->retained = UNRETAINED;
 		*string = base;
 	}
-/*	ft_putstr("parser");*/
-//	ft_put_parser_tree(parser);
 	return (ret);
 }

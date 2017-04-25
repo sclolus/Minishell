@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 10:12:09 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/24 15:40:32 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/24 17:21:19 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 uint32_t		ft_eval_tokens_undefined(t_parser *parser, t_tokens *tokens)
 {
+	if (!tokens->tokens[tokens->index])
+	{
+		ft_putendl_fd("error: (null)", 2);
+		return (0);
+	}
 	if (parser)
 		;
 	ft_putstr_fd("error: undefined parser\n", 2);

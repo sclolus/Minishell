@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/24 16:01:35 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/24 19:36:37 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,7 @@ int32_t		ft_read_write_redirect(t_parser *redirect);
 
 int32_t		ft_expansions(t_parser *simple_cmd, t_shenv *env);
 void		ft_var_expansion(char **word, t_shenv *shenv);
+void		ft_quote_removal(char **word);
 void		ft_tilde_expansion(char **word, t_shenv *env);
 int32_t		ft_find_file(char *filename, t_env *env);
 char		*ft_get_file_name(char *file);

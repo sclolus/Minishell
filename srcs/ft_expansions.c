@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 05:08:11 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/22 08:37:50 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/24 19:54:11 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ int32_t	ft_expansions(t_parser *simple_cmd, t_shenv *shenv)
 																	shenv);
 		ft_var_expansion(&(AND_PARSER_N(simple_cmd, 2)->parser.str_any_of.str),
 																	shenv);
+		ft_quote_removal(&(AND_PARSER_N(simple_cmd, 2)->parser.str_any_of.str));
 		ft_expansions_cmd_postfix(AND_PARSER_N(simple_cmd, 4), shenv);
 	}
 	else

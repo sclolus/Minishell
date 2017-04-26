@@ -121,8 +121,10 @@ int main(int argc, char **argv, char **env)
 		{
 /* 						ft_put_ast_tokens(parser); */
 /* 			ft_putendl(""); */
-/* 			ft_create_heredocs(tokens, shenv); */
-/* 			ft_put_heredocs(shenv); */
+ 			ft_create_heredocs(tokens, shenv);
+						ft_put_heredocs(shenv);
+			ft_get_heredocs(shenv);
+			ft_put_heredocs_content(shenv);
  			ft_exec_parser(parser, shenv);
 		}
 		else

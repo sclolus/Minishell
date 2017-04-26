@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 14:22:32 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/22 14:26:45 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/26 12:02:17 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,6 @@ int32_t	ft_duplicating_input_redirect(t_parser *redirect)
 	}
 	return (redirect_fd);
 }
-
 
 int32_t	ft_duplicating_output_redirect(t_parser *redirect)
 {

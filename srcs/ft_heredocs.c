@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 11:10:55 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/25 14:21:18 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/26 13:53:36 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_create_heredoc_file(char *delimiter
 	t_list		*lstnew;
 	int			fd;
 
-	if (!(filename = ft_itoa(index)))
+	if (!(filename = ft_strjoin_f("./tmp/", ft_itoa(index), 1)))
 		exit(EXIT_FAILURE);
 	if ((fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC
 				   , S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == -1)
@@ -42,10 +42,17 @@ int		ft_open_heredoc_file(char *filename)
 {
 	int			fd;
 
-	if ((fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC
-				   , S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == -1)
-		ft_error_exit(1, (char*[]){"Failed to create Here-Document File"}
+	if ((fd = open(filename, O_RDWR)) == -1)
+		ft_error_exit(1, (char*[]){"Failed to open Here-Document File"}
 					, EXIT_HEREDOC_FILE);
+	ft_putendl("");
+	ft_putstr("Opened: ");
+	ft_putstr(filename);
+	ft_putstr("at fd: ");
+	ft_putnbr(fd);
+	ft_putendl("");
+	if (fd == -1)
+		ft_error_exit(1, (char*[]){"Bad file descriptor"}, -1);
 	return (fd);
 }
 
@@ -59,14 +66,14 @@ int		ft_get_heredoc_index(uint32_t index, t_shenv *shenv)
 	else
 		return (-1);
 	tmp = shenv->heredocs;
-	index = len - index;
+	index = len - index - 1;
 	while (index && tmp)
 	{
 		index--;
 		tmp = tmp->next;
 	}
 	if (tmp)
-		return (ft_open_heredoc_file(tmp->content));
+		return (ft_open_heredoc_file(((t_heredoc*)tmp->content)->filename));
 	return (-1);
 }
 
@@ -126,6 +133,37 @@ void		ft_put_heredocs(t_shenv *shenv)
 	}
 }
 
+void		ft_put_heredocs_content(t_shenv *shenv)
+{
+	t_list		*tmp;
+	uint32_t	i;
+	int	fd;
+	static char		buf[4096];
+	uint32_t	ret;
+
+	tmp = shenv->heredocs;
+	i = 0;
+	while (tmp)
+	{
+		ft_putstr("Heredoc n: ");
+		ft_putnbr(i);
+		ft_putstr("\n Filename: ");
+		ft_putendl(((t_heredoc*)tmp->content)->filename);
+		ft_putstr("\nDelimiter: ");
+		ft_putendl(((t_heredoc*)tmp->content)->delimiter);
+		if ((fd = ft_open_heredoc_file(((t_heredoc*)tmp->content)->filename)) == -1)
+			exit(EXIT_FAILURE);
+		while ((ret = read(fd, buf, 4095)))
+		{
+			buf[ret] = 0;
+			ft_putstr(buf);
+		}
+		ft_putnbr(ret);
+		tmp = tmp->next;
+		i++;
+	}
+}
+
 void		ft_clear_heredoc(t_list *heredoc)
 {
 	free(((t_heredoc*)heredoc->content)->filename);
@@ -135,8 +173,8 @@ void		ft_clear_heredoc(t_list *heredoc)
 	free(heredoc);
 }
 
-#if 0
-void		ft_get_heredoc(t_parser *heredoc, uint32_t index, t_shenv *shenv)
+#if 1
+void		ft_get_heredoc(t_heredoc *heredoc, uint32_t index, t_shenv *shenv)
 {
 	char		*heredoc_input;
 	char		*tmp;
@@ -147,17 +185,19 @@ void		ft_get_heredoc(t_parser *heredoc, uint32_t index, t_shenv *shenv)
 	ft_termget(&heredoc_input, shenv);
 	if (!(heredoc_input = ft_strdup(heredoc_input)))
 		exit(EXIT_FAILURE);
+	heredoc_input = ft_strjoin_f(heredoc_input, "\n", 0); // free bss
 	offset = 0;
-	while (!ft_strcmp(heredoc_input + offset, ?))
+	while (ft_strcmp(heredoc_input + offset, heredoc->delimiter))
 	{
-		offest += ft_strlen(heredoc_input + offset);
+		offset += ft_strlen(heredoc_input + offset);
 		ft_termget(&tmp, shenv);
-		if (!(ft_strcmp(tmp, ?)))
+		if (!(ft_strcmp(tmp, heredoc->delimiter)))
 		{
-			offest += ft_strlen(heredoc_input + offset);
+			offset += ft_strlen(heredoc_input + offset);
 			break ;
 		}
 		heredoc_input = ft_strjoin_f(heredoc_input, tmp, 0); // free bss
+		heredoc_input = ft_strjoin_f(heredoc_input, "\n", 0); // free bss
 	}
 	write(fd, heredoc_input, offset);
 	if (close(fd) == -1)
@@ -167,3 +207,17 @@ void		ft_get_heredoc(t_parser *heredoc, uint32_t index, t_shenv *shenv)
 }
 
 #endif
+
+void		ft_get_heredocs(t_shenv *shenv)
+{
+	t_list		*tmp;
+	uint32_t	i;
+
+	i = 0;
+	tmp = shenv->heredocs;
+	while (tmp)
+	{
+		ft_get_heredoc(tmp->content, i++, shenv);
+		tmp = tmp->next;
+	}
+}

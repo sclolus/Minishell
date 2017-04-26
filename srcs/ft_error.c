@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 04:57:34 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/05 07:37:43 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/26 11:33:18 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	ft_error_exit(uint32_t n, char **str, int32_t exit_status)
 		i++;
 	}
 	ft_putstr_fd("\n", 2);
+	ft_unset_term();
+	ft_unset_insert();
 	exit(exit_status);
 }
 

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/25 16:05:07 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/26 13:27:47 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -318,5 +318,8 @@ t_process	*ft_t_process_add(t_process **processes, t_process *new);
 void		ft_create_heredocs(t_tokens *tokens, t_shenv *shenv);
 void		ft_clear_heredoc(t_list *heredoc);
 void		ft_put_heredocs(t_shenv *shenv);
+void		ft_get_heredoc(t_heredoc *heredoc, uint32_t index, t_shenv *shenv);
+void		ft_get_heredocs(t_shenv *shenv);
+void		ft_put_heredocs_content(t_shenv *shenv);
 
 #endif

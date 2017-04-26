@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 02:07:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/25 14:30:27 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/26 11:03:30 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	ft_exec_special_event(t_shenv *shenv, t_string *buf
 
 	if ((*(long*)command == '\n' || *(long*)command == 4))
 	{
+		if (!buf->len)
+			return (0);
 		if (!(tmp = ft_lstnew(buf->string, buf->len)))
 			exit (EXIT_FAILURE);
 		ft_lstadd(ft_get_history_list(), tmp);

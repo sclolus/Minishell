@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 16:00:44 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/20 23:10:49 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/26 10:14:45 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,27 @@ int32_t		ft_built_in_exit(char **argv, t_shenv *shenv)
 	i = 0;
 	ft_putendl("exit");
 	exit_status = 0;
-	ft_unset_term();
-	ft_unset_insert();
 	if (shenv)
 		;
-        if (argv[2])
-            ft_error(1, (char*[]){"exit: Too many arguments"}, 2);
-                if (argv[1])
+	if (argv[2])
+		return (ft_error(1, (char*[]){"exit: Too many arguments"}, 2));
+	if (argv[1])
 	{
 		while (argv[1][i])
 		{
 			if (!ft_isdigit(argv[1][i]))
+			{
+				ft_unset_term();
+				ft_unset_insert();
 				ft_error_exit(3, (char*[]){"exit: "
 							, argv[1], ": numeric argument required"}, 255);
+			}
 			i++;
 		}
 		exit_status = ft_atoi(argv[1]);
 	}
+	ft_unset_term();
+	ft_unset_insert();
 	exit(POSIX_EXIT_STATUS(exit_status));
 	return (-1);
 }

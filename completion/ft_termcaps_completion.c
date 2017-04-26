@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 09:50:12 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/23 07:57:47 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/26 10:22:51 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,8 @@ int32_t			ft_complete_path_commands(t_string *buf, t_shenv *shenv,
 	ltree = NULL;
 	ft_free_t_env(shenv->env);
 	shenv->env = ft_get_env(shenv);
-	path = ft_get_env_value(shenv->env->env, "PATH");
+	if (!(path = ft_get_env_value(shenv->env->env, "PATH")))
+		return (0);
 	i = 0;
 	while (path[i])
 	{

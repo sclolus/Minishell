@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 11:10:55 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/26 18:01:27 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/26 19:44:45 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,30 @@ int		ft_open_heredoc_file(char *filename)
 	if ((fd = open(filename, O_RDWR)) == -1)
 		ft_error_exit(1, (char*[]){"Failed to open Here-Document File"}
 					, EXIT_HEREDOC_FILE);
-	ft_putendl("");
-	ft_putstr("Opened: ");
-	ft_putstr(filename);
-	ft_putstr("at fd: ");
-	ft_putnbr(fd);
-	ft_putendl("");
 	if (fd == -1)
 		ft_error_exit(1, (char*[]){"Bad file descriptor"}, -1);
 	return (fd);
+}
+
+t_heredoc	*ft_get_t_heredoc_index(uint32_t index, t_shenv *shenv)
+{
+	t_list		*tmp;
+	uint32_t	len;
+
+	if (shenv->heredocs)
+		len = ft_lstlen(shenv->heredocs);
+	else
+		return (NULL);
+	tmp = shenv->heredocs;
+	index = len - index - 1;
+	while (index && tmp)
+	{
+		index--;
+		tmp = tmp->next;
+	}
+	if (tmp)
+		return (tmp->content);
+	return (NULL);
 }
 
 int		ft_get_heredoc_index(uint32_t index, t_shenv *shenv)
@@ -175,6 +190,12 @@ void		ft_clear_heredoc(t_list *heredoc)
 	free(heredoc);
 }
 
+void		ft_clear_heredocs(t_shenv *shenv)
+{
+	while (shenv->heredocs)
+		ft_delone_heredoc(shenv);
+}
+
 void		ft_delone_heredoc(t_shenv *shenv)
 {
 	t_list	*tmp;
@@ -234,21 +255,21 @@ void		ft_get_heredocs(t_shenv *shenv)
 
 int32_t	ft_heredoc_redirect(t_parser *heredoc)
 {
-	int32_t	fd_file;
-	int32_t	redirect_fd;
-	char	*filename;
-	t_shenv	*shenv;
+	int32_t		fd_file;
+	int32_t		redirect_fd;
+	t_shenv		*shenv;
+	t_heredoc	*heredocument;
 
-	return (0);
 	shenv = *ft_get_shenv();
-	(void)filename;
+	if (!(heredocument = ft_get_t_heredoc_index(shenv->heredocs_index, shenv)))
+		return (EXIT_REDIREC_ERROR);
 	if (OR_PARSER_N(heredoc, 0)->retained)
 	{
 		heredoc = OR_PARSER_N(heredoc, 0);
 		redirect_fd = ft_atoi(AND_PARSER_N(heredoc, 0)->parser.str_any_of.str);
 		if (redirect_fd < 0)
 			ft_error_exit(1, (char*[]){"Invalid File descriptor"}, EXIT_REDIREC_ERROR);
-		if ((fd_file = ft_open_heredoc_file(((t_heredoc*)shenv->heredocs->content)->filename)) == -1)
+		if ((fd_file = ft_open_heredoc_file(heredocument->filename)) == -1)
 			ft_error_exit(1, (char*[]){"Failed to open heredoc"}, EXIT_REDIREC_ERROR);
 		if (dup2(fd_file, redirect_fd) == -1)
 			ft_error_exit(1, (char*[]){"File descriptor duplication failed"}, EXIT_REDIREC_ERROR);
@@ -257,7 +278,7 @@ int32_t	ft_heredoc_redirect(t_parser *heredoc)
 	{
 		heredoc = OR_PARSER_N(heredoc, 1);
 		redirect_fd = STDIN_FILENO;
-		if ((fd_file = ft_open_heredoc_file(((t_heredoc*)shenv->heredocs->content)->filename)) == -1)
+		if ((fd_file = ft_open_heredoc_file(heredocument->filename)) == -1)
 			ft_error_exit(1, (char*[]){"Failed to open heredoc"}, EXIT_REDIREC_ERROR);
 		if (dup2(fd_file, redirect_fd) == -1)
 			ft_error_exit(1, (char*[]){"File descriptor duplication failed"}, EXIT_REDIREC_ERROR);

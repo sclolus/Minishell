@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 17:11:19 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/26 17:59:24 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/26 19:42:22 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static uint32_t		ft_get_cmd_postfix_heredoc_count(t_parser *cmd_postfix)
 	n = MULTIPLY_N(cmd_postfix);
 	while (i < n)
 	{
-		if (IS_RETAINED(OR_PARSER_N(MULTIPLY_PARSER_N(cmd_postfix, i), 0))
+		if (IS_RETAINED(OR_PARSER_N(AND_PARSER_N(MULTIPLY_PARSER_N(cmd_postfix, i), 0), 0))
 			&& ft_is_redirection_heredoc(OR_PARSER_N(MULTIPLY_PARSER_N(cmd_postfix, i), 0)))
 			count++;
 		i++;

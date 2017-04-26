@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/26 18:00:17 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/26 19:35:41 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -323,6 +323,9 @@ void		ft_put_heredocs(t_shenv *shenv);
 void		ft_get_heredoc(t_heredoc *heredoc, uint32_t index, t_shenv *shenv);
 void		ft_get_heredocs(t_shenv *shenv);
 void		ft_put_heredocs_content(t_shenv *shenv);
+void		ft_clear_heredocs(t_shenv *shenv);
 uint32_t	ft_get_cmd_heredoc_count(t_parser *simple_cmd);
+void		ft_delone_heredoc(t_shenv *shenv);
+t_heredoc	*ft_get_t_heredoc_index(uint32_t index, t_shenv *shenv);
 
 #endif

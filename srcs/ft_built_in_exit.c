@@ -24,7 +24,9 @@ int32_t		ft_built_in_exit(char **argv, t_shenv *shenv)
 	ft_unset_insert();
 	if (shenv)
 		;
-	if (argv[1])
+        if (argv[2])
+            ft_error(1, (char*[]){"exit: Too many arguments"}, 2);
+                if (argv[1])
 	{
 		while (argv[1][i])
 		{

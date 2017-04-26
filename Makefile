@@ -36,6 +36,7 @@ SRC= srcs/minishell.c \
 	srcs/ft_check_file.c \
 	srcs/ft_argv.c \
 	srcs/ft_lexer.c \
+	srcs/ft_get_shenv.c \
 	termcaps/termcaps.c \
 	termcaps/line.c \
 	termcaps/line_2.c \

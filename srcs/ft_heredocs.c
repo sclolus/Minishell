@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 11:10:55 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/26 13:53:36 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/26 15:49:18 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,9 +168,22 @@ void		ft_clear_heredoc(t_list *heredoc)
 {
 	free(((t_heredoc*)heredoc->content)->filename);
 	free(((t_heredoc*)heredoc->content)->delimiter);
-	heredoc->prev->next = NULL;
+	if (heredoc->next)
+		heredoc->next->prev = NULL;
 	free(heredoc->content);
 	free(heredoc);
+}
+
+void		ft_delone_heredoc(t_shenv *shenv)
+{
+	t_list	*tmp;
+
+	if (shenv->heredocs->next)
+		tmp = shenv->heredocs->next;
+	else
+		tmp = NULL;
+	ft_clear_heredoc(heredocs);
+	shenv->heredocs = tmp;
 }
 
 #if 1
@@ -220,4 +233,37 @@ void		ft_get_heredocs(t_shenv *shenv)
 		ft_get_heredoc(tmp->content, i++, shenv);
 		tmp = tmp->next;
 	}
+}
+
+int32_t	ft_heredoc_redirect(t_parser *heredoc)
+{
+	int32_t	fd_file;
+	int32_t	redirect_fd;
+	char	*filename;
+	t_shenv	*shenv;
+
+	shenv = *ft_get_shenv();
+	if (OR_PARSER_N(heredoc, 0)->retained)
+	{
+		heredoc = OR_PARSER_N(heredoc, 0);
+		redirect_fd = ft_atoi(AND_PARSER_N(heredoc, 0)->parser.str_any_of.str);
+		if (redirect_fd < 0)
+			ft_error_exit(1, (char*[]){"Invalid File descriptor"}, EXIT_REDIREC_ERROR);
+		if ((fd_file = ft_open_heredoc_file(((t_heredoc*)shenv->heredocs->content)->filename)) == -1)
+			ft_error_exit(1, (char*[]){"Failed to open heredoc"}, EXIT_REDIREC_ERROR);
+		if (dup2(fd_file, redirect_fd) == -1)
+			ft_error_exit(1, (char*[]){"File descriptor duplication failed"}, EXIT_REDIREC_ERROR);
+		ft_delone_heredoc
+	}
+	else
+	{
+		heredoc = OR_PARSER_N(heredoc, 1);
+		redirect_fd = STDIN_FILENO;
+		if ((fd_file = ft_open_heredoc_file(((t_heredoc*)shenv->heredocs->content)->filename)) == -1)
+			ft_error_exit(1, (char*[]){"Failed to open heredoc"}, EXIT_REDIREC_ERROR);
+		if (dup2(fd_file, redirect_fd) == -1)
+			ft_error_exit(1, (char*[]){"File descriptor duplication failed"}, EXIT_REDIREC_ERROR);
+	}
+	close(fd_file);
+	return (redirect_fd);
 }

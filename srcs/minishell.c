@@ -104,6 +104,7 @@ int main(int argc, char **argv, char **env)
 	t_tokens	*tokens;
 
 	shenv = ft_init_shenv(ft_get_env_count(env), env);
+	*ft_get_shenv() = shenv;
 	ft_putchar('\n');
 	while (1)
 	{

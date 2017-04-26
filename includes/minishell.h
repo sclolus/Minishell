@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/26 13:27:47 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/26 15:12:55 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,6 +243,7 @@ int32_t	ft_is_dir(char *pathname);
 */
 
 t_shenv		*ft_init_shenv(uint32_t argc, char **env);
+t_shenv		**ft_get_shenv(void);
 t_env		*ft_get_env(t_shenv *shenv);
 char		**ft_find_var(t_shenv *shenv, char *var);
 int32_t		ft_shenv_get_env_count(t_shenv *shenv);

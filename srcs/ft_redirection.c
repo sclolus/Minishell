@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 14:22:32 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/26 12:02:17 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/26 15:12:39 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,7 @@ int32_t		ft_redirections(t_parser *simple_cmd)
 		&ft_duplicating_output_redirect,
 		&ft_input_redirect,
 		&ft_duplicating_input_redirect,
-		NULL,
+		&ft_heredoc_redirect,
 		&ft_read_write_redirect,
 		&ft_output_append_redirect,
 		&ft_output_redirect

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 22:14:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/25 18:29:28 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/26 10:01:07 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,28 +66,25 @@ int32_t	ft_exec_list(t_parser *parser, t_shenv *shenv)
 {
 	uint32_t	i;
 	uint32_t	n;
-
-	if (IS_RETAINED(OR_PARSER_N(parser, 0)))
-	{
-		parser = OR_PARSER_N(parser, 0);
-		i = 0;
-		n = MULTIPLY_N(parser);
-		while (i < n)
-			ft_exec_and_or(AND_PARSER_N(MULTIPLY_PARSER_N(parser
-														, i++), 0), shenv);
-		return (1);
-	}
-	else if (IS_RETAINED(OR_PARSER_N(parser, 1)))
+	
+	if (IS_RETAINED(OR_PARSER_N(parser, 1)))
 	{
 		parser = OR_PARSER_N(parser, 1);
 		i = 0;
+		n = PLUS_N(parser);
+		while (i < n)
+			ft_exec_and_or(AND_PARSER_N(PLUS_PARSER_N(parser
+														, i++), 0), shenv);
+		return (1);
+	}
+	else if (IS_RETAINED(OR_PARSER_N(parser, 0)))
+	{
+		parser = OR_PARSER_N(parser, 0);
+		i = 0;
 		n = MULTIPLY_N(AND_PARSER_N(parser, 0));
 		while (i < n)
-		{
 			ft_exec_and_or(AND_PARSER_N(MULTIPLY_PARSER_N(AND_PARSER_N(parser,
-															0), i), 0), shenv);
-			i++;
-		}
+															0), i++), 0), shenv);
 		ft_exec_and_or(AND_PARSER_N(parser, 1), shenv);
 		return (1);
 	}
@@ -379,5 +376,6 @@ int32_t	ft_exec_command(t_parser *parser, t_shenv *shenv)
 
 int32_t	ft_exec_parser(t_parser *parser, t_shenv *shenv)
 {
+	CHECK(TEST);
 	return (ft_exec_command(parser->parser.multiply.parsers[0], shenv));
 }

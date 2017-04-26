@@ -68,9 +68,10 @@ int main(int argc, char **argv, char **env)
 #if 1
 	# define test 1
 # if test == 1
+//							   <list>			::= (<and_or> <sp> <separator> <sp>)+ | (<and_or> <sp> <separator> <sp>)* <and_or> \n
 	if (!(grammar = ft_strdup("<command>		::= <sp> <list> <sp> \n\
-							   <list>			::= (<and_or> <sp> <separator> <sp>)+ | (<and_or> <sp> <separator> <sp>)* <and_or> \n\
-							   <and_or>			::= (<sp> \"&&\" <sp> <pipeline> | <sp> \"||\" <sp> <pipeline> | <sp> <pipeline>)+\n\
+							   <list>			::=(<and_or> <sp> <separator> <sp>)* <and_or> |  (<and_or> <sp> <separator> <sp>)+ \n\
+							   <and_or>			::= (<sp> \"&&\" <sp> <pipeline> | <sp> \"||\" <sp> <pipeline> | <sp> <pipeline>)+ \n\
 							   <simple_cmd>		::= <sp> (<cmd_prefix>)* <command_name> <sp> (<cmd_postfix> <sp>)*  | (<cmd_prefix>)+ <sp>\n\
 							   <cmd_postfix>	::= <io_redirect> | <arg> \n\
 							   <cmd_prefix>		::= <env_assignment> <sp> | <io_redirect> <sp> \n\
@@ -118,6 +119,7 @@ int main(int argc, char **argv, char **env)
 			exit(EXIT_FAILURE);
 		if (ft_eval_tokens_input(parser, tokens))
 		{
+/* 						ft_put_ast_tokens(parser); */
 /* 			ft_putendl(""); */
 /* 			ft_create_heredocs(tokens, shenv); */
 /* 			ft_put_heredocs(shenv); */

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 22:14:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/26 11:55:34 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/26 17:33:16 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,6 +205,7 @@ int32_t	ft_exec_pipe_sequence(t_parser *parser, t_shenv *shenv)
 		if (!(ft_is_built_in(parser) || IS_RETAINED(OR_PARSER_N(parser, 1))))
 		{
 			processes = ft_start_process(parser, 0, (int[]){0, 1, 0, 1}, shenv);
+			ft_putnbr(ft_get_cmd_heredoc_count(parser));
 			ft_put_processes_in_foreground(processes, 1);
 			waitpid(processes->gpid, &ret, WUNTRACED);
 			ft_put_shell_in_foreground();
@@ -263,6 +264,9 @@ t_process	*ft_start_process(t_parser *simple_cmd, pid_t gpid,
 		process->pid = pid;
 		process->gpid = gpid;
 		process->argv = argv;
+		CHECK(HEREDOC_COUNT);
+		ft_putnbr(ft_get_cmd_heredoc_count(simple_cmd));
+		CHECK(HEREDOC_COUNT);
 		return (process);
 	}
 	else

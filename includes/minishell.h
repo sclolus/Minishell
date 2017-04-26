@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/26 15:12:55 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/26 18:00:17 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ typedef struct	s_shenv
 	t_bool		*attr;	
 	uint32_t	count;
 	t_list		*heredocs;
-	uint32_t	heredocs_count;
+	uint32_t	heredocs_index;
 }				t_shenv;
 
 typedef struct	s_built_in
@@ -316,11 +316,13 @@ int32_t		ft_exec_parser(t_parser *parser, t_shenv *shenv);
 char		**ft_get_env_value(char **env, char *variable);
 t_process	*ft_t_process_add(t_process **processes, t_process *new);
 
+int32_t		ft_heredoc_redirect(t_parser *heredoc);
 void		ft_create_heredocs(t_tokens *tokens, t_shenv *shenv);
 void		ft_clear_heredoc(t_list *heredoc);
 void		ft_put_heredocs(t_shenv *shenv);
 void		ft_get_heredoc(t_heredoc *heredoc, uint32_t index, t_shenv *shenv);
 void		ft_get_heredocs(t_shenv *shenv);
 void		ft_put_heredocs_content(t_shenv *shenv);
+uint32_t	ft_get_cmd_heredoc_count(t_parser *simple_cmd);
 
 #endif

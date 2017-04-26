@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 11:10:55 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/26 15:49:18 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/26 18:01:27 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ void		ft_create_heredocs(t_tokens *tokens, t_shenv *shenv)
 		ft_create_heredoc_file(delimiter, count, shenv);
 		count++;
 	}
+	shenv->heredocs_index = 0;
 }
 
 void		ft_put_heredocs(t_shenv *shenv)
@@ -182,11 +183,10 @@ void		ft_delone_heredoc(t_shenv *shenv)
 		tmp = shenv->heredocs->next;
 	else
 		tmp = NULL;
-	ft_clear_heredoc(heredocs);
+	ft_clear_heredoc(shenv->heredocs);
 	shenv->heredocs = tmp;
 }
 
-#if 1
 void		ft_get_heredoc(t_heredoc *heredoc, uint32_t index, t_shenv *shenv)
 {
 	char		*heredoc_input;
@@ -198,10 +198,10 @@ void		ft_get_heredoc(t_heredoc *heredoc, uint32_t index, t_shenv *shenv)
 	ft_termget(&heredoc_input, shenv);
 	if (!(heredoc_input = ft_strdup(heredoc_input)))
 		exit(EXIT_FAILURE);
-	heredoc_input = ft_strjoin_f(heredoc_input, "\n", 0); // free bss
 	offset = 0;
 	while (ft_strcmp(heredoc_input + offset, heredoc->delimiter))
 	{
+		heredoc_input = ft_strjoin_f(heredoc_input, "\n", 0); // free bss
 		offset += ft_strlen(heredoc_input + offset);
 		ft_termget(&tmp, shenv);
 		if (!(ft_strcmp(tmp, heredoc->delimiter)))
@@ -210,7 +210,6 @@ void		ft_get_heredoc(t_heredoc *heredoc, uint32_t index, t_shenv *shenv)
 			break ;
 		}
 		heredoc_input = ft_strjoin_f(heredoc_input, tmp, 0); // free bss
-		heredoc_input = ft_strjoin_f(heredoc_input, "\n", 0); // free bss
 	}
 	write(fd, heredoc_input, offset);
 	if (close(fd) == -1)
@@ -218,8 +217,6 @@ void		ft_get_heredoc(t_heredoc *heredoc, uint32_t index, t_shenv *shenv)
 					, EXIT_HEREDOC_FILE);
 	free(heredoc_input);
 }
-
-#endif
 
 void		ft_get_heredocs(t_shenv *shenv)
 {
@@ -242,7 +239,9 @@ int32_t	ft_heredoc_redirect(t_parser *heredoc)
 	char	*filename;
 	t_shenv	*shenv;
 
+	return (0);
 	shenv = *ft_get_shenv();
+	(void)filename;
 	if (OR_PARSER_N(heredoc, 0)->retained)
 	{
 		heredoc = OR_PARSER_N(heredoc, 0);
@@ -253,7 +252,6 @@ int32_t	ft_heredoc_redirect(t_parser *heredoc)
 			ft_error_exit(1, (char*[]){"Failed to open heredoc"}, EXIT_REDIREC_ERROR);
 		if (dup2(fd_file, redirect_fd) == -1)
 			ft_error_exit(1, (char*[]){"File descriptor duplication failed"}, EXIT_REDIREC_ERROR);
-		ft_delone_heredoc
 	}
 	else
 	{

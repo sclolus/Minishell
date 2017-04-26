@@ -33,6 +33,8 @@ SRC= srcs/minishell.c \
 	srcs/ft_process.c \
 	srcs/ft_error.c \
 	srcs/ft_redirection.c \
+	srcs/ft_heredocs.c \
+	srcs/ft_get_cmd_heredoc_count.c \
 	srcs/ft_check_file.c \
 	srcs/ft_argv.c \
 	srcs/ft_lexer.c \

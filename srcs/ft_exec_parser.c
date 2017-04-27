@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 22:14:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/26 19:46:22 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/27 16:29:38 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,16 @@ int32_t	ft_exec_built_in(t_parser *parser, t_shenv *shenv)
 	return (EXIT_ILLEGAL_CMD);
 }
 
+static void	ft_restore_fds(int *fd)
+{
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
+	dup2(fd[0], STDIN_FILENO);
+	dup2(fd[1], STDOUT_FILENO);
+	dup2(fd[2], STDERR_FILENO);
+}
+
 int32_t	ft_exec_pipe_sequence(t_parser *parser, t_shenv *shenv)
 {
 	t_process	*processes;
@@ -204,6 +214,10 @@ int32_t	ft_exec_pipe_sequence(t_parser *parser, t_shenv *shenv)
 
 	if (IS_RETAINED(OR_PARSER_N(parser, 1)))
 	{
+		int	restored_fds[3];
+		restored_fds[0] = dup(STDIN_FILENO);
+		restored_fds[1] = dup(STDOUT_FILENO);
+		restored_fds[2] = dup(STDERR_FILENO);
 		parser = OR_PARSER_N(parser, 1);
 		if (!(ft_is_built_in(parser) || IS_RETAINED(OR_PARSER_N(parser, 1))))
 		{
@@ -217,6 +231,7 @@ int32_t	ft_exec_pipe_sequence(t_parser *parser, t_shenv *shenv)
 		else
 			ret = ft_exec_simple_cmd(parser, shenv);
 		shenv->heredocs_index += ft_get_cmd_heredoc_count(parser);
+		ft_restore_fds(restored_fds);
 	}
 	else
 	{

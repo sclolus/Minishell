@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/26 19:35:41 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/27 16:19:03 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@
 # define POSIX_EXIT_STATUS(x) (x & 0xFF)
 
 # define BUILT_IN_COUNT 9
+
+# define ERROR_BAD_FD "Bad file descriptor"
 
 typedef struct s_env t_env;
 typedef uint8_t	t_bool;

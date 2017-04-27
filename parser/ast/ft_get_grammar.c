@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 04:43:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/05 01:38:45 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/27 06:35:46 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,9 @@ t_parser	*ft_get_grammar_syntax(t_parser *syntax)
 	i = 0;
 	while (parsers[i])
 		ft_link_rule_name(parsers, &parsers[i++]);
+	i = 1;
+	while (parsers[i])
+		ft_free_parser(parsers[i++]);
 	free(parsers);
 	return (parser);
 }

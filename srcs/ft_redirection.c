@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 14:22:32 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/26 15:12:39 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/27 16:51:44 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,17 @@ int32_t	ft_output_redirect(t_parser *redirect)
 		if ((fd_file = open(filename, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == -1)
 			ft_error_exit(2, (char*[]){"Failed to open or to create: ", filename}, EXIT_REDIREC_ERROR);
 		if (dup2(fd_file, redirect_fd) == -1)
-			ft_error_exit(1, (char*[]){"File descriptor duplication failed"}, EXIT_REDIREC_ERROR);
+			ft_error_exit(1, (char*[]){ERROR_BAD_FD}, EXIT_REDIREC_ERROR);
 	}
 	else
 	{
 		redirect = OR_PARSER_N(redirect, 1);
 		redirect_fd = STDOUT_FILENO;
 		filename = AND_PARSER_N(AND_PARSER_N(OR_PARSER_N(redirect, 0), 1), 1)->parser.str_any_of.str;
-		if ((fd_file = open(filename, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == -1)
+		if ((fd_file = open(filename, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == -1)
 			ft_error_exit(2, (char*[]){"Failed to open or create: ", filename}, EXIT_REDIREC_ERROR);
 		if (dup2(fd_file, redirect_fd) == -1)
-			ft_error_exit(1, (char*[]){"File descriptor duplication failed"}, EXIT_REDIREC_ERROR);
+			ft_error_exit(1, (char*[]){ERROR_BAD_FD}, EXIT_REDIREC_ERROR);
 	}
 	close(fd_file);
 	return (redirect_fd);
@@ -60,7 +60,7 @@ int32_t	ft_output_append_redirect(t_parser *redirect)
 		if ((fd_file = open(filename, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == -1)
 			ft_error_exit(2, (char*[]){"Failed to open or to create: ", filename}, EXIT_REDIREC_ERROR);
 		if (dup2(fd_file, redirect_fd) == -1)
-			ft_error_exit(1, (char*[]){"File descriptor duplication failed"}, EXIT_REDIREC_ERROR);
+			ft_error_exit(1, (char*[]){ERROR_BAD_FD}, EXIT_REDIREC_ERROR);
 	}
 	else
 	{
@@ -70,7 +70,7 @@ int32_t	ft_output_append_redirect(t_parser *redirect)
 		if ((fd_file = open(filename, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == -1)
 			ft_error_exit(2, (char*[]){"Failed to open or create: ", filename}, EXIT_REDIREC_ERROR);
 		if (dup2(fd_file, redirect_fd) == -1)
-			ft_error_exit(1, (char*[]){"File descriptor duplication failed"}, EXIT_REDIREC_ERROR);
+			ft_error_exit(1, (char*[]){ERROR_BAD_FD}, EXIT_REDIREC_ERROR);
 	}
 	close(fd_file);
 	return (redirect_fd);
@@ -92,7 +92,7 @@ int32_t	ft_input_redirect(t_parser *redirect)
 		if ((fd_file = open(filename, O_RDONLY)) == -1)
 			ft_error_exit(2, (char*[]){"No such file or directory: ", filename}, EXIT_REDIREC_ERROR);
 		if (dup2(fd_file, redirect_fd) == -1)
-			ft_error_exit(1, (char*[]){"File descriptor duplication failed"}, EXIT_REDIREC_ERROR);
+			ft_error_exit(1, (char*[]){ERROR_BAD_FD}, EXIT_REDIREC_ERROR);
 	}
 	else
 	{
@@ -102,7 +102,7 @@ int32_t	ft_input_redirect(t_parser *redirect)
 		if ((fd_file = open(filename, O_RDONLY)) == -1)
 			ft_error_exit(2, (char*[]){"No such file or directory: ", filename}, EXIT_REDIREC_ERROR);
 		if (dup2(fd_file, redirect_fd) == -1)
-			ft_error_exit(1, (char*[]){"File descriptor duplication failed"}, EXIT_REDIREC_ERROR);
+			ft_error_exit(1, (char*[]){ERROR_BAD_FD}, EXIT_REDIREC_ERROR);
 	}
 	close(fd_file);
 	return (redirect_fd);
@@ -121,7 +121,7 @@ int32_t	ft_duplicating_input_redirect(t_parser *redirect)
 		if (redirect_fd < 0)
 			ft_error_exit(1, (char*[]){"Invalid File descriptor"}, EXIT_REDIREC_ERROR);
 		if (dup2(fd_duplicated, redirect_fd) == -1)
-			ft_error_exit(1, (char*[]){"File descriptor duplication failed"}, EXIT_REDIREC_ERROR);
+			ft_error_exit(1, (char*[]){ERROR_BAD_FD}, EXIT_REDIREC_ERROR);
 	}
 	else
 	{
@@ -129,7 +129,7 @@ int32_t	ft_duplicating_input_redirect(t_parser *redirect)
 		redirect_fd = STDIN_FILENO;
 		fd_duplicated = ft_atoi(AND_PARSER_N(OR_PARSER_N(redirect, 3), 2)->parser.str_any_of.str);
 		if (dup2(fd_duplicated, redirect_fd) == -1)
-			ft_error_exit(1, (char*[]){"File descriptor duplication failed"}, EXIT_REDIREC_ERROR);
+			ft_error_exit(1, (char*[]){ERROR_BAD_FD}, EXIT_REDIREC_ERROR);
 	}
 	return (redirect_fd);
 }
@@ -147,7 +147,7 @@ int32_t	ft_duplicating_output_redirect(t_parser *redirect)
 		if (redirect_fd < 0)
 			ft_error_exit(1, (char*[]){"Invalid File descriptor"}, EXIT_REDIREC_ERROR);
 		if (dup2(fd_duplicated, redirect_fd) == -1)
-			ft_error_exit(1, (char*[]){"File descriptor duplication failed"}, EXIT_REDIREC_ERROR);
+			ft_error_exit(1, (char*[]){ERROR_BAD_FD}, EXIT_REDIREC_ERROR);
 	}
 	else
 	{
@@ -155,7 +155,7 @@ int32_t	ft_duplicating_output_redirect(t_parser *redirect)
 		redirect_fd = STDOUT_FILENO;
 		fd_duplicated = ft_atoi(AND_PARSER_N(OR_PARSER_N(redirect, 1), 2)->parser.str_any_of.str);
 		if (dup2(fd_duplicated, redirect_fd) == -1)
-			ft_error_exit(1, (char*[]){"File descriptor duplication failed"}, EXIT_REDIREC_ERROR);
+			ft_error_exit(1, (char*[]){ERROR_BAD_FD}, EXIT_REDIREC_ERROR);
 	}
 	return (redirect_fd);
 }
@@ -176,7 +176,7 @@ int32_t	ft_read_write_redirect(t_parser *redirect)
 		if ((fd_file = open(filename, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == -1)
 			ft_error_exit(2, (char*[]){"No such file or directory: ", filename}, EXIT_REDIREC_ERROR);
 		if (dup2(fd_file, redirect_fd) == -1)
-			ft_error_exit(1, (char*[]){"File descriptor duplication failed"}, EXIT_REDIREC_ERROR);
+			ft_error_exit(1, (char*[]){ERROR_BAD_FD}, EXIT_REDIREC_ERROR);
 	}
 	else
 	{
@@ -186,7 +186,7 @@ int32_t	ft_read_write_redirect(t_parser *redirect)
 		if ((fd_file = open(filename, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == -1)
 			ft_error_exit(2, (char*[]){"No such file or directory: ", filename}, EXIT_REDIREC_ERROR);
 		if (dup2(fd_file, redirect_fd) == -1)
-			ft_error_exit(1, (char*[]){"File descriptor duplication failed"}, EXIT_REDIREC_ERROR);
+			ft_error_exit(1, (char*[]){ERROR_BAD_FD}, EXIT_REDIREC_ERROR);
 	}
 	close(fd_file);
 	return (redirect_fd);

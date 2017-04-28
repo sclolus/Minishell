@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:31:24 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/28 22:43:10 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/29 00:22:54 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,13 @@ void		ft_clear_processes(t_process **processes)
 	t_process	*tmp;
 
 	curr_process = *processes;
+	kill(-curr_process->gpid, SIGKILL);
 	while (curr_process)
 	{
 		free(curr_process->argv);
 		tmp = curr_process;
+		if (curr_process->next)
+			waitpid(curr_process->pid, NULL, 0);
 		curr_process = curr_process->next;
 		free(tmp);
 	}

@@ -90,7 +90,9 @@ int main(int argc, char **argv, char **env)
 							   <separator>		::= \'&\' | \';\' \n")))
 		exit(EXIT_FAILURE);
 #endif
+        char *base;
 
+        base = grammar;
 
 	bnf_parser = ft_get_parser_syntax();
 	if (!ft_eval_input(bnf_parser, &grammar))
@@ -101,7 +103,7 @@ int main(int argc, char **argv, char **env)
         (void)env;
 	parser = ft_get_grammar_syntax(bnf_parser);
         ft_free_parser(bnf_parser);
-        
+        free(base);
 	ft_optimizer(parser);
 	t_shenv	*shenv;
 	t_tokens	*tokens;
@@ -136,6 +138,8 @@ int main(int argc, char **argv, char **env)
                 ft_free_tokens(tokens);
 		ft_sanitize_parser(parser);
 	}
+        ft_free_t_shenv(shenv);
+        ft_free_t_shell();
         ft_free_parser(parser);
 	ft_exit_shell();
 	exit(EXIT_FAILURE);

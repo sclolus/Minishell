@@ -261,6 +261,7 @@ int32_t		ft_unset_var(t_shenv *shenv, char *var);
 
 void		ft_free_t_env(t_env *env);
 void		ft_free_t_shenv(t_shenv *shenv);
+void		ft_free_t_shell(void);
 
 /*
 ** Signal Handling

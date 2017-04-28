@@ -35,6 +35,11 @@ void	ft_init_shell(void)
 	}
 }
 
+void	ft_free_t_shell(void)
+{
+    free(shell);
+}
+
 void	ft_exit_shell(void)
 {
 	ft_unset_term();

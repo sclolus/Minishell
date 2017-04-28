@@ -67,6 +67,7 @@ void		ft_free_t_shenv(t_shenv *shenv)
 	free(shenv->var);
 	ft_free_t_env(shenv->env);
 	free(shenv->attr);
+	free(shenv);
 }
 
 t_env		*ft_get_env(t_shenv *shenv)

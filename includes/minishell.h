@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/28 14:10:15 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/28 18:31:48 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ typedef struct	s_shenv
 {
 	t_env		*env;
 	char		**var;
-	t_bool		*attr;	
+	t_bool		*attr;
 	uint32_t	count;
 	t_list		*heredocs;
 	uint32_t	heredocs_index;
@@ -280,6 +280,9 @@ void		ft_free_t_shell(void);
 int32_t		ft_setup_sighandlers(void);
 void		ft_reset_signals(void);
 void		ft_ignore_signals(void);
+void		ft_handler_int(int signum);
+void		ft_handler_tstp(int signum);
+void		ft_handler_cont(int signum);
 
 /*
 ** Miscellaneous Free functions

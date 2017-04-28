@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/28 22:36:23 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/29 00:15:13 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -346,6 +346,7 @@ int32_t		ft_is_built_in(t_parser *parser);
 t_process	*ft_start_process(t_parser *simple_cmd, pid_t gpid, int *stdfd, t_shenv *shenv);
 int32_t		ft_exec_pipeline(t_parser *parser, t_shenv *shenv);
 int32_t		ft_exec_pipe_sequence(t_parser *parser, t_shenv *shenv);
+t_process	*ft_create_pipeline(t_parser *pipe_sequence, t_shenv *shenv);
 int32_t		ft_exec_list(t_parser *parser, t_shenv *shenv);
 int32_t		ft_exec_and_or(t_parser *parser, t_shenv *shenv);
 int32_t		ft_exec_env_assignment(t_parser *parser, t_shenv *shenv);

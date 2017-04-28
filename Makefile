@@ -33,6 +33,7 @@ SRC= srcs/minishell.c \
 	srcs/ft_exec_command.c \
 	srcs/ft_exec_parser.c \
 	srcs/ft_exec_pipeline.c \
+	srcs/ft_create_pipeline.c \
 	srcs/ft_exec_simple_cmd.c \
 	srcs/ft_process.c \
 	srcs/ft_error.c \

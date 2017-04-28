@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 22:14:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/28 23:50:35 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/29 00:09:33 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,10 @@ static t_process	*ft_get_t_process(pid_t pid, pid_t gpid, char **argv)
 	return (process);
 }
 
+/*
+**		if (IS_RETAINED(OR_PARSER_N(simple_cmd, 0)))
+*/
+
 t_process			*ft_start_process(t_parser *simple_cmd, pid_t gpid,
 									int *stdfd, t_shenv *shenv)
 {
@@ -57,8 +61,7 @@ t_process			*ft_start_process(t_parser *simple_cmd, pid_t gpid,
 	{
 		while (!waitpid(pid, &ret, WNOHANG | WUNTRACED) && !WIFSTOPPED(ret))
 			kill(pid, SIGTSTP);
-		if (IS_RETAINED(OR_PARSER_N(simple_cmd, 0)))
-			argv = ft_get_argv(OR_PARSER_N(simple_cmd, 0));
+		argv = ft_get_argv(OR_PARSER_N(simple_cmd, 0));
 		return (ft_get_t_process(pid, gpid, argv));
 	}
 	else

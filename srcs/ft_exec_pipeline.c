@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 22:19:15 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/28 23:48:36 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/29 00:06:40 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_process		*ft_create_pipeline(t_parser *pipe_sequence, t_shenv *shenv)
 			mypipe[3] = 1;
 		}
 		else if (pipe(mypipe) == -1)
-			exit(ft_error(1, (char*[]){"Pipe() failed"}, EXIT_REDIREC_ERROR));
+x			exit(ft_error(1, (char*[]){"Pipe() failed"}, EXIT_REDIREC_ERROR));
 		else
 		{
 			curr_stdout = mypipe[1];

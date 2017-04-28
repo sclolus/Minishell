@@ -29,7 +29,10 @@ SRC= srcs/minishell.c \
 	srcs/ft_expansions_cmd_postfix.c \
 	srcs/ft_expansions_io_redirect.c \
 	srcs/ft_built-in_history.c \
+	srcs/ft_exec_command.c \
 	srcs/ft_exec_parser.c \
+	srcs/ft_exec_pipeline.c \
+	srcs/ft_exec_simple_cmd.c \
 	srcs/ft_process.c \
 	srcs/ft_error.c \
 	srcs/ft_redirection.c \
@@ -44,6 +47,7 @@ SRC= srcs/minishell.c \
 	srcs/ft_heredocs_redirection.c \
 	srcs/ft_check_file.c \
 	srcs/ft_argv.c \
+	srcs/ft_get_argv.c \
 	srcs/ft_lexer.c \
 	srcs/ft_get_shenv.c \
 	termcaps/termcaps.c \

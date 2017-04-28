@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 07:46:43 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/28 18:48:22 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/29 00:41:19 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int32_t	ft_is_built_in(t_parser *parser)
 										"env",
 										"setenv",
 										"unsetenv",
-										"history",
 										"unset",
 										"export"};
 

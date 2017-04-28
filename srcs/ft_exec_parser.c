@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 22:14:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/27 16:29:38 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/28 19:20:57 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,9 +199,6 @@ int32_t	ft_exec_built_in(t_parser *parser, t_shenv *shenv)
 
 static void	ft_restore_fds(int *fd)
 {
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
-	close(STDERR_FILENO);
 	dup2(fd[0], STDIN_FILENO);
 	dup2(fd[1], STDOUT_FILENO);
 	dup2(fd[2], STDERR_FILENO);

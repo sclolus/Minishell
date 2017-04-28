@@ -80,7 +80,7 @@ int main(int argc, char **argv, char **env)
 							   <io_redirect>	::= <io_number> <io_file> | <io_file> \n\
 							   <io_number>		::= ('$' | '-' | '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9')+ \n\
 							   <io_file>        ::= \'>\' <io_filename> | \">&\" <sp> <io_number> | \'<\' <io_filename> | \"<&\" <sp> <io_number> | \"<<\" <io_filename> | \"<>\" <io_filename> | \">>\" <io_filename> | \">|\" <io_filename> \n\
-							   <io_filename>	::= <sp> ('\n' | '\\' | '$' | '-' | '/' | '.' | '~'| 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z')+ \n\
+							   <io_filename>	::= <sp> ('0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '\n' | '\\' | '$' | '-' | '/' | '.' | '~'| 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z')+ \n\
 							   <env_assignment>	::= <var_name> '=' <var_value> \n\
 							   <var_name>		::= ('_' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z' | '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9')+ \n\
 							   <var_value>		::= ('\n' | '\\' | '_' | '$' | '~' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z' | '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z')+ \n\
@@ -98,7 +98,10 @@ int main(int argc, char **argv, char **env)
 		ft_putstr_fd("Grammar evaluation failed", 2);
 		exit (EXIT_FAILURE);
 	}
+        (void)env;
 	parser = ft_get_grammar_syntax(bnf_parser);
+        ft_free_parser(bnf_parser);
+        
 	ft_optimizer(parser);
 	t_shenv	*shenv;
 	t_tokens	*tokens;
@@ -122,17 +125,18 @@ int main(int argc, char **argv, char **env)
 		{
  			ft_create_heredocs(tokens, shenv);
 			ft_get_heredocs(shenv);
- 			ft_exec_parser(parser, shenv);
+ 			ft_exec_command(parser, shenv);
 		}
 		else
 		{
 			ft_putendl("parsing error ::= ");
 			ft_put_ast_tokens(parser);
 		}
-		ft_clear_heredocs(shenv);
-		free(tokens);
+ 		ft_clear_heredocs(shenv);
+                ft_free_tokens(tokens);
 		ft_sanitize_parser(parser);
 	}
+        ft_free_parser(parser);
 	ft_exit_shell();
 	exit(EXIT_FAILURE);
 #endif

@@ -61,7 +61,7 @@ void		ft_clear_processes(t_process **processes)
 	curr_process = *processes;
 	while (curr_process)
 	{
-		ft_free_argv(curr_process->argv);
+	  //		ft_free_argv(curr_process->argv);
 		tmp = curr_process;
 		curr_process = curr_process->next;
 		free(tmp);

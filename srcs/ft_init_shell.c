@@ -31,7 +31,7 @@ void	ft_init_shell(void)
 		tcgetattr(shell->terminal, &shell->backup_term);
 		if (-1 == ft_set_term())
 			ft_error_exit(1, (char*[]){"Shell initialization failed"}, 1);
-//		ft_setup_sighandlers();
+		//		ft_setup_sighandlers();
 	}
 }
 

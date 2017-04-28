@@ -60,14 +60,11 @@ void	ft_sanitize_parser_and_n(t_parser *parser)
 
 	i = 0;
 	parser->retained = 0;
-	parser->parser.and.n = 0;
 	while (i < parser->parser.and.n)
 	{
 		ft_sanitize_parser(parser->parser.and.parsers[i]);
 		i++;
 	}
-	free(parser->parser.and.parsers);
-	parser->parser.and.parsers = NULL;
 }
 
 void	ft_sanitize_parser_or_n(t_parser *parser)
@@ -76,15 +73,12 @@ void	ft_sanitize_parser_or_n(t_parser *parser)
 
 	i = 0;
 	parser->retained = 0;
-	parser->parser.or.n = 0;
 	parser->parser.or.matched = -1;
 	while (i < parser->parser.or.n)
 	{
 		ft_sanitize_parser(parser->parser.or.parsers[i]);
 		i++;
 	}
-	free(parser->parser.or.parsers);
-	parser->parser.or.parsers = NULL;
 }
 
 void	ft_sanitize_parser_plus(t_parser *parser)
@@ -92,13 +86,14 @@ void	ft_sanitize_parser_plus(t_parser *parser)
 	uint32_t	i;
 
 	i = 0;
+
 	parser->retained = 0;
-	parser->parser.plus.n = 0;
 	while (i < parser->parser.plus.n)
 	{
 		ft_free_parser(parser->parser.plus.parsers[i]);
 		i++;
 	}
+	parser->parser.plus.n = 0;
 	parser->parser.plus.parsers = NULL;
 }
 
@@ -108,12 +103,12 @@ void	ft_sanitize_parser_multiply(t_parser *parser)
 
 	i = 0;
 	parser->retained = 0;
-	parser->parser.multiply.n = 0;
 	while (i < parser->parser.multiply.n)
 	{
 		ft_free_parser(parser->parser.multiply.parsers[i]);
 		i++;
 	}
+	parser->parser.multiply.n = 0;
 	parser->parser.multiply.parsers = NULL;
 }
 

@@ -60,21 +60,24 @@ void		ft_link_rule_name(t_parser **ruleset, t_parser **node)
 	if ((*node)->id == REF)
 	{
 		parser = ft_find_rule_name(ruleset, (*node)->parser.ref.rule_name);
-		// free((*node));
-		*(node) = ft_dup_parser(parser);
-	}
+                free((*node)->parser.ref.rule_name);
+                if ((*node)->alloc == ALONE)
+                    free(*(node));
+                *(node) = ft_dup_parser(parser);
+                ft_link_rule_name(ruleset, node);
+        }
 	if ((*node)->id >= AND)
 	{
 		if ((*node)->id == AND || (*node)->id == OR)
 		{
 			while (i < (*node)->parser.and.n)
 			{
-				ft_link_rule_name(ruleset, &((*node)->parser.and.parsers[i]));
-				++i;
+                            ft_link_rule_name(ruleset, &((*node)->parser.and.parsers[i]));
+                            ++i;
 			}
 		}
 		else
-			ft_link_rule_name(ruleset, &((*node)->parser.not.parser));
+                    ft_link_rule_name(ruleset, &((*node)->parser.not.parser));
 	}
 	else
 		return ;
@@ -111,7 +114,7 @@ t_parser	*ft_get_grammar_list(t_parser *list)
 	if (list->parser.plus.n == 1)
 		return (ft_get_grammar_term(list->parser.plus.parsers[0]->parser.and.parsers[0]));
 	if (!(parsers = (t_parser**)malloc(sizeof(t_parser*)
-									   * list->parser.plus.n)))
+                                           * list->parser.plus.n)))
 		exit(EXIT_FAILURE);
 	while (i < list->parser.plus.n)
 	{
@@ -144,41 +147,21 @@ t_parser	*ft_get_grammar_or_n(uint32_t n, t_parser *first, t_parser **parsers)
 	return (parser);
 }
 
-t_parser	*ft_get_grammar_sub_expression(t_parser *sub_expression)
+t_parser	*ft_get_grammar_expression(t_parser *expression)
 {
 	uint32_t	size;
 
 
-	size = sub_expression->parser.and.parsers[1]->parser.multiply.n;
+	size = expression->parser.and.parsers[1]->parser.multiply.n;
 	if (size)
 	{
-		return (ft_get_grammar_or_n(size + 1, sub_expression->parser.and.parsers[0]
-									, sub_expression->parser.and.parsers[1]->parser.multiply.parsers));
+		return (ft_get_grammar_or_n(size + 1, expression->parser.and.parsers[0]
+									, expression->parser.and.parsers[1]->parser.multiply.parsers));
 	}
 	else
-		return (ft_get_grammar_list(sub_expression->parser.and.parsers[0]));
+		return (ft_get_grammar_list(expression->parser.and.parsers[0]));
 }
 
-t_parser	*ft_get_grammar_expression(t_parser *expression)
-{
-	t_parser	*parser;
-	t_parser	**parsers;
-	uint32_t	i;
-
-	i = 0;
-	if (expression->parser.plus.n == 1)
-		return (ft_get_grammar_sub_expression(expression->parser.plus.parsers[0]));
-	if (!(parsers = (t_parser**)malloc(sizeof(t_parser*) * expression->parser.plus.n)))
-		exit(EXIT_FAILURE);
-	while (i < expression->parser.plus.n)
-	{
-		parsers[i] = ft_get_grammar_sub_expression(expression->parser.plus.parsers[i]);
-		i++;
-	}
-	parser = ft_get_parser_and_n(expression->parser.plus.n, parsers);
-	free(parsers);
-	return (parser);
-}
 
 t_parser	*ft_get_grammar_rule(t_parser *rule)
 {
@@ -205,14 +188,12 @@ t_parser	*ft_get_grammar_syntax(t_parser *syntax)
 		i++;
 	}
 	parsers[i] = NULL;
-	parser = ft_get_parser_plus(parsers[0]);
-	ft_set_name_parser(parser, "syntax");
 	i = 0;
-	while (parsers[i])
-		ft_link_rule_name(parsers, &parsers[i++]);
+        ft_link_rule_name(parsers, &parsers[0]);
 	i = 1;
+	parser = parsers[0];
 	while (parsers[i])
-		ft_free_parser(parsers[i++]);
+	  ft_free_parser(parsers[i++]);
 	free(parsers);
 	return (parser);
 }

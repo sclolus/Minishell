@@ -126,6 +126,11 @@ static t_parser		*ft_assign_parsers(t_parser *parser, t_parser *new_parser)
 			if (!(new_parser->parser.str_any_of.charset = ft_strdup(parser->parser.str_any_of.charset)))
 				exit(EXIT_FAILURE);
 		}
+                else if (parser->id == REF)
+		{
+                    if (!(new_parser->parser.ref.rule_name = ft_strdup(parser->parser.ref.rule_name)))
+                        exit(EXIT_FAILURE);
+		}
 		else if (parser->id == REGEXP)
 		{
 			if (!(new_parser->parser.regexp.regexp = ft_strdup(parser->parser.regexp.regexp)))

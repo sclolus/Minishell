@@ -103,14 +103,14 @@ t_parser	*ft_get_parser_expression(void)
 {
 	t_parser	*parser;
 
-	parser = ft_get_parser_plus(ft_get_parser_and_n(2,(t_parser *[])
+	parser = ft_get_parser_and_n(2,(t_parser *[])
 			{ft_get_parser_list(),
 			ft_get_parser_multiply(ft_get_parser_and_n(4,(t_parser *[])
 						{ft_get_parser_whitespace(),
 						ft_get_parser_onechar('|'),
 						ft_get_parser_whitespace(),
 						ft_get_parser_list()}))
-			}));
+                                });
 	if (!(parser->name = ft_strdup("<expression>")))
 		exit(EXIT_FAILURE);
 	return (parser);
@@ -343,7 +343,8 @@ t_parser	*ft_get_parser_ref(char *rule_name)
 
 	parser = ft_get_undefined_parser();
 	parser->id = REF;
-	parser->parser.ref.rule_name = rule_name;
+	if(!(parser->parser.ref.rule_name = ft_strdup(rule_name)))
+            	exit (EXIT_FAILURE);
 	return (parser);
 }
 

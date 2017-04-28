@@ -49,8 +49,9 @@ void	ft_free_parser_any(t_parser *parser)
 
 void	ft_free_parser_str_any(t_parser *parser)
 {
-	free(parser->parser.str_any.str);
-	ft_free_parser_struct(parser);
+    if(parser->parser.str_any.str)
+      	free(parser->parser.str_any.str);
+    ft_free_parser_struct(parser);
 }
 
 void	ft_free_parser_str(t_parser *parser)
@@ -103,6 +104,8 @@ void	ft_free_parser_plus(t_parser *parser)
 		ft_free_parser(parser->parser.plus.parsers[i]);
 		i++;
 	}
+        if (parser->parser.plus.n)
+            free(parser->parser.plus.parsers);
 	ft_free_parser(parser->parser.plus.parser);
 	ft_free_parser_struct(parser);
 }
@@ -117,6 +120,8 @@ void	ft_free_parser_multiply(t_parser *parser)
 		ft_free_parser(parser->parser.multiply.parsers[i]);
 		i++;
 	}
+        if (parser->parser.plus.n)
+            free(parser->parser.multiply.parsers);
 	ft_free_parser(parser->parser.multiply.parser);
 	ft_free_parser_struct(parser);
 }
@@ -157,6 +162,7 @@ void	ft_free_parser_func(t_parser *parser)
 void	ft_free_parser_undefined(t_parser *parser)
 {
 	ft_putstr("feels bad man");
+        (void)parser;
 	ft_free_parser_struct(parser);
 }
 

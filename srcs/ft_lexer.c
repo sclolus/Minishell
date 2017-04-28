@@ -5,14 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/23 09:54:09 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/25 18:48:58 by sclolus          ###   ########.fr       */
+/*   Created: 2017/04/28 12:38:07 by sclolus           #+#    #+#             */
+/*   Updated: 2017/04/28 12:40:01 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-#define CHARSET_WHITESPACES " \t\n"
 
 static int32_t	ft_is_shell_reserved(char *buf, uint32_t i)
 {
@@ -22,8 +20,7 @@ static int32_t	ft_is_shell_reserved(char *buf, uint32_t i)
 	return (0);
 }
 
-
-void	ft_add_token_to_list(t_list **token_list
+void			ft_add_token_to_list(t_list **token_list
 							, char *input, uint32_t start, uint32_t i)
 {
 	t_list	*tmp;
@@ -37,7 +34,7 @@ void	ft_add_token_to_list(t_list **token_list
 	ft_lstadd(token_list, tmp);
 }
 
-char	**ft_token_list_to_tab(t_list *token_list)
+char			**ft_token_list_to_tab(t_list *token_list)
 {
 	char		**tab;
 	t_list		*tmp;
@@ -59,22 +56,19 @@ char	**ft_token_list_to_tab(t_list *token_list)
 	return (tab);
 }
 
-#define CHARSET_OP "|&;<>"
-
-uint32_t	ft_is_part_of_op(char *input, uint32_t index)
+uint32_t		ft_is_part_of_op(char *input, uint32_t index)
 {
 	uint32_t	i;
 
 	i = index;
-
 	if (i > 0 && !ft_is_quoted(input, index - 1)
-		&& ft_strchr("|&;<>" , input[index -1]))
+		&& ft_strchr("|&;<>", input[index - 1]))
 		return (1);
 	else
 		return (0);
 }
 
-char	**ft_lexer(char *input)
+char			**ft_lexer(char *input)
 {
 	t_list		*token_list;
 	uint32_t	i;
@@ -96,14 +90,17 @@ char	**ft_lexer(char *input)
 			bool_word = 1;
 			start = i;
 		}
-		else if (bool_word && ((ft_strchr(CHARSET_WHITESPACES, input[i]) && !ft_is_quoted(input, i))
-							   || (!ft_is_shell_reserved(input, i) && ft_is_part_of_op(input, i))))
+		else if (bool_word && ((ft_strchr(CHARSET_WHITESPACES, input[i])
+				&& !ft_is_quoted(input, i))
+				|| (!ft_is_shell_reserved(input, i)
+				&& ft_is_part_of_op(input, i))))
 		{
 			bool_word = 0;
 			ft_add_token_to_list(&token_list, input, start, i);
 			continue ;
-		}	
-		else if (bool_word && ft_is_shell_reserved(input, i) && !ft_is_part_of_op(input, i))
+		}
+		else if (bool_word && ft_is_shell_reserved(input, i)
+				&& !ft_is_part_of_op(input, i))
 		{
 			bool_word = 0;
 			ft_add_token_to_list(&token_list, input, start, i);
@@ -116,21 +113,7 @@ char	**ft_lexer(char *input)
 	return (ft_token_list_to_tab(token_list));
 }
 
-void	ft_put_tokens(char **tokens)
-{
-	if (!tokens)
-		return ;
-	ft_putendl("_______");
-	while (*tokens)
-	{
-		ft_putchar('=');
-		ft_putendl(*tokens++);
-		
-	}
-	ft_putendl("_______");
-}
-
-uint32_t	ft_get_tokens_count(char **tokens)
+uint32_t		ft_get_tokens_count(char **tokens)
 {
 	uint32_t	count;
 
@@ -140,7 +123,7 @@ uint32_t	ft_get_tokens_count(char **tokens)
 	return (count);
 }
 
-t_tokens	*ft_get_tokens(char *input)
+t_tokens		*ft_get_tokens(char *input)
 {
 	t_tokens	*tokens;
 	uint32_t	i;
@@ -165,7 +148,7 @@ t_tokens	*ft_get_tokens(char *input)
 	return (tokens);
 }
 
-void		ft_free_tokens(t_tokens *tokens)
+void			ft_free_tokens(t_tokens *tokens)
 {
 	uint32_t	i;
 

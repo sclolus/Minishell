@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/28 12:25:12 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/28 12:38:20 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,12 @@
 # define CHARSET_END_OF_EXPRESSION " ;"
 # define ESCAPE_CHAR "\\"
 # define CHARSET_VAR_NAME "_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+# define CHARSET_OP "|&;<>"
+# define CHARSET_WHITESPACES " \t\n"
 
 # define CHARSET_QUOTES "'\""
 # define CHARSET_ESCAPE_BCKSLH "$`\"\\\n"
 # define QUOTE_REMOVAL_BUFF_SIZE 256
-
-
 
 # define MAX_PATH_NAME 4096
 # define MAX_FILE_NAME 255

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 05:34:23 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/25 09:56:59 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/29 00:43:26 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ uint32_t	ft_is_escaped(char *input, uint32_t index)
 
 	backslash = 0;
 	i = index;
-	while (i > 0)// and (input[i - 1] == '\\')
+	while (i > 0)
 	{
 		if (input[i - 1] == '\\')
 		{

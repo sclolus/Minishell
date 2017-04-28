@@ -76,7 +76,8 @@ int32_t			ft_complete_path_commands(t_string *buf, t_shenv *shenv,
 	return (ret);
 }
 
-int32_t			ft_complete_command_directory(t_string *buf, t_shenv *shenv, char *command_prefix)
+int32_t			ft_complete_command_directory(t_string *buf, t_shenv *shenv,
+												char *command_prefix)
 {
 	char		**completions;
 	t_ltree		*ltree;
@@ -85,7 +86,7 @@ int32_t			ft_complete_command_directory(t_string *buf, t_shenv *shenv, char *com
 	uint32_t	ret;
 
 	ltree = NULL;
-	if (shenv) // use of env ?
+	if (shenv)
 		;
 	if (!(path = ft_get_path_name(command_prefix)))
 		return (0);

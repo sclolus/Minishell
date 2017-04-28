@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/28 18:31:48 by aalves           ###   ########.fr       */
+/*   Updated: 2017/04/28 19:04:20 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,23 @@ int32_t		ft_duplicating_output_redirect(t_parser *redirect);
 int32_t		ft_input_redirect(t_parser *redirect);
 int32_t		ft_read_write_redirect(t_parser *redirect);
 
+/* Heredocs
+**
+*/
+
+int32_t		ft_heredoc_redirect(t_parser *heredoc);
+void		ft_create_heredocs(t_tokens *tokens, t_shenv *shenv);
+int			ft_open_heredoc_file(char *filename);
+void		ft_clear_heredoc(t_list *heredoc);
+void		ft_put_heredocs(t_shenv *shenv);
+void		ft_get_heredoc(t_heredoc *heredoc, uint32_t index, t_shenv *shenv);
+void		ft_get_heredocs(t_shenv *shenv);
+void		ft_put_heredocs_content(t_shenv *shenv);
+void		ft_clear_heredocs(t_shenv *shenv);
+uint32_t	ft_get_cmd_heredoc_count(t_parser *simple_cmd);
+void		ft_delone_heredoc(t_shenv *shenv);
+t_heredoc	*ft_get_t_heredoc_index(uint32_t index, t_shenv *shenv);
+
 /*
 ** expansions
 */
@@ -331,17 +348,5 @@ int32_t		ft_exec_command(t_parser *parser, t_shenv *shenv);
 int32_t		ft_exec_parser(t_parser *parser, t_shenv *shenv);
 char		**ft_get_env_value(char **env, char *variable);
 t_process	*ft_t_process_add(t_process **processes, t_process *new);
-
-int32_t		ft_heredoc_redirect(t_parser *heredoc);
-void		ft_create_heredocs(t_tokens *tokens, t_shenv *shenv);
-void		ft_clear_heredoc(t_list *heredoc);
-void		ft_put_heredocs(t_shenv *shenv);
-void		ft_get_heredoc(t_heredoc *heredoc, uint32_t index, t_shenv *shenv);
-void		ft_get_heredocs(t_shenv *shenv);
-void		ft_put_heredocs_content(t_shenv *shenv);
-void		ft_clear_heredocs(t_shenv *shenv);
-uint32_t	ft_get_cmd_heredoc_count(t_parser *simple_cmd);
-void		ft_delone_heredoc(t_shenv *shenv);
-t_heredoc	*ft_get_t_heredoc_index(uint32_t index, t_shenv *shenv);
 
 #endif

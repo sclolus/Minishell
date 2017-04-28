@@ -16,7 +16,6 @@ SRC= srcs/minishell.c \
 	srcs/ft_built_in_unset.c \
 	srcs/ft_built_in_export.c \
 	srcs/ft_shenv.c \
-	srcs/ft_heredocs.c \
 	srcs/ft_env.c \
 	srcs/ft_var_attr.c \
 	srcs/ft_env.c \
@@ -38,7 +37,11 @@ SRC= srcs/minishell.c \
 	srcs/ft_redirections_output.c \
 	srcs/ft_redirections_duplicating.c \
 	srcs/ft_heredocs.c \
+	srcs/ft_create_heredocs.c \
+	srcs/ft_free_heredocs.c \ 
 	srcs/ft_get_cmd_heredoc_count.c \
+	srcs/ft_get_heredocs.c \
+	srcs/ft_heredocs_redirection.c \
 	srcs/ft_check_file.c \
 	srcs/ft_argv.c \
 	srcs/ft_lexer.c \

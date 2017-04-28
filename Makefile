@@ -63,6 +63,9 @@ SRC= srcs/minishell.c \
 	parser/ast/ft_eval_tokens/ft_eval_tokens_misc.c \
 	parser/ast/ft_eval_tokens/ft_eval_tokens_strings.c \
 	completion/ft_completion.c \
+	completion/ft_put_completions.c \
+	completion/ft_complete_command.c \
+	completion/ft_complete_argv.c \
 	completion/ft_termcaps_completion.c \
 	completion/ft_sanitize_completion.c \
 	completion/ft_create_ltree.c \

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 03:26:22 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/19 03:48:08 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/28 14:01:12 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdint.h>
 # include "libft.h"
 # include "minishell.h"
+# include "ft_completion.h"
 
 # undef tab
 # define ID_MOVE_START_LINE 0x1
@@ -47,6 +48,7 @@
 
 typedef struct s_env	t_env;
 typedef struct s_shenv	t_shenv;
+typedef struct s_ltree	t_ltree;
 
 typedef enum		s_termcaps_state
 {
@@ -65,6 +67,15 @@ typedef struct		s_term_event
 }					t_term_event;
 
 int32_t				ft_completion(t_string *buf, t_shenv *shenv);
+int32_t				ft_put_completions(t_string *buf, char **completions,
+								uint32_t n, char *prefix);
+int32_t				ft_put_completion(t_ltree *ltree, char **completions,
+								t_string *buf, char *prefix);
+int32_t				ft_complete_argv(t_string *buf, t_shenv *shenv);
+int32_t				ft_completion_normal_state(t_string *buf, t_shenv *shenv);
+int32_t				ft_complete_command_name(t_string *buf, t_shenv *shenv);
+int32_t				ft_put_max_completion(t_ltree *ltree, t_string *buf,
+									  char *prefix, uint32_t n);
 
 int					ft_putterm(int c);
 void				ft_termcaps_putstr(t_string *buf, char *str);

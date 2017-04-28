@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 05:08:11 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/28 22:49:39 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/29 01:45:38 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,7 @@ void		ft_tilde_expansion(char **word, t_shenv *shenv)
 		return ;
 	word_len = ft_strlen(*word);
 	if (!(home_tmp = ft_find_var(shenv, "HOME")))
-	{
-//		ft_error(1, (char*[]){"HOME not defined, tilde expansion not possible"}, 2);
 		return ;
-	}
 	home_len = ft_strlen(*home_tmp) - 5;
 	if (**word != '~')
 		return ;
@@ -40,7 +37,7 @@ void		ft_tilde_expansion(char **word, t_shenv *shenv)
 	*word = word_tmp;
 }
 
-char	*ft_get_path_name(char *file)
+char		*ft_get_path_name(char *file)
 {
 	static char	buf[MAX_PATH_NAME];
 	uint32_t	i;
@@ -59,7 +56,7 @@ char	*ft_get_path_name(char *file)
 	}
 	if (offset > MAX_PATH_NAME - 1)
 	{
-		ft_putstr_fd("Pathname too long\n", 2);
+		ft_error(1, (char*[]){"Pathname too long"}, 2);
 		return (NULL);
 	}
 	if (offset >= 0)
@@ -70,7 +67,7 @@ char	*ft_get_path_name(char *file)
 	return (buf);
 }
 
-char	*ft_get_file_name(char *file)
+char		*ft_get_file_name(char *file)
 {
 	static char	buf[MAX_FILE_NAME];
 	uint32_t	i;
@@ -101,25 +98,20 @@ char	*ft_get_file_name(char *file)
 	return (buf);
 }
 
-int32_t	ft_find_file(char *file, t_env *env)
+int32_t		ft_find_file(char *file, t_env *env)
 {
 	DIR				*curr_dir;
 	struct dirent	*curr_entry;
 	char			*filename;
 	char			*pathname;
 
-	if (env) //use PWD ?
-		;
-	if (!(filename = ft_get_file_name(file)))
+	(void)env;
+	if (!(filename = ft_get_file_name(file))
+		|| !(pathname = ft_get_path_name(file)))
 		return (-1);
-	if (!(pathname = ft_get_path_name(file)))
-		return (-1);
-	curr_dir = opendir(pathname); // DAFUQ parser/ == ./parser/
+	curr_dir = opendir(pathname);
 	if (!curr_dir)
-	{
-//		ft_putstr_fd("", 2);
 		return (0);
-	}
 	while ((curr_entry = readdir(curr_dir)))
 	{
 		if (!ft_strcmp(filename, curr_entry->d_name))
@@ -133,16 +125,16 @@ int32_t	ft_find_file(char *file, t_env *env)
 	return (0);
 }
 
-int32_t	ft_expansions(t_parser *simple_cmd, t_shenv *shenv)
+int32_t		ft_expansions(t_parser *simple_cmd, t_shenv *shenv)
 {
 	if (IS_RETAINED(OR_PARSER_N(simple_cmd, 0)))
 	{
 		simple_cmd = OR_PARSER_N(simple_cmd, 0);
 		ft_expansions_cmd_prefix(AND_PARSER_N(simple_cmd, 1), shenv);
-		ft_tilde_expansion(&(AND_PARSER_N(simple_cmd, 2)->parser.str_any_of.str),
-																	shenv);
-		ft_var_expansion(&(AND_PARSER_N(simple_cmd, 2)->parser.str_any_of.str),
-																	shenv);
+		ft_tilde_expansion(&(AND_PARSER_N(simple_cmd, 2)->parser.str_any_of.str)
+							, shenv);
+		ft_var_expansion(&(AND_PARSER_N(simple_cmd, 2)->parser.str_any_of.str)
+							, shenv);
 		ft_quote_removal(&(AND_PARSER_N(simple_cmd, 2)->parser.str_any_of.str));
 		ft_expansions_cmd_postfix(AND_PARSER_N(simple_cmd, 4), shenv);
 	}

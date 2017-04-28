@@ -36,6 +36,7 @@ SRC= srcs/minishell.c \
 	srcs/ft_redirection.c \
 	srcs/ft_redirections_input.c \
 	srcs/ft_redirections_output.c \
+	srcs/ft_redirections_duplicating.c \
 	srcs/ft_heredocs.c \
 	srcs/ft_get_cmd_heredoc_count.c \
 	srcs/ft_check_file.c \

@@ -191,7 +191,7 @@ int32_t	ft_exec_built_in(t_parser *parser, t_shenv *shenv)
 	   	if (ft_redirections(parser) == -1)
 			exit(EXIT_REDIREC_ERROR);
 		ret = ft_built_in(argv, shenv);
-		free(argv);
+                ft_free_argv(argv);
 		return (POSIX_EXIT_STATUS(ret));
 	}
 	return (EXIT_ILLEGAL_CMD);

@@ -23,7 +23,7 @@ int	ft_exec_special_event(t_shenv *shenv, t_string *buf
 	{
 		if (!buf->len)
 			return (0);
-		if (!(tmp = ft_lstnew(buf->string, buf->len)))
+		if (!(tmp = ft_lstnew(buf->string, buf->len + 1)))
 			exit (EXIT_FAILURE);
 		ft_lstadd(ft_get_history_list(), tmp);
 		ft_move_end_line(buf);

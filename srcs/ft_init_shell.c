@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_init_shell.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 03:24:20 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/27 19:29:12 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/28 14:23:26 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_init_shell(void)
 
 void	ft_free_t_shell(void)
 {
-    free(shell);
+	free(shell);
 }
 
 void	ft_exit_shell(void)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_shenv.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 22:22:26 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/25 18:36:32 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/28 14:32:04 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ int32_t	ft_unset_var(t_shenv *shenv, char *var)
 	char	**var_tmp;
 	t_bool	*attr_tmp;
 
-	if (!(tmp = ft_find_var(shenv, var)))
-		return (EXIT_VAR_NOT_FOUND);
-	else
+	if ((tmp = ft_find_var(shenv, var)))
 	{
 		if (!(var_tmp = (char**)ft_memalloc(sizeof(char*) * shenv->count))
 		|| !(attr_tmp = (t_bool*)malloc(sizeof(t_bool) * (shenv->count - 1))))
@@ -40,6 +38,7 @@ int32_t	ft_unset_var(t_shenv *shenv, char *var)
 		shenv->count--;
 		return (0);
 	}
+	return (EXIT_VAR_NOT_FOUND);
 }
 
 char	**ft_find_var(t_shenv *shenv, char *var)

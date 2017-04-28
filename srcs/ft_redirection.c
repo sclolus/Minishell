@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 14:22:32 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/28 18:29:33 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/28 18:39:51 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ static uint32_t	ft_prefix_redirections(t_parser *cmd_prefix
 		if (OR_PARSER_N(MULTIPLY_PARSER_N(cmd_prefix, i), 1)->retained)
 			f_redirec[ft_get_redirec_number(AND_PARSER_N(
 				OR_PARSER_N(MULTIPLY_PARSER_N(cmd_prefix, i), 1), 0))]
-				(AND_PARSER_N(OR_PARSER_N(MULTIPLY_PARSER_N(cmd_prefix, i), 1), 0));
+				(AND_PARSER_N(OR_PARSER_N(MULTIPLY_PARSER_N(cmd_prefix
+				, i), 1), 0));
 		i++;
 	}
 	return (1);
@@ -55,10 +56,11 @@ static uint32_t	ft_postfix_redirections(t_parser *cmd_postfix
 	postfix_n = MULTIPLY_N(cmd_postfix);
 	while (i < postfix_n)
 	{
-		if (OR_PARSER_N(MULTIPLY_PARSER_N(cmd_postfix, i), 1)->retained)
-			f_redirec[ft_get_redirec_number(AND_PARSER_N(
-				OR_PARSER_N(MULTIPLY_PARSER_N(cmd_postfix, i), 1), 0))]
-				(AND_PARSER_N(OR_PARSER_N(MULTIPLY_PARSER_N(cmd_postfix, i), 1), 0));
+		if (OR_PARSER_N(AND_PARSER_N(MULTIPLY_PARSER_N(cmd_postfix, i), 0)
+						, 0)->retained)
+			f_redirec[ft_get_redirec_number(OR_PARSER_N(AND_PARSER_N(
+				MULTIPLY_PARSER_N(cmd_postfix, i), 0), 0))]
+				(OR_PARSER_N(AND_PARSER_N(MULTIPLY_PARSER_N(cmd_postfix, i), 0), 0));
 		i++;
 	}
 	return (1);
@@ -77,33 +79,7 @@ int32_t			ft_redirections(t_parser *simple_cmd)
 		&ft_output_redirect
 	};
 
-	CHECK(TEST);
 	ft_prefix_redirections(AND_PARSER_N(simple_cmd, 1), f_redirec);
 	ft_postfix_redirections(AND_PARSER_N(simple_cmd, 4), f_redirec);
-	CHECK(TEST);
-/* 	postfix_n = MULTIPLY_N(AND_PARSER_N(simple_cmd, 4)); */
-/* 	parser = AND_PARSER_N(simple_cmd, 1); */
-/* 	while (i < prefix_n) */
-/* 	{ */
-/* 		if (OR_PARSER_N(MULTIPLY_PARSER_N(parser, i), 1)->retained) */
-/* 			f_redirec[ft_get_redirec_number(AND_PARSER_N( */
-/* 				OR_PARSER_N(MULTIPLY_PARSER_N(parser, i), 1), 0))] */
-/* 				(AND_PARSER_N(OR_PARSER_N(MULTIPLY_PARSER_N(parser, i), 1), 0)); */
-/* 		i++; */
-/* 	} */
-/* 	i = 0; */
-
-/* 	parser = AND_PARSER_N(simple_cmd, 4); */
-/* 	while (i < postfix_n) */
-/* 	{ */
-/* 		if (OR_PARSER_N(AND_PARSER_N(MULTIPLY_PARSER_N(parser, i), 0) */
-/* 				, 0)->retained) */
-/* 		{ */
-/* 			f_redirec[ft_get_redirec_number(OR_PARSER_N(AND_PARSER_N( */
-/* 				MULTIPLY_PARSER_N(parser, i), 0), 0))] */
-/* 				(OR_PARSER_N(AND_PARSER_N(MULTIPLY_PARSER_N(parser, i), 0), 0)); */
-/* 		} */
-/* 		i++; */
-/* 	} */
 	return (0);
 }

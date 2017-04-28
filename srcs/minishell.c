@@ -46,7 +46,7 @@ char		**ft_get_env_value(char **env, char *variable)
 }
 
 // TODO ctrl+d ctrl+c
-
+// ls :. too much files opens
 int main(int argc, char **argv, char **env)
 {
 	char		*line;

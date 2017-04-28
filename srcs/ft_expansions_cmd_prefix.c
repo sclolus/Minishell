@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 08:17:34 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/25 19:06:20 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/28 12:28:27 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,12 @@ void		ft_expansions_cmd_prefix(t_parser *cmd_prefix, t_shenv *shenv)
 	while (i < n)
 	{
 		if (IS_RETAINED(OR_PARSER_N(MULTIPLY_PARSER_N(cmd_prefix, i), 0)))
-			ft_expansions_env_assignment(AND_PARSER_N
-				(OR_PARSER_N(MULTIPLY_PARSER_N(cmd_prefix, i), 0), 0), shenv);
+			ft_expansions_env_assignment(
+				AND_PARSER_N(OR_PARSER_N(
+				MULTIPLY_PARSER_N(cmd_prefix, i), 0), 0), shenv);
 		else
-			ft_expansions_io_redirect(AND_PARSER_N
-				(OR_PARSER_N(MULTIPLY_PARSER_N(cmd_prefix, i), 1), 0), shenv);
+			ft_expansions_io_redirect(AND_PARSER_N(
+				OR_PARSER_N(MULTIPLY_PARSER_N(cmd_prefix, i), 1), 0), shenv);
 		i++;
 	}
 }

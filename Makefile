@@ -1,6 +1,6 @@
 NAME= minishell
 CC= gcc
-FLAGS= -Wall -Werror -Wextra -g #  -fsanitize=address -fsanitize-blacklist=my_ignores.txt
+FLAGS= -Wall -Werror -Wextra -g #   -fsanitize=address -fsanitize-blacklist=my_ignores.txt
 SRC= srcs/minishell.c \
 	srcs/ft_init_shell.c \
 	srcs/ft_signal.c \
@@ -20,8 +20,8 @@ SRC= srcs/minishell.c \
 	srcs/ft_var_attr.c \
 	srcs/ft_env.c \
 	srcs/ft_lsttotab_token.c \
-	srcs/ft_line_continuation.c \
 	srcs/ft_is_quoted.c \
+	srcs/ft_line_continuation.c \
 	srcs/ft_expansions.c \
 	srcs/ft_var_expansion.c \
 	srcs/ft_quote_removal.c \
@@ -40,6 +40,7 @@ SRC= srcs/minishell.c \
 	srcs/ft_lexer.c \
 	srcs/ft_get_shenv.c \
 	termcaps/termcaps.c \
+	termcaps/ft_paste_line.c \
 	termcaps/line.c \
 	termcaps/line_2.c \
 	termcaps/history.c \

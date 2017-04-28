@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 08:19:06 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/25 19:06:59 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/28 12:29:05 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ void		ft_expansions_cmd_postfix(t_parser *cmd_postfix, t_shenv *shenv)
 	{
 		if (IS_RETAINED(OR_PARSER_N(AND_PARSER_N(MULTIPLY_PARSER_N(cmd_postfix,
 																	i), 0), 1)))
-			ft_expansions_arg(OR_PARSER_N(AND_PARSER_N
-				(MULTIPLY_PARSER_N(cmd_postfix, i), 0), 1), shenv);
+			ft_expansions_arg(OR_PARSER_N(AND_PARSER_N(
+					MULTIPLY_PARSER_N(cmd_postfix, i), 0), 1), shenv);
 		else
-			ft_expansions_io_redirect(OR_PARSER_N(AND_PARSER_N
-				(MULTIPLY_PARSER_N(cmd_postfix, i), 0), 0), shenv);
+			ft_expansions_io_redirect(OR_PARSER_N(AND_PARSER_N(
+					MULTIPLY_PARSER_N(cmd_postfix, i), 0), 0), shenv);
 		i++;
 	}
 }

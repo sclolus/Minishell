@@ -6,7 +6,7 @@
 /*   By: aalves <aalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 14:19:35 by aalves            #+#    #+#             */
-/*   Updated: 2017/04/17 01:57:28 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/28 10:36:33 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ void		ft_explore_paste_history(t_string *buf, t_list **static_history,
 	i = 0;
 	tmp = (*static_history)->content;
 	i = ft_strlen((*static_history)->prev ? (*static_history)->prev->content
-		      : (*static_history)->content);
+			: (*static_history)->content);
 	*current_yanking = (*static_history);
 	while (i--)
 		ft_delete_char(buf);
 	(*static_history) = (*static_history)->next ? (*static_history)->next
-	  : *history_base;
+	: *history_base;
 }

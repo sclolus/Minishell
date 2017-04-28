@@ -6,7 +6,7 @@
 /*   By: aalves <aalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 13:53:21 by aalves            #+#    #+#             */
-/*   Updated: 2017/04/19 02:59:58 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/28 10:44:16 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,36 +55,4 @@ void		ft_kill_line(t_string *buf, t_list **paste_history)
 	}
 	buf->string[buf->offset] = '\0';
 	buf->len = buf->offset;
-}
-
-void		ft_paste_line(t_string *buf, char *command, t_list *paste_history)
-{
-	char			*tmp;
-	static t_list	*static_history = NULL;
-	static t_list	*history_base = NULL;
-	static t_list	*current_yanking = NULL;
-
-	if (history_base != paste_history)
-	{
-		history_base = paste_history;
-		static_history = paste_history;
-		current_yanking = paste_history;
-	}
-	tmp = NULL;
-	if (history_base == NULL)
-		return ;
-	else if (*command == ID_YANKING)
-	{
-		if (!current_yanking->content)
-			return ;
-		tmp = current_yanking->content;
-	}
-	else if (*(int*)command == ID_HISTORIC_YANKING)
-	{
-		if (!static_history->content)
-			return ;
-		ft_explore_paste_history(buf, &static_history, &history_base, &current_yanking);
-	}
-	ft_t_string_insert(buf, tmp);
-	ft_termcaps_putstr(buf, tmp);
 }

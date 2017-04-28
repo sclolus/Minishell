@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/19 21:30:16 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/25 18:45:14 by sclolus          ###   ########.fr       */
+/*   Created: 2017/04/28 12:31:24 by sclolus           #+#    #+#             */
+/*   Updated: 2017/04/28 12:31:25 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ t_process	*ft_t_process_add(t_process **processes, t_process *new)
 
 static void	ft_print_argv(char **argv)
 {
-    while (*argv)
-	    ft_putendl_fd(*argv++, 2);
+	while (*argv)
+		ft_putendl_fd(*argv++, 2);
 }
 
 void		ft_t_process_print(t_process *process)
@@ -46,7 +46,7 @@ void		ft_t_process_print(t_process *process)
 		ft_putstr_fd("current status: ", 2);
 		ft_putnbr(waitpid(-process->gpid, &ret, WNOHANG | WUNTRACED));
 		if (WIFSTOPPED(ret))
-		    ft_putstr_fd("stopped", 2);
+			ft_putstr_fd("stopped", 2);
 		else
 			ft_putstr_fd("running", 2);
 		process = process->next;
@@ -61,10 +61,10 @@ void		ft_clear_processes(t_process **processes)
 	curr_process = *processes;
 	while (curr_process)
 	{
-	    free(curr_process->argv);
-	    tmp = curr_process;
-	    curr_process = curr_process->next;
-	    free(tmp);
+		free(curr_process->argv);
+		tmp = curr_process;
+		curr_process = curr_process->next;
+		free(tmp);
 	}
 }
 

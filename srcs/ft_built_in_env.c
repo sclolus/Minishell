@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 06:54:33 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/25 12:07:48 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/28 12:26:44 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,7 @@ static int32_t		ft_get_flag(char *flag)
 	return (tmp);
 }
 
-//void	ft_exec_cmd_test(char **argv, t_env *env); //
-
-// print env ?
-void			ft_built_in_exec_env_cmd(char **argv
+void				ft_built_in_exec_env_cmd(char **argv
 						, t_shenv *shenv, t_shenv *exec_env)
 {
 	char	*bin;
@@ -104,22 +101,23 @@ void			ft_built_in_exec_env_cmd(char **argv
 	{
 		if (ft_find_file(argv[0], shenv->env) > 0)
 		{
-			if (!ft_check_exec_perm(argv[0])) // use stat with geteuid
-				ft_error_exit(2, (char *[]){"Permission denied: ", argv[0]}, EXIT_NO_PERM);
+			if (!ft_check_exec_perm(argv[0]))
+				ft_error_exit(2, (char *[]){ERR_PERM_DENIED
+							, argv[0]}, EXIT_NO_PERM);
 			execve(argv[0], argv, exec_env->env->env);
-			ft_error_exit(2, (char *[]){"Permission denied: ", argv[0]}, EXIT_NO_PERM);
+			ft_error_exit(2, (char *[]){ERR_PERM_DENIED
+						, argv[0]}, EXIT_NO_PERM);
 		}
-		ft_error_exit(2, (char *[]){"Command not found: ", argv[0]}, EXIT_ILLEGAL_CMD);
+		ft_error_exit(2, (char *[]){ERR_ILL_CMD, argv[0]}, EXIT_ILLEGAL_CMD);
 	}
 	if (!(path = ft_strjoin_f(path, "/", 0)))
-		ft_error_exit(2, (char *[]){"Internal memory management failed at: ", argv[0]}, EXIT_FAILURE);
+		ft_error_exit(2, (char *[]){ERR_MALLOC, argv[0]}, EXIT_FAILURE);
 	if (!(bin = ft_strjoin(path, argv[0])))
-		ft_error_exit(2, (char *[]){"Internal memory management failed at: ", bin}, EXIT_FAILURE);
+		ft_error_exit(2, (char *[]){ERR_MALLOC, bin}, EXIT_FAILURE);
 	if (access(bin, X_OK))
-		ft_error_exit(2, (char *[]){"Permission denied: ", bin}, EXIT_NO_PERM);
+		ft_error_exit(2, (char *[]){ERR_PERM_DENIED, bin}, EXIT_NO_PERM);
 	execve(bin, argv, exec_env->env->env);
-	ft_error_exit(2, (char *[]){"Permission denied: ", bin}, EXIT_NO_PERM);
-	exit(EXIT_FAILURE);
+	ft_error_exit(2, (char *[]){ERR_PERM_DENIED, bin}, EXIT_NO_PERM);
 }
 
 static int32_t		ft_built_in_print_env(t_shenv *shenv)
@@ -156,7 +154,7 @@ int32_t				ft_built_in_env(char **argv, t_shenv *shenv)
 	else
 	{
 		flag = 0;
-		if ((flag = ft_get_flag(argv[1])) == -1) // bruh
+		if ((flag = ft_get_flag(argv[1])) == -1) // arg ?
 			exit(EXIT_FAILURE);
 		argc = ft_count_values(argv + flag);
 		if (!argv[argc + flag + 1])
@@ -165,7 +163,7 @@ int32_t				ft_built_in_env(char **argv, t_shenv *shenv)
 			exec_env = ft_create_new_shenv(argv + 1, argc);
 		else
 			exec_env = ft_modify_env(argv, argc
-			 , ft_init_shenv(shenv->env->variable_count, shenv->env->env));
+			, ft_init_shenv(shenv->env->variable_count, shenv->env->env));
 		shenv->env = ft_get_env(shenv);
 		exec_env->env = ft_get_env(exec_env);
 		ft_built_in_exec_env_cmd(argv + argc + 1 + flag, shenv, exec_env);

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/27 16:19:03 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/28 12:25:12 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,12 @@
 # define ESCAPE_CHAR "\\"
 # define CHARSET_VAR_NAME "_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
+# define CHARSET_QUOTES "'\""
+# define CHARSET_ESCAPE_BCKSLH "$`\"\\\n"
+# define QUOTE_REMOVAL_BUFF_SIZE 256
+
+
+
 # define MAX_PATH_NAME 4096
 # define MAX_FILE_NAME 255
 # define MAX_PATH 4096
@@ -83,6 +89,10 @@
 # define BUILT_IN_COUNT 9
 
 # define ERROR_BAD_FD "Bad file descriptor"
+# define ERR_PERM_DENIED "Permission denied: "
+# define ERR_ILL_CMD "Command not found: "
+# define ERR_MALLOC "Internal memory management failed at: "
+
 
 typedef struct s_env t_env;
 typedef uint8_t	t_bool;

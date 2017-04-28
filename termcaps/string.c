@@ -6,13 +6,13 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 02:07:08 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/19 02:54:22 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/28 12:05:00 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "termcaps.h"
 
-int	ft_putterm(int c)
+int			ft_putterm(int c)
 {
 	return (write(1, &c, 1));
 }

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/10 06:13:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/04 05:00:04 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/28 12:15:44 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,25 @@ int32_t	ft_is_unbalanced(char *line)
 int32_t	ft_is_line_backslash_terminated(char *line)
 {
 	uint32_t	len;
-	
+
 	len = ft_strlen(line);
-	if (len) // big bug if '\\' is escaped
+	if (len)
 		if (line[len - 1] == '\\' && !ft_is_quoted(line, len - 1))
 		{
 			line[len - 1] = '\0';
 			return (1);
 		}
 	return (0);
+}
+
+void	ft_line_continuation_put_prompt(int32_t ret)
+{
+	if (ret >= 2)
+		ft_putstr("dquote>");
+	else if (ret == 1)
+		ft_putstr("quote>");
+	else
+		ft_putstr(">");
 }
 
 char	*ft_line_continuation(char *line)
@@ -57,28 +67,16 @@ char	*ft_line_continuation(char *line)
 	if ((ret = ft_is_unbalanced(line))
 		|| ft_is_line_backslash_terminated(line))
 	{
-		if (ret >= 2)
-			ft_putstr("dquote>");
-		else if (ret == 1)
-			ft_putstr("quote>");
-		else
-			ft_putstr(">");
+		ft_line_continuation_put_prompt(ret);
 		while (get_next_line(0, &tmp) > 0)
 		{
 			ret = 0;
 			line = ft_strjoin_f(line, tmp, 0);
 			if (((ret = ft_is_unbalanced(line)) > 0)
 				|| ft_is_line_backslash_terminated(line))
-			{
-				if (ret >= 2)
-					ft_putstr("dquote>");
-				else if (ret == 1)
-					ft_putstr("quote>");
-				else
-					ft_putstr(">");
-			}
+				ft_line_continuation_put_prompt(ret);
 			else
-				break;
+				break ;
 		}
 	}
 	return (line);

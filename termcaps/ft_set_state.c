@@ -6,21 +6,12 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 08:16:44 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/23 10:09:14 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/28 10:42:17 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "termcaps.h"
 
-# if 0
-static int32_t	ft_is_shell_reserved(t_string *buf, uint32_t i)
-{
-	if (ft_strchr("|&;<>()$`\"' \t\n", buf->string[i])
-		&& !ft_is_quoted(buf->string, i))
-		return (1);
-	return (0);
-}
-#endif
 t_termcaps_state	*ft_get_term_state(void)
 {
 	static t_termcaps_state	state = NORMAL;
@@ -53,7 +44,7 @@ void				ft_set_term_state(t_string *buf)
 	while (i < buf->offset)
 	{
 		while (i < buf->offset && ft_strchr(" \t\n", buf->string[i])
-			   && !ft_is_quoted(buf->string, i))
+			&& !ft_is_quoted(buf->string, i))
 		{
 			i++;
 			bool = 0;
@@ -61,12 +52,12 @@ void				ft_set_term_state(t_string *buf)
 		if (i == buf->offset)
 			break ;
 		if (ft_strchr("&;|", buf->string[i]) && !ft_is_quoted(buf->string, i))
-		{			
+		{
 			command_pos = 0;
 			bool = 0;
 		}
 		else if (!bool && (!ft_strchr(" \t\n", buf->string[i])
-						   || ft_is_quoted(buf->string, i)))
+						|| ft_is_quoted(buf->string, i)))
 		{
 			bool = 1;
 			command_pos++;

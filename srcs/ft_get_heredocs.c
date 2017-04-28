@@ -6,11 +6,20 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 18:55:24 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/28 19:02:56 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/29 01:54:47 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	ft_get_the_norme(int fd, char *heredoc_input, uint32_t offset)
+{
+	write(fd, heredoc_input, offset);
+	if (close(fd) == -1)
+		ft_error_exit(1, (char*[]){"Failed to close Here-Document file"}
+					, EXIT_HEREDOC_FILE);
+	free(heredoc_input);
+}
 
 void		ft_get_heredoc(t_heredoc *heredoc, uint32_t index, t_shenv *shenv)
 {
@@ -36,11 +45,7 @@ void		ft_get_heredoc(t_heredoc *heredoc, uint32_t index, t_shenv *shenv)
 		}
 		heredoc_input = ft_strjoin_f(heredoc_input, tmp, 0);
 	}
-	write(fd, heredoc_input, offset);
-	if (close(fd) == -1)
-		ft_error_exit(1, (char*[]){"Failed to close Here-Document file"}
-					, EXIT_HEREDOC_FILE);
-	free(heredoc_input);
+	ft_get_the_norme(fd, heredoc_input, offset);
 }
 
 void		ft_get_heredocs(t_shenv *shenv)

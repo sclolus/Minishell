@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 05:08:11 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/29 01:45:38 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/29 01:52:47 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,10 @@ char		*ft_get_path_name(char *file)
 	uint32_t	i;
 	int64_t		offset;
 
-	if (!file)
+	if (!file && (buf[0] = 0))
 		return (NULL);
 	i = 0;
 	offset = -1;
-	buf[0] = 0;
 	while (file[i])
 	{
 		if (file[i] == '/')
@@ -90,10 +89,7 @@ char		*ft_get_file_name(char *file)
 		ft_putstr_fd("Filename too long\n", 2);
 		return (NULL);
 	}
-	if (offset == -1)
-		ft_memcpy(buf, file + offset + 1, len - offset);
-	else
-		ft_memcpy(buf, file + offset + 1, len - offset);
+	ft_memcpy(buf, file + offset + 1, len - offset);
 	buf[len - offset] = 0;
 	return (buf);
 }

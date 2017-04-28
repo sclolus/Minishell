@@ -93,8 +93,10 @@ void	ft_sanitize_parser_plus(t_parser *parser)
 		ft_free_parser(parser->parser.plus.parsers[i]);
 		i++;
 	}
+        if (parser->parser.multiply.n)
+            free(parser->parser.plus.parsers);
+        parser->parser.plus.parsers = NULL;
 	parser->parser.plus.n = 0;
-	parser->parser.plus.parsers = NULL;
 }
 
 void	ft_sanitize_parser_multiply(t_parser *parser)
@@ -108,8 +110,10 @@ void	ft_sanitize_parser_multiply(t_parser *parser)
 		ft_free_parser(parser->parser.multiply.parsers[i]);
 		i++;
 	}
+        if (parser->parser.multiply.n)
+            free(parser->parser.plus.parsers);
+        parser->parser.multiply.parsers = NULL;
 	parser->parser.multiply.n = 0;
-	parser->parser.multiply.parsers = NULL;
 }
 
 void	ft_sanitize_parser_char_range(t_parser *parser)

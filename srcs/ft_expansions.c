@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 05:08:11 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/25 19:05:48 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/28 22:49:39 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,8 @@ int32_t	ft_find_file(char *file, t_env *env)
 	{
 		if (!ft_strcmp(filename, curr_entry->d_name))
 		{
-			closedir(curr_dir); // protect closdir
+			if (-1 == (closedir(curr_dir)))
+				ft_error_exit(1, (char*[]){"closedir() failed"}, 1);
 			return (1);
 		}
 	}

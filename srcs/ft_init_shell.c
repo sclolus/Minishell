@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 03:24:20 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/28 14:23:26 by aalves           ###   ########.fr       */
+/*   Updated: 2017/04/28 20:35:36 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ void	ft_init_shell(void)
 	shell->interactive = isatty(shell->terminal);
 	if (shell->interactive)
 	{
-/*		while (tcgetpgrp(shell->interactive)
+		while (tcgetpgrp(shell->interactive)
 			   != (shell->shell_pgid = getpgrp()))
-			   kill(-shell->shell_pgid, SIGSTOP);*/
-		ft_ignore_signals();
+			   kill(-shell->shell_pgid, SIGSTOP);
+			ft_ignore_signals();
 		shell->shell_pgid = getpid();
 		if (-1 == (setpgid(shell->shell_pgid, shell->shell_pgid)))
 			ft_error_exit(1, (char*[]){"Shell initialization failed"}, 1);
@@ -31,7 +31,7 @@ void	ft_init_shell(void)
 		tcgetattr(shell->terminal, &shell->backup_term);
 		if (-1 == ft_set_term())
 			ft_error_exit(1, (char*[]){"Shell initialization failed"}, 1);
-		//		ft_setup_sighandlers();
+		ft_setup_sighandlers();
 	}
 }
 
@@ -50,5 +50,6 @@ void	ft_exit_shell(void)
 void	ft_put_shell_in_foreground(void)
 {
 	ft_set_term();
+	ft_set_insert();
 	tcsetpgrp(shell->terminal, shell->shell_pgid);
 }

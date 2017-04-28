@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/28 19:16:43 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/28 22:36:23 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -341,17 +341,18 @@ void	ft_exit_shell(void);
 void	ft_init_shell(void);
 
 /* test*/
+char		**ft_get_argv(t_parser *simple_cmd);
 int32_t		ft_is_built_in(t_parser *parser);
 t_process	*ft_start_process(t_parser *simple_cmd, pid_t gpid, int *stdfd, t_shenv *shenv);
 int32_t		ft_exec_pipeline(t_parser *parser, t_shenv *shenv);
 int32_t		ft_exec_pipe_sequence(t_parser *parser, t_shenv *shenv);
+int32_t		ft_exec_list(t_parser *parser, t_shenv *shenv);
 int32_t		ft_exec_and_or(t_parser *parser, t_shenv *shenv);
 int32_t		ft_exec_env_assignment(t_parser *parser, t_shenv *shenv);
 int32_t		ft_exec_cmd_prefix(t_parser *cmd_prefix, t_shenv *shenv);
 void		ft_exec_cmd(char **argv, t_shenv *shenv);
 int32_t		ft_exec_simple_cmd(t_parser *simple_cmd, t_shenv *shenv);
 int32_t		ft_exec_command(t_parser *parser, t_shenv *shenv);
-int32_t		ft_exec_parser(t_parser *parser, t_shenv *shenv);
 char		**ft_get_env_value(char **env, char *variable);
 t_process	*ft_t_process_add(t_process **processes, t_process *new);
 

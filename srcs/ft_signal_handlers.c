@@ -6,7 +6,7 @@
 /*   By: aalves <aalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 17:17:24 by aalves            #+#    #+#             */
-/*   Updated: 2017/04/28 18:37:04 by aalves           ###   ########.fr       */
+/*   Updated: 2017/04/28 20:19:19 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void		ft_handler_int(int signum)
 {
 	if (signum == SIGINT)
-		ft_exit_shell();
+		;
 	else
 		ft_putstr_fd("signal handling error", 2);
 }

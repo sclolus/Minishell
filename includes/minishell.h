@@ -252,6 +252,10 @@ int32_t		ft_built_in_env(char **argv, t_shenv *shenv);
 int32_t		ft_built_in_unsetenv(char **argv, t_shenv *shenv);
 int32_t		ft_built_in_export(char **argv, t_shenv *shenv);
 int32_t		ft_built_in_unset(char **argv, t_shenv *shenv);
+int32_t		ft_cd_set_oldpath(t_shenv *shenv);
+char		ft_cdpath_search(t_string *curpath, char *op, t_shenv *shenv);
+int32_t		ft_create_path(t_string *dst, char *path, char *op);
+int32_t		ft_get_pwd(t_string *curpath, t_shenv *shenv);
 
 /*
 ** Error handling

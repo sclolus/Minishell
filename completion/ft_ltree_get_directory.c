@@ -109,7 +109,8 @@ int32_t		ft_ltree_add_directory_bin(t_ltree **ltree, char *path)
 	{
 		if (!(tmp = ft_strjoin(path, curr_entry->d_name)))
 			exit(EXIT_FAILURE);
-		if (ft_check_exec_perm(tmp) && ft_strcmp("..", curr_entry->d_name) && ft_strcmp(".", curr_entry->d_name))
+		if (ft_check_exec_perm(tmp) && ft_strcmp("..", curr_entry->d_name)
+									&& ft_strcmp(".", curr_entry->d_name))
 		{
 			if (ft_is_dir(tmp))
 			{

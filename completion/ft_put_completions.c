@@ -72,7 +72,8 @@ int32_t			ft_put_max_completion(t_ltree *ltree, t_string *buf,
 	return (-1);
 }
 
-static void		ft_completions_cleanup(t_string *buf, int64_t old_offset, uint32_t *lens)
+static void		ft_completions_cleanup(t_string *buf, int64_t old_offset,
+											uint32_t *lens)
 {
 	ft_static_put("\n", 1, 0);
 	ft_static_put(PROMPT, 2, 0);

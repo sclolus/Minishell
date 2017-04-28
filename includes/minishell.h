@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/28 12:38:20 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/28 14:10:15 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@
 # define ERR_PERM_DENIED "Permission denied: "
 # define ERR_ILL_CMD "Command not found: "
 # define ERR_MALLOC "Internal memory management failed at: "
-
+# define ERR_NOFILE "No such file or directory: "
 
 typedef struct s_env t_env;
 typedef uint8_t	t_bool;

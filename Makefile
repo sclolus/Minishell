@@ -6,8 +6,8 @@ SRC= srcs/minishell.c \
 	srcs/ft_signal.c \
 	srcs/ft_signal_handlers.c \
 	srcs/ft_find_command.c \
-	srcs/ft_built-in_echo.c \
-	srcs/ft_built-in.c \
+	srcs/ft_built_in_echo.c \
+	srcs/ft_built_in.c \
 	srcs/ft_built_in_cd.c \
 	srcs/ft_built_in_exit.c \
 	srcs/ft_built_in_env.c \

@@ -4,6 +4,7 @@ FLAGS= -Wall -Werror -Wextra -g #   -fsanitize=address -fsanitize-blacklist=my_i
 SRC= srcs/minishell.c \
 	srcs/ft_init_shell.c \
 	srcs/ft_signal.c \
+	srcs/ft_signal_handlers.c \
 	srcs/ft_find_command.c \
 	srcs/ft_built-in_echo.c \
 	srcs/ft_built-in.c \

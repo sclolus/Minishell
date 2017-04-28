@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_var_expansion.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 06:23:22 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/22 09:44:10 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/28 17:13:38 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,12 @@ void			ft_var_expansion(char **word, t_shenv *shenv)
 			var_value = ft_find_var(shenv, var_name);
 			if (var_value)
 				*word = ft_strreplace(tmp, i
-									  , i + len + 1, *var_value + len + 1);
+									, i + len + 1, *var_value + len + 1);
 			else
 				*word = ft_strreplace(tmp, i
-									  , i + len + 1, "\0");
+									, i + len + 1, "\0");
 			free(tmp);
 		}
 		i++;
 	}
 }
-

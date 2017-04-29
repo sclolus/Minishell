@@ -6,13 +6,26 @@
 /*   By: aalves <aalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 19:07:47 by aalves            #+#    #+#             */
-/*   Updated: 2017/04/29 00:28:51 by aalves           ###   ########.fr       */
+/*   Updated: 2017/04/29 05:50:57 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int32_t	ft_get_pwd(t_string *curpath, t_shenv *shenv)
+int32_t		rst_tstring(t_string *str)
+{
+	if (!str->string)
+	{
+		str->string = ft_strnew(MAX_PATH_NAME);
+		str->capacity = MAX_PATH_NAME;
+	}
+	ft_bzero(str->string, MAX_PATH_NAME);
+	str->len = 0;
+	str->offset = 0;
+	return (1);
+}
+
+int32_t		ft_get_pwd(t_string *curpath, t_shenv *shenv)
 {
 	char	**pwd;
 
@@ -25,7 +38,7 @@ int32_t	ft_get_pwd(t_string *curpath, t_shenv *shenv)
 		return (0);
 }
 
-int32_t	ft_create_path(t_string *dst, char *path, char *op)
+int32_t		ft_create_path(t_string *dst, char *path, char *op)
 {
 	uint64_t	is_data;
 
@@ -45,7 +58,7 @@ char		ft_cdpath_search(t_string *curpath, char *op, t_shenv *shenv)
 	char		*path;
 	char		*end;
 	size_t		len;
-	DIR		*dir;
+	DIR			*dir;
 
 	if (!(cdpath = ft_find_var(shenv, "CDPATH")))
 		return (0);
@@ -54,29 +67,21 @@ char		ft_cdpath_search(t_string *curpath, char *op, t_shenv *shenv)
 	{
 		end = ft_strchr(path, ':');
 		len = end ? end - path : ft_strlen(path);
-		if (!len)
-		{
+		if (!len && (len = 2))
 			ft_t_string_concat(curpath, "./");
-			len = 2;
-		}
 		else
 			ft_memcpy(curpath->string, path, len);
 		curpath->string[len] = (curpath->string[len - 1] == '/') ? '\0' : '/';
 		ft_t_string_concat(curpath, op);
-		if ((dir = opendir(curpath->string)))
-		{
-			closedir(dir);
+		if ((dir = opendir(curpath->string)) && closedir(dir))
 			return (1);
-		}
-		ft_bzero(curpath->string, MAX_PATH_NAME);
-		curpath->len = 0;
-		curpath->offset = 0;
+		rst_tstring(curpath);
 		path = (end) ? end + 1 : NULL;
 	}
 	return (0);
 }
 
-int32_t	ft_cd_set_oldpath(t_shenv *shenv)
+int32_t		ft_cd_set_oldpath(t_shenv *shenv)
 {
 	char		**oldpwd;
 	char		tmp[MAX_PATH_NAME + 10];

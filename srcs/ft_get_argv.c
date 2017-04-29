@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 22:25:05 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/29 01:55:48 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/29 01:58:40 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,8 @@ char			**ft_get_argv(t_parser *simple_cmd)
 	{
 		if (OR_PARSER_N(AND_PARSER_N(MULTIPLY_PARSER_N(AND_PARSER_N(simple_cmd,
 													4), i), 0), 1)->retained)
-		{
-			argv[count + 1] = OR_PARSER_N(AND_PARSER_N(MULTIPLY_PARSER_N(
+			argv[count++ + 1] = OR_PARSER_N(AND_PARSER_N(MULTIPLY_PARSER_N(
 	AND_PARSER_N(simple_cmd, 4), i), 0), 1)->parser.str_any_of.str;
-			count++;
-		}
 		i++;
 	}
 	return (argv);

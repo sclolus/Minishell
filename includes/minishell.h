@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/29 00:15:13 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/05 23:14:53 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,6 @@
 # include "termcaps.h"
 # include "ft_completion.h"
 # include "ast.h"
-
-// debuf MACROS
-# define ENDL ft_putendl("");
-#define REVERT 0
 
 # define PROMPT "$>"
 # define SHELL_NAME "minishell: "
@@ -148,34 +144,29 @@ typedef struct	s_job
 
 typedef struct	s_shell
 {
+	struct termios	backup_term;
 	int				terminal;
 	int				interactive;
 	pid_t			shell_pgid;
-	struct termios	backup_term;
 }				t_shell;
 
 int32_t		ft_setup_sighandlers(void);
 void		ft_init_shell(void);
 
 char		*ft_find_command(char *filename, char **path);
-/*char		**ft_parse_line(char *line);
-char		*ft_parse_arg(char *line);
-void		ft_normalize_command(char **command);*/
-
 int32_t		ft_is_unbalanced(char *line);
 char		*ft_line_continuation(char *line);
 int32_t		ft_is_line_backslash_terminated(char *line);
 
 char		*ft_variable_expansion(char *token, char **env);
 
-//int32_t		ft_cd(char **argv, t_list **env);
 char		*ft_find_env(char const **env, char const *variable);
 char		*ft_strjoin_f(char *a, char *b, int32_t mode);
 
 uint32_t	ft_is_escaped(char *input, uint32_t index);
 uint32_t	ft_is_quoted(char *input, uint32_t index);
 
-void	ft_exit_shell(void);
+void		ft_exit_shell(void);
 
 /*
 ** Lexer
@@ -201,8 +192,8 @@ int32_t		ft_duplicating_output_redirect(t_parser *redirect);
 int32_t		ft_input_redirect(t_parser *redirect);
 int32_t		ft_read_write_redirect(t_parser *redirect);
 
-/* Heredocs
-**
+/*
+** Heredocs
 */
 
 int32_t		ft_heredoc_redirect(t_parser *heredoc);
@@ -249,6 +240,9 @@ int32_t		ft_built_in_history(char **argv, t_env *env);
 int32_t		ft_built_in_exit(char **argv, t_shenv *shenv);
 int32_t		ft_built_in_setenv(char **argv, t_shenv *shenv);
 int32_t		ft_built_in_env(char **argv, t_shenv *shenv);
+t_shenv		*ft_modify_env(char **argv, uint32_t count, t_shenv *shenv);
+t_shenv		*ft_create_new_shenv(char **argv
+								, uint32_t count);
 int32_t		ft_built_in_unsetenv(char **argv, t_shenv *shenv);
 int32_t		ft_built_in_export(char **argv, t_shenv *shenv);
 int32_t		ft_built_in_unset(char **argv, t_shenv *shenv);
@@ -318,7 +312,7 @@ void	ft_free_argv(char **argv);
 */
 
 void		ft_clear_processes(t_process **processes);
-void		ft_t_process_print(t_process *process);
+ppvoid		ft_t_process_print(t_process *process);
 void		ft_put_processes_in_foreground(t_process *process, int cont);
 
 /*
@@ -341,6 +335,7 @@ void	ft_exit_shell(void);
 void	ft_init_shell(void);
 
 /* test*/
+
 char		**ft_get_argv(t_parser *simple_cmd);
 int32_t		ft_is_built_in(t_parser *parser);
 t_process	*ft_start_process(t_parser *simple_cmd, pid_t gpid, int *stdfd, t_shenv *shenv);

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/24 10:50:13 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/05 17:14:24 by sclolus          ###   ########.fr       */
+/*   Created: 2017/05/05 19:12:57 by sclolus           #+#    #+#             */
+/*   Updated: 2017/05/05 19:12:59 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ uint32_t		ft_eval_tokens(t_parser *parser, t_tokens *tokens)
 {
 	static const t_eval_tokens	eval_tokens[18] = {
 		{&ft_eval_tokens_undefined}, {&ft_eval_tokens_undefined},
- 		{&ft_eval_tokens_onechar}, {&ft_eval_tokens_str},
- 		{&ft_eval_tokens_undefined}, {&ft_eval_tokens_char_range},
- 		{&ft_eval_tokens_any}, {&ft_eval_tokens_str_any_of},
- 		{&ft_eval_tokens_satisfy}, {&ft_eval_tokens_satisfy_str},
- 		{&ft_eval_tokens_str_any}, {&ft_eval_tokens_oneof},
- 		{&ft_eval_tokens_undefined}, {&ft_eval_tokens_and},
- 		{&ft_eval_tokens_or}, {&ft_eval_tokens_not},
- 		{&ft_eval_tokens_plus}, {&ft_eval_tokens_multiply}};
+		{&ft_eval_tokens_onechar}, {&ft_eval_tokens_str},
+		{&ft_eval_tokens_undefined}, {&ft_eval_tokens_char_range},
+		{&ft_eval_tokens_any}, {&ft_eval_tokens_str_any_of},
+		{&ft_eval_tokens_satisfy}, {&ft_eval_tokens_satisfy_str},
+		{&ft_eval_tokens_str_any}, {&ft_eval_tokens_oneof},
+		{&ft_eval_tokens_undefined}, {&ft_eval_tokens_and},
+		{&ft_eval_tokens_or}, {&ft_eval_tokens_not},
+		{&ft_eval_tokens_plus}, {&ft_eval_tokens_multiply}};
 	uint32_t					base;
 	uint32_t					ret;
 

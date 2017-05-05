@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 10:51:51 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/24 17:20:04 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/05 19:13:45 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ uint32_t		ft_eval_tokens_oneof(t_parser *parser, t_tokens *tokens)
 	if (!tokens->tokens[tokens->index])
 		return (0);
 	if (tokens->lens[tokens->index] == 1
-		&& ft_strchr(parser->parser.oneof.charset, tokens->tokens[tokens->index][0]))
+		&& ft_strchr(parser->parser.oneof.charset
+		, tokens->tokens[tokens->index][0]))
 	{
 		parser->parser.oneof.c = tokens->tokens[tokens->index][0];
 		tokens->index++;

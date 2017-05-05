@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/05 18:32:01 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/05 21:23:36 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -376,6 +376,7 @@ uint32_t		ft_count_metachar(char *start, char *end);
 int32_t			ft_count_rules(char *grammar);
 
 t_parser		*ft_dup_parser(t_parser *parser);
+t_parser		*ft_assign_parsers(t_parser *parser, t_parser *new_parser);
 
 void			ft_put_parser(t_parser *parser);
 void			ft_put_id(t_parser *parser);

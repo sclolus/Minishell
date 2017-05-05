@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_sanitizer_misc.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/14 05:47:06 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/27 21:32:27 by sclolus          ###   ########.fr       */
+/*   Created: 2017/05/05 19:06:23 by sclolus           #+#    #+#             */
+/*   Updated: 2017/05/05 19:06:46 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ast.h"
 
-void	ft_putnbr_tab(uint32_t n, int32_t *tab)
+void	ft_sanitize_parser_ref(t_parser *parser)
 {
-	while (n--)
-	{
-		ft_putnbr(tab[n]);
-	}
+	parser->retained = 0;
 }
 
-int main(void)
+void	ft_sanitize_parser_func(t_parser *parser)
 {
-	int	*tab;
+	parser->retained = 0;
+	ft_sanitize_parser(parser->parser.func.parser);
+}
 
-	tab = (int[]){12, 11, 13};
-	ft_putnbr_tab(3, tab);
-	return (0);
+void	ft_sanitize_parser_undefined(t_parser *parser)
+{
+	parser->retained = 0;
+	ft_putstr_fd("Sanitizing undefined parser", 2);
 }

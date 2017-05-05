@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/28 16:27:37 by aalves           ###   ########.fr       */
+/*   Updated: 2017/05/05 18:32:01 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <fcntl.h>
+# include <stdint.h>
 
 typedef uint32_t	t_id;
 
@@ -290,6 +291,7 @@ uint32_t		ft_eval_parser_plus(t_parser *parser, char **string);
 uint32_t		ft_eval_parser_multiply(t_parser *parser, char **string);
 uint32_t		ft_eval_parser_oneof(t_parser *parser, char **string);
 uint32_t		ft_eval_delayed(t_parser *parser, char **string);
+uint32_t		ft_eval_parser_func(t_parser *parser, char **string);
 
 uint32_t		ft_eval_tokens(t_parser *parser, t_tokens *tokens);
 uint32_t		ft_eval_tokens_input(t_parser *parser, t_tokens *tokens);

@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 09:38:43 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/02 05:43:11 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/05 19:08:24 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ uint32_t	ft_is_case_str_any_of(t_parser *parser)
 	return (1);
 }
 
-void	ft_optimize_case_str_any_of(t_parser *parser)
+void		ft_optimize_case_str_any_of(t_parser *parser)
 {
 	char		*charset;
 	uint32_t	i;
@@ -37,10 +37,11 @@ void	ft_optimize_case_str_any_of(t_parser *parser)
 	i = 0;
 	n = parser->parser.plus.parser->parser.or.n;
 	if (!(charset = ft_strnew(n)))
-		exit (EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	while (i < n)
 	{
-		charset[i] = parser->parser.plus.parser->parser.or.parsers[i]->parser.onechar.c;
+		charset[i] = parser->parser.plus.parser->parser.or.parsers[i]
+			->parser.onechar.c;
 		i++;
 	}
 	ft_free_parser(parser->parser.plus.parser);
@@ -50,7 +51,7 @@ void	ft_optimize_case_str_any_of(t_parser *parser)
 	parser->parser.str_any_of.str = NULL;
 }
 
-void	ft_optimizer(t_parser *parser)
+void		ft_optimizer(t_parser *parser)
 {
 	uint32_t	i;
 

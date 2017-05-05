@@ -12,10 +12,6 @@
 
 #include "libft.h"
 
-# define CHECK(x) do {  ft_putendl("___"); \
-ft_putendl(#x);			\
-ft_putendl("____");		} while (0);
-
 t_string	*ft_t_string_new(uint32_t capacity)
 {
 	t_string	*string;

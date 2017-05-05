@@ -6,11 +6,11 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 22:45:44 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/05 22:46:06 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/05 23:04:11 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast.h"
+#include "minishell.h"
 
 void			ft_free_tokens(t_tokens *tokens)
 {

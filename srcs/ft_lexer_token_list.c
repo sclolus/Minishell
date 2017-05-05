@@ -6,11 +6,11 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 22:46:41 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/05 22:46:56 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/05 23:04:30 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast.h"
+#include "minishell.h"
 
 void			ft_add_token_to_list(t_list **token_list
 									, char *input, uint32_t start, uint32_t i)

@@ -6,11 +6,11 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 23:01:46 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/05 23:02:03 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/05 23:03:59 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast.h"
+#include "minishell.h"
 
 uint32_t		ft_get_tokens_count(char **tokens)
 {

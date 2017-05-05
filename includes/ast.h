@@ -20,10 +20,6 @@
 
 typedef uint32_t	t_id;
 
-# define CHECK(x) do {  ft_putendl("___"); \
-ft_putendl(#x);			\
-ft_putendl("____");		} while (0);
-
 # define PARSER_TYPE(t_parser) t_parser->id
 # define IS_RETAINED(t_parser) t_parser->retained == 1
 # define OR_PARSER_N(t_parser, n) t_parser->parser.or.parsers[n]
@@ -323,6 +319,7 @@ t_parser		*ft_find_rule_name(t_parser **ruleset, char *name);
 void			ft_link_rule_name(t_parser **ruleset, t_parser **node);
 
 void			ft_free_parser(t_parser *parser);
+void			ft_free_parser_struct(t_parser *parser);
 void			ft_free_parser_onechar(t_parser *parser);
 void			ft_free_parser_ref(t_parser *parser);
 void			ft_free_parser_str_any_of(t_parser *parser);
@@ -334,6 +331,7 @@ void			ft_free_parser_and_n(t_parser *parser);
 void			ft_free_parser_or_n(t_parser *parser);
 void			ft_free_parser_plus(t_parser *parser);
 void			ft_free_parser_multiply(t_parser *parser);
+void			ft_free_parser_not(t_parser *parser);
 void			ft_free_parser_char_range(t_parser *parser);
 void			ft_free_parser_satisfy(t_parser *parser);
 void			ft_free_parser_satisfy_str(t_parser *parser);

@@ -32,8 +32,8 @@ uint32_t		ft_is_part_of_op(char *input, uint32_t index)
 		return (0);
 }
 
-static uint32_t	ft_delimite_tokens(char *input, uint32_t i
-				 , t_bool bool_word)
+static uint32_t	ft_delimite_tokens(char *input, uint32_t i,
+										t_bool bool_word)
 {
 	if (!bool_word && !ft_strchr(CHARSET_WHITESPACES, input[i]))
 		return (2);

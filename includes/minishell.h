@@ -177,6 +177,9 @@ t_tokens	*ft_get_tokens(char *input);
 void		ft_put_tokens(char **tokens);
 uint32_t	ft_get_tokens_count(char **tokens);
 void		ft_free_tokens(t_tokens *tokens);
+void			ft_add_token_to_list(t_list **token_list
+					     , char *input, uint32_t start, uint32_t i);
+char			**ft_token_list_to_tab(t_list *token_list);
 
 /*
 ** redirections
@@ -240,6 +243,9 @@ int32_t		ft_built_in_history(char **argv, t_env *env);
 int32_t		ft_built_in_exit(char **argv, t_shenv *shenv);
 int32_t		ft_built_in_setenv(char **argv, t_shenv *shenv);
 int32_t		ft_built_in_env(char **argv, t_shenv *shenv);
+int32_t		ft_built_in_print_env(t_shenv *shenv);
+void		ft_built_in_exec_env_cmd(char **argv
+					 , t_shenv *shenv, t_shenv *exec_env);
 t_shenv		*ft_modify_env(char **argv, uint32_t count, t_shenv *shenv);
 t_shenv		*ft_create_new_shenv(char **argv
 								, uint32_t count);
@@ -250,7 +256,9 @@ int32_t		ft_cd_set_oldpath(t_shenv *shenv);
 char		ft_cdpath_search(t_string *curpath, char *op, t_shenv *shenv);
 int32_t		ft_create_path(t_string *dst, char *path, char *op);
 int32_t		ft_get_pwd(t_string *curpath, t_shenv *shenv);
-
+int32_t		rst_tstring(t_string *str);
+int32_t		ft_check_chdir(t_string *curpath, char *arg, char *cwd
+							, t_shenv *shenv);
 /*
 ** Error handling
 */
@@ -312,7 +320,7 @@ void	ft_free_argv(char **argv);
 */
 
 void		ft_clear_processes(t_process **processes);
-ppvoid		ft_t_process_print(t_process *process);
+void		ft_t_process_print(t_process *process);
 void		ft_put_processes_in_foreground(t_process *process, int cont);
 
 /*

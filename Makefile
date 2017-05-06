@@ -10,8 +10,10 @@ SRC= srcs/minishell.c \
 	srcs/ft_built_in.c \
 	srcs/ft_built_in_cd.c \
 	srcs/ft_built_in_cd2.c \
+	srcs/ft_built_in_cd3.c \
 	srcs/ft_built_in_exit.c \
 	srcs/ft_built_in_env.c \
+	srcs/ft_built_in_env_utilities.c \
 	srcs/ft_built_in_setenv.c \
 	srcs/ft_built_in_unsetenv.c \
 	srcs/ft_built_in_unset.c \
@@ -29,7 +31,6 @@ SRC= srcs/minishell.c \
 	srcs/ft_expansions_cmd_prefix.c \
 	srcs/ft_expansions_cmd_postfix.c \
 	srcs/ft_expansions_io_redirect.c \
-	srcs/ft_built-in_history.c \
 	srcs/ft_exec_command.c \
 	srcs/ft_exec_parser.c \
 	srcs/ft_exec_pipeline.c \
@@ -51,6 +52,9 @@ SRC= srcs/minishell.c \
 	srcs/ft_argv.c \
 	srcs/ft_get_argv.c \
 	srcs/ft_lexer.c \
+	srcs/ft_lexer_token_list.c \
+	srcs/ft_free_tokens.c \
+	srcs/ft_get_tokens.c \
 	srcs/ft_get_shenv.c \
 	termcaps/termcaps.c \
 	termcaps/ft_paste_line.c \
@@ -63,16 +67,43 @@ SRC= srcs/minishell.c \
 	termcaps/ft_set_term.c \
 	termcaps/ft_set_state.c \
 	parser/ast/ast.c \
-	parser/ast/ft_dup_parser.c \
+	parser/ast/ft_assign_parsers.c \
+	parser/ast/ft_dup_parser/ft_dup_parser.c \
 	parser/ast/ft_eval_parser.c \
-	parser/ast/ft_free_parser.c \
+	parser/ast/ft_eval_parser_chars.c \
+	parser/ast/ft_eval_parser_logical.c \
+	parser/ast/ft_eval_parser_misc.c \
+	parser/ast/ft_eval_parser_multiply.c \
+	parser/ast/ft_eval_parser_plus.c \
+	parser/ast/ft_eval_parser_strings.c \
+	parser/ast/ft_eval_parser_str_any_of.c \
+	parser/ast/ft_free_parser/ft_free_parser.c \
+	parser/ast/ft_free_parser/ft_free_parser_chars.c \
+	parser/ast/ft_free_parser/ft_free_parser_logicals.c \
+	parser/ast/ft_free_parser/ft_free_parser_misc.c \
+	parser/ast/ft_free_parser/ft_free_parser_strings.c \
 	parser/ast/ft_get_grammar.c \
+	parser/ast/ft_get_grammar_linker.c \
+	parser/ast/ft_get_grammar_syntax.c \
+	parser/ast/ft_get_parser.c \
+	parser/ast/ft_get_parser_chars.c \
+	parser/ast/ft_get_parser_grammar.c \
+	parser/ast/ft_get_parser_logicals.c \
+	parser/ast/ft_get_parser_misc.c \
+	parser/ast/ft_get_parser_strings.c \
+	parser/ast/ft_get_parser_terminals.c \
 	parser/ast/ft_optimizer.c \
-	parser/ast/ft_sanitizer.c \
+	parser/ast/ft_sanitizer/ft_sanitizer.c \
+	parser/ast/ft_sanitizer/ft_sanitizer_chars.c \
+	parser/ast/ft_sanitizer/ft_sanitizer_logicals.c \
+	parser/ast/ft_sanitizer/ft_sanitizer_misc.c \
+	parser/ast/ft_sanitizer/ft_sanitizer_strings.c \
 	parser/ast/ft_put_parser.c \
 	parser/ast/ft_eval_tokens/ft_eval_tokens.c \
 	parser/ast/ft_eval_tokens/ft_eval_tokens_chars.c \
 	parser/ast/ft_eval_tokens/ft_eval_tokens_logicals.c \
+	parser/ast/ft_eval_tokens/ft_eval_tokens_multiply.c \
+	parser/ast/ft_eval_tokens/ft_eval_tokens_plus.c \
 	parser/ast/ft_eval_tokens/ft_eval_tokens_misc.c \
 	parser/ast/ft_eval_tokens/ft_eval_tokens_strings.c \
 	completion/ft_completion.c \

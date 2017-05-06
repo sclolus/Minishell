@@ -33,7 +33,7 @@ uint32_t		ft_is_part_of_op(char *input, uint32_t index)
 }
 
 static uint32_t	ft_delimite_tokens(char *input, uint32_t i
-								, t_list **token_list, t_bool bool_word)
+				 , t_bool bool_word)
 {
 	if (!bool_word && !ft_strchr(CHARSET_WHITESPACES, input[i]))
 		return (2);
@@ -62,7 +62,7 @@ char			**ft_lexer(char *input)
 	token_list = NULL;
 	while (input[i])
 	{
-		if ((ret = ft_delimite_tokens(input, i, &token_list, bool_word)) == 1)
+		if ((ret = ft_delimite_tokens(input, i, bool_word)) == 1)
 		{
 			bool_word = 0;
 			ft_add_token_to_list(&token_list, input, start, i);

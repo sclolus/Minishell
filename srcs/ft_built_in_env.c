@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_built_in_env.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 06:54:33 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/07 10:17:23 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/08 00:39:35 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static uint32_t		ft_count_values(char **argv)
+static uint32_t			ft_count_values(char **argv)
 {
 	uint32_t	i;
 	uint32_t	count;
@@ -28,7 +28,7 @@ static uint32_t		ft_count_values(char **argv)
 	return (count);
 }
 
-static int32_t		ft_get_flag(char *flag)
+static int32_t			ft_get_flag(char *flag)
 {
 	static const char	flags[] = "i";
 	static char			buf[] = "--";
@@ -56,7 +56,34 @@ static int32_t		ft_get_flag(char *flag)
 	return (tmp);
 }
 
-int32_t				ft_built_in_env(char **argv, t_shenv *shenv)
+static void				ft_normilol(t_shenv *shenv, t_shenv *exec_env)
+{
+	shenv->env = ft_get_env(shenv);
+	exec_env->env = ft_get_env(exec_env);
+	setpgid(0, getpid());
+	tcsetpgrp(g_shell->terminal, getpid());
+}
+
+static int32_t			ft_lisibilitay(char **argv, uint32_t *argc,
+					t_shenv *shenv, t_shenv *exec_env)
+{
+	int32_t		flag;
+
+	flag = 0;
+	if ((flag = ft_get_flag(argv[1])) == -1)
+		exit(EXIT_FAILURE);
+	*argc = ft_count_values(argv + flag);
+	if (flag == 1)
+		exec_env = ft_create_new_shenv(argv + 1, *argc);
+	else
+		exec_env = ft_modify_env(argv, *argc
+		, ft_init_shenv(shenv->env->variable_count, shenv->env->env));
+	if (!argv[*argc + flag + 1] && !(ft_built_in_print_env(exec_env)))
+		exit(EXIT_SUCCESS);
+	return (flag);
+}
+
+int32_t					ft_built_in_env(char **argv, t_shenv *shenv)
 {
 	int32_t		flag;
 	uint32_t	argc;
@@ -76,24 +103,9 @@ int32_t				ft_built_in_env(char **argv, t_shenv *shenv)
 	}
 	else
 	{
-		flag = 0;
-		if ((flag = ft_get_flag(argv[1])) == -1)
-			exit(EXIT_FAILURE);
-		argc = ft_count_values(argv + flag);
-		if (flag == 1)
-			exec_env = ft_create_new_shenv(argv + 1, argc);
-		else
-			exec_env = ft_modify_env(argv, argc
-			, ft_init_shenv(shenv->env->variable_count, shenv->env->env));
-		if (!argv[argc + flag + 1])
-		{
-			ft_built_in_print_env(exec_env);
-			exit(EXIT_SUCCESS);
-		}
-		shenv->env = ft_get_env(shenv);
-		exec_env->env = ft_get_env(exec_env);
-		setpgid(0, getpid());
-		tcsetpgrp(g_shell->terminal, getpid());
+		exec_env = NULL;
+		flag = ft_lisibilitay(argv, &argc, shenv, exec_env);
+		ft_normilol(shenv, exec_env);
 		ft_built_in_exec_env_cmd(argv + argc + 1 + flag, shenv, exec_env);
 	}
 	return (0);

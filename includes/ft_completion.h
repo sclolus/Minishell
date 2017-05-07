@@ -78,4 +78,5 @@ int32_t		ft_ltree_add_directory_bin(t_ltree **ltree, char *path);
 void		ft_sanitize_completion(char **completion);
 void		ft_sanitize_completions(char **completions);
 
+void	ft_fuk_norminette(char *tmp, t_ltree **ltree, struct dirent *curr_entry);
 #endif

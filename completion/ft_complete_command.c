@@ -55,11 +55,10 @@ int32_t			ft_complete_path_commands(t_string *buf, t_shenv *shenv,
 	int32_t		ret;
 
 	ltree = NULL;
-	ft_free_t_env(shenv->env);
+	!(i = 0) ? ft_free_t_env(shenv->env) : 0;
 	shenv->env = ft_get_env(shenv);
 	if (!(path = ft_get_env_value(shenv->env->env, "PATH")))
 		return (0);
-	i = 0;
 	while (path[i])
 	{
 		if (!(ft_ltree_add_directory(&ltree, path[i++])))

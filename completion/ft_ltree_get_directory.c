@@ -76,16 +76,11 @@ int32_t		ft_ltree_add_directory(t_ltree **ltree, char *path)
 	{
 		if (!(tmp = ft_strjoin(path, curr_entry->d_name)))
 			exit(EXIT_FAILURE);
-		if (ft_is_dir(tmp))
-		{
-			if (!(tmp_curr_name = ft_strjoin(curr_entry->d_name, "/")))
-				exit(EXIT_FAILURE);
-		}
-		else
-		{
-			if (!(tmp_curr_name = ft_strdup(curr_entry->d_name)))
-				exit(EXIT_FAILURE);
-		}
+		if (ft_is_dir(tmp) &&
+		!(tmp_curr_name = ft_strjoin(curr_entry->d_name, "/")))
+			exit(EXIT_FAILURE);
+		else if (!(tmp_curr_name = ft_strdup(curr_entry->d_name)))
+			exit(EXIT_FAILURE);
 		ft_sanitize_completion(&tmp_curr_name);
 		ft_ltree_add_word(ltree, tmp_curr_name);
 		free(tmp_curr_name);
@@ -101,7 +96,6 @@ int32_t		ft_ltree_add_directory_bin(t_ltree **ltree, char *path)
 	DIR				*curr_dir;
 	struct dirent	*curr_entry;
 	char			*tmp;
-	char			*tmp_curr_name;
 
 	if (!(curr_dir = opendir(path)))
 		return (0);
@@ -111,23 +105,7 @@ int32_t		ft_ltree_add_directory_bin(t_ltree **ltree, char *path)
 			exit(EXIT_FAILURE);
 		if (ft_check_exec_perm(tmp) && ft_strcmp("..", curr_entry->d_name)
 									&& ft_strcmp(".", curr_entry->d_name))
-		{
-			if (ft_is_dir(tmp))
-			{
-				if (!(tmp_curr_name = ft_strjoin(curr_entry->d_name, "/")))
-					exit(EXIT_FAILURE);
-				ft_sanitize_completion(&tmp_curr_name);
-				ft_ltree_add_word(ltree, tmp_curr_name);
-			}
-			else
-			{
-				if (!(tmp_curr_name = ft_strdup(curr_entry->d_name)))
-					exit(EXIT_FAILURE);
-				ft_sanitize_completion(&tmp_curr_name);
-				ft_ltree_add_word(ltree, tmp_curr_name);
-			}
-			free(tmp_curr_name);
-		}
+		    ft_fuk_norminette(tmp, ltree, curr_entry);
 		free(tmp);
 	}
 	if (closedir(curr_dir) == -1)

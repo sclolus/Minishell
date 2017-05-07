@@ -13,11 +13,31 @@
 #include "minishell.h"
 #include "ft_completion.h"
 
+static void	normilol(char **completion, char *tmp)
+{
+	uint32_t	i;
+	uint32_t	u;
+
+	i = 0;
+	u = 0;
+	while (completion[0][i])
+	{
+		if (ft_strchr("|&;<>()$`\"' \t\n", completion[0][i]))
+		{
+			tmp[u++] = '\\';
+			tmp[u] = completion[0][i];
+		}
+		else
+			tmp[u] = completion[0][i];
+		i++;
+		u++;
+	}
+}
+
 void		ft_sanitize_completion(char **completion)
 {
 	char		*tmp;
 	uint32_t	i;
-	uint32_t	u;
 	uint32_t	count;
 	uint32_t	len;
 
@@ -34,20 +54,7 @@ void		ft_sanitize_completion(char **completion)
 		return ;
 	if (!(tmp = ft_strnew(len + count)))
 		exit(EXIT_FAILURE);
-	i = 0;
-	u = 0;
-	while (completion[0][i])
-	{
-		if (ft_strchr("|&;<>()$`\"' \t\n", completion[0][i]))
-		{
-			tmp[u++] = '\\';
-			tmp[u] = completion[0][i];
-		}
-		else
-			tmp[u] = completion[0][i];
-		i++;
-		u++;
-	}
+	normilol(completion, tmp);
 	free(*completion);
 	*completion = tmp;
 }

@@ -110,6 +110,7 @@ SRC= srcs/minishell.c \
 	completion/ft_put_completions.c \
 	completion/ft_complete_command.c \
 	completion/ft_complete_argv.c \
+	completion/ft_fuk_norminette.c \
 	completion/ft_termcaps_completion.c \
 	completion/ft_sanitize_completion.c \
 	completion/ft_create_ltree.c \

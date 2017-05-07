@@ -50,23 +50,22 @@ int32_t			ft_complete_argv(t_string *buf, t_shenv *shenv)
 	char		**completions;
 	char		*command_prefix;
 	t_ltree		*ltree;
-	char		*path;
-	char		*filename;
+	char		*lol[2];
 	uint32_t	ret;
 
 	ltree = NULL;
 	command_prefix = ft_get_current_token(buf);
 	(void)shenv;
-	if (!(path = ft_get_path_name(command_prefix))
-		|| !ft_ltree_add_directory(&ltree, path)
-		|| !(filename = ft_get_file_name(command_prefix))
-		|| !(completions = ft_get_ltree_suffixes(ltree, filename)))
+	if (!(lol[0] = ft_get_path_name(command_prefix))
+		|| !ft_ltree_add_directory(&ltree, lol[0])
+		|| !(lol[1] = ft_get_file_name(command_prefix))
+		|| !(completions = ft_get_ltree_suffixes(ltree, lol[1])))
 	{
 		free(command_prefix);
 		ft_putchar(7);
 		return (0);
 	}
-	ret = ft_put_completion(ltree, completions, buf, filename);
+	ret = ft_put_completion(ltree, completions, buf, lol[1]);
 	ft_free_ltree(ltree);
 	free(command_prefix);
 	return (ret);

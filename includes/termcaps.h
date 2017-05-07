@@ -6,12 +6,12 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 03:26:22 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/28 14:01:12 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/07 04:59:51 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __TERMSCAPS_H__
-# define __TERMSCAPS_H__
+#ifndef TERMSCAPS_H
+# define TERMSCAPS_H
 
 # include <termios.h>
 # include <sys/ioctl.h>
@@ -50,7 +50,7 @@ typedef struct s_env	t_env;
 typedef struct s_shenv	t_shenv;
 typedef struct s_ltree	t_ltree;
 
-typedef enum		s_termcaps_state
+typedef enum		e_termcaps_state
 {
 	COMPLETION_SHOWN = 0,
 	NORMAL = 1,
@@ -75,7 +75,7 @@ int32_t				ft_complete_argv(t_string *buf, t_shenv *shenv);
 int32_t				ft_completion_normal_state(t_string *buf, t_shenv *shenv);
 int32_t				ft_complete_command_name(t_string *buf, t_shenv *shenv);
 int32_t				ft_put_max_completion(t_ltree *ltree, t_string *buf,
-									  char *prefix, uint32_t n);
+									char *prefix, uint32_t n);
 
 int					ft_putterm(int c);
 void				ft_termcaps_putstr(t_string *buf, char *str);
@@ -105,6 +105,7 @@ void				ft_paste_line(t_string *buf, char *command,
 									t_list *paste_history);
 void				ft_set_insert(void);
 void				ft_unset_insert(void);
+int32_t				ft_set_echo_mode(void);
 void				ft_set_am(void);
 void				ft_print_history_len(t_list *list);
 void				ft_print_history(t_string *buf, char *history);

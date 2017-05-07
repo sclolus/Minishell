@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 02:07:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/27 00:07:22 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/07 02:44:26 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	ft_exec_special_event(t_shenv *shenv, t_string *buf
 		return (1);
 	}
 	else if (*command == ID_TAB)
-		return (ft_completion(buf, shenv));
+		return(ft_completion(buf, shenv));
 	return (0);
 }
 
@@ -126,11 +126,11 @@ int64_t	ft_termget(char **line, t_shenv *shenv)
 			if (*(long*)tmp == '\n' || *(long*)tmp == 4)
 			{
 				if (*(long*)tmp == 4 && !buf.len)
-					ft_exit_shell();
+					ft_exit_shell(0);
 				ft_putchar('\n');
 				break;
 			}
-			if (ft_isprint(*tmp))
+			if (ft_isprint(*tmp) || *tmp == '\t')
 			{
 				tmp[1] = 0;
 				if (buf.offset == buf.len)

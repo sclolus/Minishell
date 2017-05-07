@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 03:24:20 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/29 00:45:04 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/07 01:57:26 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ void	ft_free_t_shell(void)
 	free(shell);
 }
 
-void	ft_exit_shell(void)
+void	ft_exit_shell(int exit_status)
 {
 	ft_unset_term();
 	ft_unset_insert();
-	exit(EXIT_SUCCESS);
+	exit(POSIX_EXIT_STATUS(exit_status));
 }
 
 void	ft_put_shell_in_foreground(void)

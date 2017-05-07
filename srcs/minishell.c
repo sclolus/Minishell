@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/07 01:21:08 by sclolus           #+#    #+#             */
+/*   Updated: 2017/05/07 06:34:38 by sclolus          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "minishell.h"
 #include "get_next_line.h"
@@ -39,71 +51,27 @@ char		**ft_get_env_value(char **env, char *variable)
 		exit (EXIT_FAILURE);
 	if (!(tmp = ft_strdup(*path)))
 		exit(EXIT_FAILURE);
-	len = ft_strlen(tmp) - variable_len - 1; 
+	len = ft_strlen(tmp) - variable_len - 1;
 	ft_strncpy(*path, tmp + variable_len + 1, len + 1);
 	free(tmp);
 	return (path);
 }
 
 // TODO ctrl+d ctrl+c
-// ls :. too much files opens
+
 int main(int argc, char **argv, char **env)
 {
 	char		*line;
-	t_parser	*bnf_parser;
 	t_parser	*parser;
-	char		*grammar;
 
 	line = NULL;
-	if (argc || argv)
-	{};
 	ft_init_shell();
-#if _POSIX_JOB_CONTROL
-	ft_putstr_fd("posix job control", 2);
-# endif
-#if 1
-	# define test 1
-# if test == 1
-//							   <list>			::= (<and_or> <sp> <separator> <sp>)+ | (<and_or> <sp> <separator> <sp>)* <and_or> \n
-	if (!(grammar = ft_strdup("<command>		::= <sp> <list> <sp> \n\
-								<list>			::=(<and_or> <sp> <separator> <sp>)* <and_or> |	 (<and_or> <sp> <separator> <sp>)+ \n\
-								<and_or>			::= (<sp> \"&&\" <sp> <pipeline> | <sp> \"||\" <sp> <pipeline> | <sp> <pipeline>)+ \n\
-								<simple_cmd>		::= <sp> (<cmd_prefix>)* <command_name> <sp> (<cmd_postfix> <sp>)*	| (<cmd_prefix>)+ <sp>\n\
-								<cmd_postfix>	::= <io_redirect> | <arg> \n\
-								<cmd_prefix>		::= <env_assignment> <sp> | <io_redirect> <sp> \n\
-								<pipeline>		::= <pipe_sequence> | '!' <pipe_sequence> \n\
-								<pipe_sequence>	::= (<simple_cmd> '|')+ <simple_cmd> | <simple_cmd> \n\
-								<io_redirect>	::= <io_number> <io_file> | <io_file> \n\
-								<io_number>		::= ('$' | '-' | '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9')+ \n\
-								<io_file>		::= \'>\' <io_filename> | \">&\" <sp> <io_number> | \'<\' <io_filename> | \"<&\" <sp> <io_number> | \"<<\" <io_filename> | \"<>\" <io_filename> | \">>\" <io_filename> | \">|\" <io_filename> \n\
-								<io_filename>	::= <sp> ('0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '\n' | '\\' | '$' | '-' | '/' | '.' | '~'| 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z')+ \n\
-								<env_assignment> ::= <var_name> '=' <var_value> \n\
-								<var_name>		::= ('_' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z' | '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9')+ \n\
-								<var_value>		::= ('\n' | '\\' | '_' | '$' | '~' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z' | '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z')+ \n\
-								<command_name>	::= (','| '\n' | '\\' | ' ' | '\'' | '\"' | '_' | '$' | '~'| '.' | '/' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z'| '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9')+ \n\
-								<arg>			::= (',' | '\n' | '\\' |' ' | ':' | '_' | '=' | '$' | '\'' | '\"' | '-' | '/' | '.' | '~' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z' | '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9')+ \n\
-								<sp>				::= (\' \' | \'\t\')* \n\
-								<separator>		::= \'&\' | \';\' \n")))
-		exit(EXIT_FAILURE);
-#endif
-		char *base;
-
-		base = grammar;
-
-	bnf_parser = ft_get_parser_syntax();
-	if (!ft_eval_input(bnf_parser, &grammar))
-	{
-		ft_putstr_fd("Grammar evaluation failed", 2);
-		exit (EXIT_FAILURE);
-	}
-	(void)env;
-	parser = ft_get_grammar_syntax(bnf_parser);
-	ft_free_parser(bnf_parser);
-	free(base);
-	ft_optimizer(parser);
+	(void)argc;
+	(void)argv;
 	t_shenv *shenv;
 	t_tokens	*tokens;
 
+	parser = ft_get_shell_parser();
 	shenv = ft_init_shenv(ft_get_env_count(env), env);
 	*ft_get_shenv() = shenv;
 	ft_putchar('\n');
@@ -119,6 +87,11 @@ int main(int argc, char **argv, char **env)
 		tmp = line;
 		if (!(tokens = ft_get_tokens(line)))
 			exit(EXIT_FAILURE);
+		if (!*tokens->tokens)
+		{
+			ft_free_tokens(tokens);
+			continue ;
+		}
 		if (ft_eval_tokens_input(parser, tokens))
 		{
 			ft_create_heredocs(tokens, shenv);
@@ -137,9 +110,8 @@ int main(int argc, char **argv, char **env)
 	ft_free_t_shenv(shenv);
 	ft_free_t_shell();
 	ft_free_parser(parser);
-	ft_exit_shell();
+	ft_exit_shell(0);
 	exit(EXIT_FAILURE);
-#endif
 	ft_putstr("test");
 	return (0);
 }

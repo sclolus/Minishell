@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 01:21:08 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/07 06:34:38 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/07 10:18:38 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,8 @@ int main(int argc, char **argv, char **env)
 	{
 		ft_putstr("\n$>");
 		ft_termget_complete_line(&line, shenv);
-		if (!*line)
-			continue ;
-		if (!ft_strcmp(line, "exit"))
-			break ;
+/* 		if (!*line) */
+/* 			continue ; */
 		char	*tmp;
 		tmp = line;
 		if (!(tokens = ft_get_tokens(line)))

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 06:54:33 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/05 23:07:00 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/07 10:17:23 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int32_t				ft_built_in_env(char **argv, t_shenv *shenv)
 		shenv->env = ft_get_env(shenv);
 		exec_env->env = ft_get_env(exec_env);
 		setpgid(0, getpid());
-		tcsetpgrp(shell->terminal, getpid());
+		tcsetpgrp(g_shell->terminal, getpid());
 		ft_built_in_exec_env_cmd(argv + argc + 1 + flag, shenv, exec_env);
 	}
 	return (0);

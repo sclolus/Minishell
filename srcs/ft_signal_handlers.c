@@ -6,7 +6,7 @@
 /*   By: aalves <aalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 17:17:24 by aalves            #+#    #+#             */
-/*   Updated: 2017/04/28 20:19:19 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/07 10:17:09 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ void		ft_handler_cont(int signum)
 {
 	if (signum == SIGCONT)
 	{
-		shell->shell_pgid = getpgrp();
-		shell->interactive = isatty(shell->terminal);
-		while (tcgetpgrp(shell->interactive)
-				!= (shell->shell_pgid))
-			kill(-shell->shell_pgid, SIGSTOP);
+		g_shell->shell_pgid = getpgrp();
+		g_shell->interactive = isatty(g_shell->terminal);
+		while (tcgetpgrp(g_shell->interactive)
+				!= (g_shell->shell_pgid))
+			kill(-g_shell->shell_pgid, SIGSTOP);
 	}
 	else
 		ft_putstr_fd("signal handling error", 2);

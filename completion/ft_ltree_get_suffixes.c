@@ -42,14 +42,12 @@ uint32_t	ft_ltree_get_suffix_len(t_ltree *node, uint32_t index)
 	uint32_t	ret;
 	uint32_t	len;
 
-	if (!node)
+	if (!(len = 0) && !node)
 		return (0);
-	len = 0;
 	while (node->c != '\0' || index)
 	{
-		len++;
 		ret = ft_ltree_count_suffixes(node->son);
-		if (node->c == '\0' && index)
+		if (++len && node->c == '\0' && index)
 		{
 			index--;
 			len--;
@@ -86,23 +84,12 @@ char		*ft_ltree_get_match(t_ltree *root, char *prefix, uint32_t index)
 	while (i < len)
 	{
 		ret = ft_ltree_count_suffixes(root->son);
-		if (root->c == '\0' && index)
-		{
-			root = root->alternative;
-			index--;
+		if (root->c == '\0' && index && (root = root->alternative) && index--)
 			continue ;
-		}
-		if (ret <= index)
-		{
+		if (ret <= index && (root = root->alternative))
 			index -= ret;
-			root = root->alternative;
-		}
-		else
-		{
-			string[i] = root->c;
-			i++;
-			root = root->son;
-		}
+		else if ((root = root->son))
+			string[i++] = root->c;
 	}
 	return (string);
 }
@@ -121,17 +108,10 @@ char		*ft_ltree_get_match_no_prefix(t_ltree *root, uint32_t index)
 	while (i < len)
 	{
 		ret = ft_ltree_count_suffixes(root->son);
-		if (root->c == '\0' && index)
-		{
-			root = root->alternative;
-			index--;
+		if (root->c == '\0' && index && (root = root->alternative) && index--)
 			continue ;
-		}
-		if (ret <= index)
-		{
+		if (ret <= index && (root = root->alternative))
 			index -= ret;
-			root = root->alternative;
-		}
 		else
 		{
 			string[i] = root->c;

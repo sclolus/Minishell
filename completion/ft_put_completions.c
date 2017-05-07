@@ -94,17 +94,15 @@ int32_t			ft_put_completions(t_string *buf, char **completions,
 	int64_t					old_offset;
 
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &window);
-	if (!window.ws_col)
+	if (!(i = 0) && !window.ws_col)
 		return (0);
-	if (buffer[0] == 0)
+	if (!(offset = 0) && buffer[0] == 0)
 		ft_memset(buffer, ' ', 1023);
-	i = 0;
 	ft_sort_strings(completions, n);
 	lens = ft_get_lens_tab(completions, n);
 	old_offset = buf->offset;
 	ft_move_end_line(buf);
 	ft_static_put("\n", 1, 0);
-	offset = 0;
 	while (i < n)
 	{
 		if (*completions[i] == '.' && *prefix != '.')

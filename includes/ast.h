@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/07 10:12:37 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/07 10:15:48 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,7 @@ typedef union		u_mpc
 
 typedef struct		s_parser
 {
-	struct s_mpc	parser;
+	union u_mpc		parser;
 	char			*name;
 	t_e_id			id;
 	char			retained;

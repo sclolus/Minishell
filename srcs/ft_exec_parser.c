@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 22:14:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/29 00:09:33 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/07 10:18:27 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void			ft_set_terminal_pgid(pid_t gpid)
 	if (!gpid)
 		gpid = getpid();
 	setpgid(0, gpid);
-	tcsetpgrp(shell->terminal, gpid);
+	tcsetpgrp(g_shell->terminal, gpid);
 }
 
 static void			ft_set_fds(int *stdfd)
@@ -42,10 +42,6 @@ static t_process	*ft_get_t_process(pid_t pid, pid_t gpid, char **argv)
 	process->argv = argv;
 	return (process);
 }
-
-/*
-**		if (IS_RETAINED(OR_PARSER_N(simple_cmd, 0)))
-*/
 
 t_process			*ft_start_process(t_parser *simple_cmd, pid_t gpid,
 									int *stdfd, t_shenv *shenv)

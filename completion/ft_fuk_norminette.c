@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_fuk_norminette.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/07 10:26:42 by sclolus           #+#    #+#             */
+/*   Updated: 2017/05/07 10:26:43 by sclolus          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_completion.h"
 #include "minishell.h"
 
 void	ft_fuk_norminette(char *tmp, t_ltree **ltree, struct dirent *curr_entry)
 {
-	char    *tmp_curr_name;
+	char	*tmp_curr_name;
 
 	if (ft_is_dir(tmp))
 	{

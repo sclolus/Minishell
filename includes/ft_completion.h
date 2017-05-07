@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 03:06:31 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/28 14:00:29 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/07 09:52:48 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <dirent.h>
 # include "minishell.h"
 
-// if prefix is empty -> insta segfault.
 typedef struct s_ltree	t_ltree;
 
 struct		s_ltree
@@ -78,5 +77,6 @@ int32_t		ft_ltree_add_directory_bin(t_ltree **ltree, char *path);
 void		ft_sanitize_completion(char **completion);
 void		ft_sanitize_completions(char **completions);
 
-void	ft_fuk_norminette(char *tmp, t_ltree **ltree, struct dirent *curr_entry);
+void		ft_fuk_norminette(char *tmp, t_ltree **ltree
+							, struct dirent *curr_entry);
 #endif

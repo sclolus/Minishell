@@ -6,12 +6,12 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 03:26:22 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/07 04:59:51 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/07 09:52:06 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TERMSCAPS_H
-# define TERMSCAPS_H
+#ifndef TERMCAPS_H
+# define TERMCAPS_H
 
 # include <termios.h>
 # include <sys/ioctl.h>

@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/05 23:14:53 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/07 06:30:54 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,33 +27,9 @@
 
 # define PROMPT "$>"
 # define SHELL_NAME "minishell: "
-# define ECHO_FLAGS "n" // obsolete
+# define GRAMMAR_CHECKSUM 1639123
 
-
-# define TOKEN_OR "||"
-# define TOKEN_AND "&&"
-# define TOKEN_SINGLE_AND "&"
-# define TOKEN_PIPE "|"
-# define TOKEN_END_OF_STATEMENT ";"
-# define TOKEN_LEFT_REDIRECTION "<"
-# define TOKEN_RIGHT_REDIRECTION ">"
-# define TOKEN_HEREDOC "<<"
-# define TOKEN_RIGHT_APPEND ">>"
-
-# define TOKEN_COUNT 9
-
-# define TYPE_TOKEN_OR 1
-# define TYPE_TOKEN_AND 2
-# define TYPE_TOKEN_SINGLE_AND 3
-# define TYPE_TOKEN_PIPE 4
-# define TYPE_TOKEN_END_OF_STATEMENT 5
-# define TYPE_TOKEN_LEFT_REDIRECTION 6
-# define TYPE_TOKEN_RIGHT_REDIRECTION 7
-# define TYPE_TOKEN_HEREDOC 8
-# define TYPE_TOKEN_RIGHT_APPEND 9
-
-# define TYPE_TOKEN_STATEMENT 10
-# define TYPE_TOKEN_START_OF_STATEMENT 11
+# define CHECK(x) do{ft_putendl("__________");ft_putendl(#x);ft_putendl("__________");}while(0);
 
 # define CHARSET_SPECIAL_CHAR "|&<>;*?"
 # define CHARSET_SPECIAL_DELIMITORS "(|&<>; )"
@@ -166,7 +142,7 @@ char		*ft_strjoin_f(char *a, char *b, int32_t mode);
 uint32_t	ft_is_escaped(char *input, uint32_t index);
 uint32_t	ft_is_quoted(char *input, uint32_t index);
 
-void		ft_exit_shell(void);
+t_parser	*ft_get_shell_parser(void);
 
 /*
 ** Lexer
@@ -339,8 +315,8 @@ int32_t		ft_unset_echoctl_mode(void);
 */
 
 void	ft_put_shell_in_foreground(void);
-void	ft_exit_shell(void);
 void	ft_init_shell(void);
+void	ft_exit_shell(int exit_status);
 
 /* test*/
 
@@ -359,5 +335,5 @@ int32_t		ft_exec_simple_cmd(t_parser *simple_cmd, t_shenv *shenv);
 int32_t		ft_exec_command(t_parser *parser, t_shenv *shenv);
 char		**ft_get_env_value(char **env, char *variable);
 t_process	*ft_t_process_add(t_process **processes, t_process *new);
-
+uint64_t	ft_checksum(char *string);
 #endif

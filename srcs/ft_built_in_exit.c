@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 16:00:44 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/28 13:56:35 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/07 02:36:55 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ int32_t		ft_built_in_exit(char **argv, t_shenv *shenv)
 			}
 		exit_status = ft_atoi(argv[1]);
 	}
-	ft_unset_term();
-	ft_unset_insert();
-	exit(POSIX_EXIT_STATUS(exit_status));
+	ft_exit_shell(0);
 	return (-1);
 }

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 22:19:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/08 15:10:24 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/08 15:28:02 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,18 +59,4 @@ int32_t	ft_is_dir(char *pathname)
 		return (1);
 	else
 		return (0);
-}
-
-int32_t	ft_check_exec_perm_path_bin(char *pathname, char *filename)
-{
-	char	*complete_name;
-	int32_t	ret;
-
-	if (!pathname || !filename)
-		return (0);
-	if (!(complete_name = ft_strjoin(pathname, filename)))
-		exit(EXIT_FAILURE);
-	ret = ft_check_exec_perm(complete_name);
-	free(complete_name);
-	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/08 14:58:18 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/08 15:29:19 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,6 +258,8 @@ int32_t				ft_check_exec_perm(char *pathname);
 int32_t				ft_check_exec_read(char *pathname);
 int32_t				ft_check_exec_write(char *pathname);
 int32_t				ft_is_dir(char *pathname);
+int32_t				ft_check_file(char *filename);
+char				*ft_get_bin_path(char *pathname, char *filename);
 
 /*
 ** Shell environnement management

@@ -50,6 +50,8 @@ SRC= srcs/minishell.c \
 	srcs/ft_get_heredocs.c \
 	srcs/ft_heredocs_redirection.c \
 	srcs/ft_check_file.c \
+	srcs/ft_check_file_existence.c \
+	srcs/ft_get_bin_path.c \
 	srcs/ft_argv.c \
 	srcs/ft_get_argv.c \
 	srcs/ft_lexer.c \

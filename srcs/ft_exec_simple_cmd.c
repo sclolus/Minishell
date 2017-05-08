@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 22:20:45 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/08 14:57:45 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/08 15:40:26 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void		ft_exec_cmd(char **argv, t_shenv *shenv)
 	if (access(bin, X_OK))
 		ft_error_exit(2, (char *[]){ERR_PERM_DENIED, bin}
 		, EXIT_NO_PERM);
-	CHECK(TEST);
 	execve(bin, argv, shenv->env->env);
 	ft_error_exit(2, (char *[]){ERR_PERM_DENIED, bin}, EXIT_NO_PERM);
 	exit(EXIT_FAILURE);

@@ -6,48 +6,36 @@
 /*   By: aalves <aalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:21:16 by aalves            #+#    #+#             */
-/*   Updated: 2017/05/08 15:05:46 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/08 15:31:58 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-static char		*ft_back_return(char *oldpwd, char *ret)
-{
-	if (chdir(oldpwd) == -1)
-	{
-		ft_error(2, (char*[]){SHELL_NAME, ERR_PERM_DENIED}, -1);
-		return (NULL);
-	}
-	return (ret);
-}
-
 char			*ft_find_command(char *filename, char **path)
 {
-	static char oldpwd[MAX_PATH];
 	uint32_t	i;
+	char		*bin_path;
 
 	i = 0;
-	getcwd(oldpwd, MAX_PATH);
-	if (!path)
-		return (NULL);
 	*filename == '/' ? filename++ : 0;
 	while (path[i])
 	{
-/* 		if (chdir(path[i]) == -1) */
-/* 			ft_error(2, (char*[]){SHELL_NAME, ERR_PERM_DENIED}, -1); */
-		if (!(access(filename, F_OK)))
+		if (!(bin_path = ft_get_bin_path(path[i], filename)))
+			return (NULL);
+		if (ft_check_file(bin_path))
 		{
-			if (access(filename, X_OK))
+			if (ft_check_exec_perm(bin_path))
+				return (path[i]);
+			else
 			{
 				ft_error(2, (char*[]){filename, ": Permission denied"}, -1);
-				return (ft_back_return(oldpwd, NULL));
+				return (NULL);
 			}
-			return (ft_back_return(oldpwd, path[i]));
 		}
-		else
-			i++;
+		free(bin_path);
+		i++;
 	}
-	return (ft_back_return(oldpwd, NULL));
+	return (NULL);
 }

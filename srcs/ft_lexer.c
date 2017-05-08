@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:38:07 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/05 23:02:04 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/08 23:29:37 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int32_t	ft_is_shell_reserved(char *buf, uint32_t i)
 {
-	if (ft_strchr("|&;<>$ \t\n", buf[i])
+	if (ft_strchr("|&;<> \t\n", buf[i])
 		&& !ft_is_quoted(buf, i))
 		return (1);
 	return (0);

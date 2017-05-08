@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/08 15:29:19 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/08 23:13:33 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 
 # define PROMPT "$>"
 # define SHELL_NAME "minishell: "
-# define GRAMMAR_CHECKSUM 1636786
+# define GRAMMAR_CHECKSUM 1757221
 
 # define CHECK(x) do{ft_putendl("__________");ft_putendl(#x);ft_putendl("__________");}while(0);
 
@@ -56,7 +56,7 @@
 # define EXIT_VAR_NOT_FOUND 56
 # define EXIT_HEREDOC_FILE 57
 
-# define POSIX_EXIT_STATUS(x) (x & 0xFF)
+# define POSIX_EXIT_STATUS(x) (x % 0xFF)
 
 # define BUILT_IN_COUNT 9
 

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 01:21:08 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/08 14:55:13 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/08 19:15:52 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,24 @@ char		**ft_get_env_value(char **env, char *variable)
 
 // TODO ctrl+d ctrl+c
 
-int			main(int argc, char **argv, char **env)
+void		ft_main_cleanup(t_parser *parser, t_shenv *shenv)
+{
+	ft_free_t_shenv(shenv);
+	ft_free_t_shell();
+	ft_free_parser(parser);
+	ft_exit_shell(0);
+}
+
+int			main(int argc __attribute__((unused))
+				, char **argv __attribute__((unused)), char **env)
 {
 	char		*line;
 	t_parser	*parser;
 	t_shenv		*shenv;
 	t_tokens	*tokens;
-	char		*tmp;
 
 	line = NULL;
 	ft_init_shell();
-	(void)argc;
-	(void)argv;
 	parser = ft_get_shell_parser();
 	shenv = ft_init_shenv(ft_get_env_count(env), env);
 	*ft_get_shenv() = shenv;
@@ -76,7 +82,6 @@ int			main(int argc, char **argv, char **env)
 	{
 		ft_putstr("$>");
 		ft_termget_complete_line(&line, shenv);
-		tmp = line;
 		if (!(tokens = ft_get_tokens(line)))
 			exit(EXIT_FAILURE);
 		if (!*tokens->tokens)
@@ -96,11 +101,6 @@ int			main(int argc, char **argv, char **env)
 		ft_free_tokens(tokens);
 		ft_sanitize_parser(parser);
 	}
-	ft_free_t_shenv(shenv);
-	ft_free_t_shell();
-	ft_free_parser(parser);
-	ft_exit_shell(0);
-	exit(EXIT_FAILURE);
-	ft_putstr("test");
+	ft_main_cleanup(parser, shenv);
 	return (0);
 }

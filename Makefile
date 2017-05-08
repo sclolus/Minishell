@@ -1,6 +1,6 @@
 NAME= minishell
 CC= gcc
-FLAGS= -Wall -Werror -Wextra -g    -fsanitize=address -fsanitize-blacklist=my_ignores.txt
+FLAGS= -Wall -Werror -Wextra -g #   -fsanitize=address -fsanitize-blacklist=my_ignores.txt
 SRC= srcs/minishell.c \
 	srcs/ft_init_shell.c \
 	srcs/ft_get_shell_parser.c \

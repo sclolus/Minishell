@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 06:23:22 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/28 17:13:38 by aalves           ###   ########.fr       */
+/*   Updated: 2017/05/08 23:36:00 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,12 @@ static char		*ft_get_var_name(char *var_name)
 	return (buf);
 }
 
+static uint32_t	ft_is_var_quoted(char *word, uint32_t index)
+{
+	return ((ft_is_quoted(word, index) != 1
+			&& !ft_is_escaped(word, index)));
+}
+
 void			ft_var_expansion(char **word, t_shenv *shenv)
 {
 	char		*tmp;
@@ -48,7 +54,7 @@ void			ft_var_expansion(char **word, t_shenv *shenv)
 	i = 0;
 	while (word[0][i])
 	{
-		if (word[0][i] == '$' && ft_is_quoted(*word, i) != 1)
+		if (word[0][i] == '$' && ft_is_var_quoted(*word, i))
 		{
 			tmp = *word;
 			var_name = ft_get_var_name(word[0] + i + 1);

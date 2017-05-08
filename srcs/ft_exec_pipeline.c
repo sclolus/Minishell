@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 22:19:15 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/29 00:29:23 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/08 20:03:04 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ static int32_t	ft_launch_pipe_job(t_process **processes)
 
 	ft_put_processes_in_foreground(*processes, 1);
 	waitpid((*processes)->gpid, &ret, WUNTRACED);
-	ft_put_shell_in_foreground();
 	ft_clear_processes(processes);
-	return (ret);
+	ft_put_shell_in_foreground();
+	return (POSIX_EXIT_STATUS(ret));
 }
 
 int32_t			ft_exec_pipe_sequence(t_parser *parser, t_shenv *shenv)

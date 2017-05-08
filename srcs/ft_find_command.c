@@ -6,7 +6,7 @@
 /*   By: aalves <aalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:21:16 by aalves            #+#    #+#             */
-/*   Updated: 2017/05/08 15:31:58 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/08 19:52:32 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char			*ft_find_command(char *filename, char **path)
 
 	i = 0;
 	*filename == '/' ? filename++ : 0;
+	if (!path)
+		return (NULL);
 	while (path[i])
 	{
 		if (!(bin_path = ft_get_bin_path(path[i], filename)))

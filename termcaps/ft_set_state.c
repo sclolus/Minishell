@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 08:16:44 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/08 14:43:39 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/08 16:49:12 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,21 @@ static void			ft_choose_state(int32_t command_pos,
 		*state = NORMAL;
 }
 
+static void			ft_set_term_state_setup(uint32_t *i, int32_t *command_pos
+											, int8_t *bool)
+{
+	*bool = 0;
+	*i = 0;
+	*command_pos = 0;
+}
+
 void				ft_set_term_state(t_string *buf)
 {
 	uint32_t			i;
 	int32_t				command_pos;
 	int8_t				bool;
 
-	ft_bzero(&i, sizeof(i) + sizeof(command_pos) + sizeof(bool));
+	ft_set_term_state_setup(&i, &command_pos, &bool);
 	while (i < buf->offset)
 	{
 		while (i < buf->offset && ft_strchr(" \t\n", buf->string[i])

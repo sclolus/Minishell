@@ -23,31 +23,31 @@ static void	ft_assign_lists(t_list **static_history, t_list **history_base
 	}
 }
 
-void		ft_paste_line(t_string *buf, char *command, t_list *paste_history)
+int32_t		ft_paste_line(t_string *buf, char *command, t_list *paste_history)
 {
 	char			*tmp;
 	static t_list	*static_history = NULL;
 	static t_list	*history_base = NULL;
-	static t_list	*current_yanking = NULL;
+	static t_list	*toto = NULL;
 
 	tmp = NULL;
 	ft_assign_lists(&static_history, &history_base
-					, &current_yanking, paste_history);
+					, &toto, paste_history);
 	if (history_base == NULL)
-		return ;
+		return (1);
 	else if (*command == ID_YANKING)
 	{
-		if (!current_yanking->content)
-			return ;
-		tmp = current_yanking->content;
+		if (!toto->content)
+			return (1);
+		tmp = toto->content;
 	}
 	else if (*(int*)command == ID_HISTORIC_YANKING)
 	{
 		if (!static_history->content)
-			return ;
-		ft_explore_paste_history(buf, &static_history
-								, &history_base, &current_yanking);
+			return (1);
+		ft_explore_paste_history(buf, &static_history, &history_base, &toto);
 	}
 	ft_t_string_insert(buf, tmp);
 	ft_termcaps_putstr(buf, tmp);
+	return (1);
 }

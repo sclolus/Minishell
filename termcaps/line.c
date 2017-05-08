@@ -32,7 +32,7 @@ void		ft_erase_line(void)
 	tputs(res, 1, &ft_putterm);
 }
 
-void		ft_kill_line(t_string *buf, t_list **paste_history)
+int32_t		ft_kill_line(t_string *buf, t_list **paste_history)
 {
 	char			*res;
 	static t_list	*paste_base = NULL;
@@ -55,4 +55,5 @@ void		ft_kill_line(t_string *buf, t_list **paste_history)
 	}
 	buf->string[buf->offset] = '\0';
 	buf->len = buf->offset;
+	return (1);
 }

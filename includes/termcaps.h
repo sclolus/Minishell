@@ -100,8 +100,8 @@ void				ft_move_next_word(t_string *buf);
 
 void				ft_screen_clear(void);
 void				ft_delete_char(t_string *buf);
-void				ft_kill_line(t_string *buf, t_list **paste_history);
-void				ft_paste_line(t_string *buf, char *command,
+int32_t				ft_kill_line(t_string *buf, t_list **paste_history);
+int32_t				ft_paste_line(t_string *buf, char *command,
 									t_list *paste_history);
 void				ft_set_insert(void);
 void				ft_unset_insert(void);

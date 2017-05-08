@@ -14,8 +14,8 @@
 #include "minishell.h"
 #include <stdio.h>
 
-int	ft_exec_special_event(t_shenv *shenv, t_string *buf
-						  , t_list **paste_history, char *command)
+int			ft_exec_special_event(t_shenv *shenv, t_string *buf,
+							t_list **paste_history, char *command)
 {
 	t_list							*tmp;
 
@@ -24,7 +24,7 @@ int	ft_exec_special_event(t_shenv *shenv, t_string *buf
 		if (!buf->len)
 			return (0);
 		if (!(tmp = ft_lstnew(buf->string, buf->len + 1)))
-			exit (EXIT_FAILURE);
+			exit(EXIT_FAILURE);
 		ft_lstadd(ft_get_history_list(), tmp);
 		ft_move_end_line(buf);
 	}
@@ -34,22 +34,17 @@ int	ft_exec_special_event(t_shenv *shenv, t_string *buf
 			ft_get_history(*ft_get_history_list(), command, buf);
 		return (1);
 	}
-	else if (*command == ID_KILL_LINE)
-	{
-		ft_kill_line(buf, paste_history);
+	else if (*command == ID_KILL_LINE && (ft_kill_line(buf, paste_history)))
 		return (1);
-	}
-	else if (*command == ID_YANKING || *(int*)command == ID_HISTORIC_YANKING)
-	{
-		ft_paste_line(buf, command, *paste_history);
+	else if ((*command == ID_YANKING || *(int*)command == ID_HISTORIC_YANKING)
+								&& ft_paste_line(buf, command, *paste_history))
 		return (1);
-	}
 	else if (*command == ID_TAB)
-		return(ft_completion(buf, shenv));
+		return (ft_completion(buf, shenv));
 	return (0);
 }
 
-int	ft_exec_term_event(char	*command, t_string *buf, t_shenv *shenv)
+int			ft_exec_term_event(char *command, t_string *buf, t_shenv *shenv)
 {
 	uint32_t						i;
 	static t_list					*paste_history = NULL;
@@ -66,22 +61,21 @@ int	ft_exec_term_event(char	*command, t_string *buf, t_shenv *shenv)
 		{ID_MOVE_PREV_WORD, &ft_move_prev_word},
 		{ID_MOVE_NEXT_WORD, &ft_move_next_word}};
 
-	i = 0;
-	while (i < 11)
+	i = -1;
+	while (++i < 11)
 	{
 		if (term_events[i].id == *(int*)command)
 		{
 			term_events[i].f(buf);
 			return (1);
 		}
-		i++;
 	}
 	return (ft_exec_special_event(shenv, buf, &paste_history, command));
 }
 
-int32_t	ft_term_line_continuation(char *line)
+int32_t		ft_term_line_continuation(char *line)
 {
-	int32_t		ret;
+	int32_t							ret;
 
 	if ((ret = ft_is_unbalanced(line))
 		|| ft_is_line_backslash_terminated(line))
@@ -105,7 +99,7 @@ int32_t	ft_term_line_continuation(char *line)
 	return (0);
 }
 
-int64_t	ft_termget(char **line, t_shenv *shenv)
+int64_t		ft_termget(char **line, t_shenv *shenv)
 {
 	static t_string	buf = {256, 0, 0, NULL};
 	static char		tmp[8] = "\0\0\0\0\0\0\0\0";
@@ -128,7 +122,7 @@ int64_t	ft_termget(char **line, t_shenv *shenv)
 				if (*(long*)tmp == 4 && !buf.len)
 					ft_exit_shell(0);
 				ft_putchar('\n');
-				break;
+				break ;
 			}
 			if (ft_isprint(*tmp) || *tmp == '\t')
 			{
@@ -155,11 +149,11 @@ int64_t	ft_termget(char **line, t_shenv *shenv)
 
 uint32_t	ft_termget_complete_line(char **line, t_shenv *shenv)
 {
-	int64_t			len;
-	uint32_t		ret;
-	char			*line_tmp;
+	int64_t							len;
+	uint32_t						ret;
+	char							*line_tmp;
 
-	if ((len = ft_termget(line, shenv)) == -1) // ctrl+ d on every line
+	if ((len = ft_termget(line, shenv)) == -1)
 		return (ft_strlen(*line));
 	while ((ret = ft_term_line_continuation(*line)))
 	{

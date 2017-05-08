@@ -30,6 +30,17 @@ void				ft_put_term_state(t_termcaps_state *state)
 		ft_putendl("ARGV");
 }
 
+static void			ft_choose_state(int32_t command_pos,
+				int8_t bool, t_termcaps_state *state)
+{
+	if (command_pos == 1 && bool)
+		*state = COMMAND_NAME;
+	else if (command_pos > 1 && bool)
+		*state = ARGV;
+	else
+		*state = NORMAL;
+}
+
 void				ft_set_term_state(t_string *buf)
 {
 	t_termcaps_state	*state;
@@ -38,39 +49,23 @@ void				ft_set_term_state(t_string *buf)
 	int8_t				bool;
 
 	state = ft_get_term_state();
-	command_pos = 0;
-	i = 0;
-	bool = 0;
+	ft_bzero(&i, sizeof(i) + sizeof(command_pos) + sizeof(bool));
 	while (i < buf->offset)
 	{
 		while (i < buf->offset && ft_strchr(" \t\n", buf->string[i])
-			&& !ft_is_quoted(buf->string, i))
-		{
-			i++;
+			&& !ft_is_quoted(buf->string, i) && ++i)
 			bool = 0;
-		}
 		if (i == buf->offset)
 			break ;
-		if (ft_strchr("&;|", buf->string[i]) && !ft_is_quoted(buf->string, i))
-		{
+		if (ft_strchr("&;|", buf->string[i]) && !ft_is_quoted(buf->string, i) && !(bool = 0))
 			command_pos = 0;
-			bool = 0;
-		}
 		else if (!bool && (!ft_strchr(" \t\n", buf->string[i])
-						|| ft_is_quoted(buf->string, i)))
-		{
-			bool = 1;
+						|| ft_is_quoted(buf->string, i)) && (bool = 1))
 			command_pos++;
-		}
 		else if (bool && ft_strchr(" \t\n", buf->string[i])
 			&& !ft_is_quoted(buf->string, i))
 			bool = 0;
 		i++;
 	}
-	if (command_pos == 1 && bool)
-		*state = COMMAND_NAME;
-	else if (command_pos > 1 && bool)
-		*state = ARGV;
-	else
-		*state = NORMAL;
+	ft_choose_state(command_pos, bool, state);
 }

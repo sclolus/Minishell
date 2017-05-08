@@ -24,26 +24,6 @@ static void		ft_termcaps_go_back_to_offset(t_string *buf, int64_t old_offset)
 	}
 }
 
-static uint32_t	*ft_get_lens_tab(char **strings, uint32_t n)
-{
-	uint32_t	*tab;
-	uint32_t	i;
-
-	if (!(tab = (uint32_t*)malloc(sizeof(uint32_t) * (n + 1))))
-		exit(EXIT_FAILURE);
-	tab[n] = 0;
-	i = 0;
-	while (i < n)
-	{
-		tab[i] = ft_strlen(strings[i]);
-		if (tab[i] > tab[n])
-			tab[n] = tab[i];
-		i++;
-	}
-	tab[n]++;
-	return (tab);
-}
-
 int32_t			ft_put_max_completion(t_ltree *ltree, t_string *buf,
 										char *prefix, uint32_t n)
 {
@@ -89,36 +69,24 @@ int32_t			ft_put_completions(t_string *buf, char **completions,
 	static struct winsize	window;
 	static char				buffer[1024];
 	uint32_t				*lens;
-	uint32_t				i;
-	uint32_t				offset;
+	uint32_t				i_offset[2];
 	int64_t					old_offset;
 
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &window);
-	if (!(i = 0) && !window.ws_col)
+	if (!(i_offset[0] = 0) && !window.ws_col)
 		return (0);
-	if (!(offset = 0) && buffer[0] == 0)
+	if (!(i_offset[1] = 0) && buffer[0] == 0)
 		ft_memset(buffer, ' ', 1023);
-	ft_sort_strings(completions, n);
-	lens = ft_get_lens_tab(completions, n);
-	old_offset = buf->offset;
-	ft_move_end_line(buf);
-	ft_static_put("\n", 1, 0);
-	while (i < n)
+	lens = ft_fuk_norminette2(completions, n, buf, &old_offset);
+	while (i_offset[0] < n)
 	{
-		if (*completions[i] == '.' && *prefix != '.')
-		{
-			i++;
+		if (*completions[i_offset[0]] == '.' && *prefix != '.' && ++i_offset[0])
 			continue ;
-		}
-		if ((offset + lens[n]) / window.ws_col)
-		{
+		if ((i_offset[1] + lens[n]) / window.ws_col && !(i_offset[1] = 0))
 			ft_static_put("\n", 1, 0);
-			offset = 0;
-		}
-		ft_static_put(completions[i], lens[i], 0);
-		ft_static_put(buffer, lens[n] - lens[i], 0);
-		offset += lens[n];
-		i++;
+		ft_static_put(completions[i_offset[0]], lens[i_offset[0]], 0);
+		ft_static_put(buffer, lens[n] - lens[i_offset[0]++], 0);
+		i_offset[1] += lens[n];
 	}
 	ft_completions_cleanup(buf, old_offset, lens);
 	return (n);

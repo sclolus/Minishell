@@ -79,4 +79,6 @@ void		ft_sanitize_completions(char **completions);
 
 void		ft_fuk_norminette(char *tmp, t_ltree **ltree
 							, struct dirent *curr_entry);
+uint32_t	*ft_fuk_norminette2(char **completions, uint32_t n,
+				   t_string *buf, int64_t *old_offset);
 #endif

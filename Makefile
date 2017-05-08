@@ -59,6 +59,7 @@ SRC= srcs/minishell.c \
 	srcs/ft_get_shenv.c \
 	srcs/ft_checksum.c \
 	termcaps/termcaps.c \
+	termcaps/ft_termget_buf_setup.c \
 	termcaps/ft_paste_line.c \
 	termcaps/line.c \
 	termcaps/line_2.c \
@@ -100,7 +101,6 @@ SRC= srcs/minishell.c \
 	parser/ast/ft_sanitizer/ft_sanitizer_logicals.c \
 	parser/ast/ft_sanitizer/ft_sanitizer_misc.c \
 	parser/ast/ft_sanitizer/ft_sanitizer_strings.c \
-	parser/ast/ft_put_parser.c \
 	parser/ast/ft_eval_tokens/ft_eval_tokens.c \
 	parser/ast/ft_eval_tokens/ft_eval_tokens_chars.c \
 	parser/ast/ft_eval_tokens/ft_eval_tokens_logicals.c \

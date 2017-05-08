@@ -6,14 +6,15 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 10:26:42 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/07 10:26:43 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/08 14:45:03 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_completion.h"
 #include "minishell.h"
 
-void	ft_fuk_norminette(char *tmp, t_ltree **ltree, struct dirent *curr_entry)
+void			ft_fuk_norminette(char *tmp, t_ltree **ltree
+								, struct dirent *curr_entry)
 {
 	char	*tmp_curr_name;
 
@@ -54,7 +55,7 @@ static uint32_t	*ft_get_lens_tab(char **strings, uint32_t n)
 	return (tab);
 }
 
-uint32_t	*ft_fuk_norminette2(char **completions, uint32_t n,
+uint32_t		*ft_fuk_norminette2(char **completions, uint32_t n,
 				t_string *buf, int64_t *old_offset)
 {
 	uint32_t				*lens;
@@ -67,7 +68,7 @@ uint32_t	*ft_fuk_norminette2(char **completions, uint32_t n,
 	return (lens);
 }
 
-int32_t		ft_set_canonical_mode(void)
+int32_t			ft_set_canonical_mode(void)
 {
 	static struct termios	term;
 

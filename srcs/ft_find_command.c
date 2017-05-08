@@ -6,7 +6,7 @@
 /*   By: aalves <aalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 16:21:16 by aalves            #+#    #+#             */
-/*   Updated: 2017/04/28 16:59:43 by aalves           ###   ########.fr       */
+/*   Updated: 2017/05/08 15:05:46 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@
 static char		*ft_back_return(char *oldpwd, char *ret)
 {
 	if (chdir(oldpwd) == -1)
-		ft_error(2, (char*[]){SHELL_NAME, "chdir() failed"}, -1);
+	{
+		ft_error(2, (char*[]){SHELL_NAME, ERR_PERM_DENIED}, -1);
+		return (NULL);
+	}
 	return (ret);
 }
 
@@ -32,8 +35,8 @@ char			*ft_find_command(char *filename, char **path)
 	*filename == '/' ? filename++ : 0;
 	while (path[i])
 	{
-		if (chdir(path[i]) == -1)
-			ft_error(2, (char*[]){SHELL_NAME, "chdir() failed"}, -1);
+/* 		if (chdir(path[i]) == -1) */
+/* 			ft_error(2, (char*[]){SHELL_NAME, ERR_PERM_DENIED}, -1); */
 		if (!(access(filename, F_OK)))
 		{
 			if (access(filename, X_OK))

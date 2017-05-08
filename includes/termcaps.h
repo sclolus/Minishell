@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 03:26:22 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/07 09:52:06 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/08 14:49:50 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ void				ft_put_term_state(t_termcaps_state *state);
 int32_t				ft_set_term(void);
 
 int64_t				ft_termget(char **line, t_shenv *shenv);
+void				ft_buf_update(t_string *buf, char *tmp);
+void				ft_termget_buf_setup(t_string *buf);
 int32_t				ft_term_line_continuation(char *line);
 uint32_t			ft_termget_complete_line(char **line, t_shenv *shenv);
 

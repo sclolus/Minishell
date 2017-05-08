@@ -6,13 +6,12 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 02:07:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/07 02:44:26 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/08 14:49:08 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "termcaps.h"
 #include "minishell.h"
-#include <stdio.h>
 
 int			ft_exec_special_event(t_shenv *shenv, t_string *buf,
 							t_list **paste_history, char *command)
@@ -104,12 +103,7 @@ int64_t		ft_termget(char **line, t_shenv *shenv)
 	static t_string	buf = {256, 0, 0, NULL};
 	static char		tmp[8] = "\0\0\0\0\0\0\0\0";
 
-	buf.len = 0;
-	buf.offset = 0;
-	if (buf.string == NULL)
-		if (!(buf.string = ft_strnew(255)))
-			exit(EXIT_FAILURE);
-	*buf.string = 0;
+	ft_termget_buf_setup(&buf);
 	while (1)
 	{
 		if ((read(0, tmp, 8)) == -1)
@@ -123,20 +117,7 @@ int64_t		ft_termget(char **line, t_shenv *shenv)
 				ft_putchar('\n');
 				break ;
 			}
-			if (ft_isprint(*tmp) || *tmp == '\t')
-			{
-				tmp[1] = 0;
-				if (buf.offset == buf.len)
-				{
-					ft_putchar(*tmp);
-					ft_t_string_concat(&buf, tmp);
-				}
-				else
-				{
-					ft_t_string_insert(&buf, tmp);
-					ft_termcaps_putstr(&buf, tmp);
-				}
-			}
+			ft_buf_update(&buf, tmp);
 		}
 		ft_memset(tmp + 1, 0, 7);
 	}

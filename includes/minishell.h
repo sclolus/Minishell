@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/07 09:04:09 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/08 14:58:18 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,7 @@
 # define SHELL_NAME "minishell: "
 # define GRAMMAR_CHECKSUM 1636786
 
-/*
-**# define CHECK(x) do{ft_putendl("__________");\
-**ft_putendl(#x);ft_putendl("__________");}while(0);
-*/
+# define CHECK(x) do{ft_putendl("__________");ft_putendl(#x);ft_putendl("__________");}while(0);
 
 # define CHARSET_SPECIAL_CHAR "|&<>;*?"
 # define CHARSET_SPECIAL_DELIMITORS "(|&<>; )"

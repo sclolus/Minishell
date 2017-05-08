@@ -6,15 +6,13 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 01:21:08 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/07 10:18:38 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/08 14:55:13 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
 #include "get_next_line.h"
-
-t_process	*current_process = NULL; // not used
 
 char		*ft_find_env(char const **env, char const *variable)
 {
@@ -76,10 +74,8 @@ int			main(int argc, char **argv, char **env)
 	ft_putchar('\n');
 	while (1)
 	{
-		ft_putstr("\n$>");
+		ft_putstr("$>");
 		ft_termget_complete_line(&line, shenv);
-/* 		if (!*line) */
-/* 			continue ; */
 		tmp = line;
 		if (!(tokens = ft_get_tokens(line)))
 			exit(EXIT_FAILURE);
@@ -95,10 +91,7 @@ int			main(int argc, char **argv, char **env)
 			ft_exec_command(parser, shenv);
 		}
 		else
-		{
-			ft_putendl("parsing error ::= ");
-			ft_put_ast_tokens(parser);
-		}
+			ft_putendl("Parsing error in command line");
 		ft_clear_heredocs(shenv);
 		ft_free_tokens(tokens);
 		ft_sanitize_parser(parser);

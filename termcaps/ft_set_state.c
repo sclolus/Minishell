@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 08:16:44 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/28 10:42:17 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/08 14:43:39 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,10 @@ static void			ft_choose_state(int32_t command_pos,
 
 void				ft_set_term_state(t_string *buf)
 {
-	t_termcaps_state	*state;
 	uint32_t			i;
 	int32_t				command_pos;
 	int8_t				bool;
 
-	state = ft_get_term_state();
 	ft_bzero(&i, sizeof(i) + sizeof(command_pos) + sizeof(bool));
 	while (i < buf->offset)
 	{
@@ -57,7 +55,8 @@ void				ft_set_term_state(t_string *buf)
 			bool = 0;
 		if (i == buf->offset)
 			break ;
-		if (ft_strchr("&;|", buf->string[i]) && !ft_is_quoted(buf->string, i) && !(bool = 0))
+		if (ft_strchr("&;|", buf->string[i])
+			&& !ft_is_quoted(buf->string, i) && !(bool = 0))
 			command_pos = 0;
 		else if (!bool && (!ft_strchr(" \t\n", buf->string[i])
 						|| ft_is_quoted(buf->string, i)) && (bool = 1))
@@ -67,5 +66,5 @@ void				ft_set_term_state(t_string *buf)
 			bool = 0;
 		i++;
 	}
-	ft_choose_state(command_pos, bool, state);
+	ft_choose_state(command_pos, bool, ft_get_term_state());
 }

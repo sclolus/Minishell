@@ -33,7 +33,6 @@ char		*ft_find_env(char const **env, char const *variable)
 	return (NULL);
 }
 
-
 char		**ft_get_env_value(char **env, char *variable)
 {
 	char		**path;
@@ -48,7 +47,7 @@ char		**ft_get_env_value(char **env, char *variable)
 	if (!(var = ft_find_env((char const**)env, variable)))
 		return (NULL);
 	if (!(path = ft_strsplit(var, ':')))
-		exit (EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	if (!(tmp = ft_strdup(*path)))
 		exit(EXIT_FAILURE);
 	len = ft_strlen(tmp) - variable_len - 1;
@@ -59,18 +58,18 @@ char		**ft_get_env_value(char **env, char *variable)
 
 // TODO ctrl+d ctrl+c
 
-int main(int argc, char **argv, char **env)
+int			main(int argc, char **argv, char **env)
 {
 	char		*line;
 	t_parser	*parser;
+	t_shenv		*shenv;
+	t_tokens	*tokens;
+	char		*tmp;
 
 	line = NULL;
 	ft_init_shell();
 	(void)argc;
 	(void)argv;
-	t_shenv *shenv;
-	t_tokens	*tokens;
-
 	parser = ft_get_shell_parser();
 	shenv = ft_init_shenv(ft_get_env_count(env), env);
 	*ft_get_shenv() = shenv;
@@ -81,7 +80,6 @@ int main(int argc, char **argv, char **env)
 		ft_termget_complete_line(&line, shenv);
 /* 		if (!*line) */
 /* 			continue ; */
-		char	*tmp;
 		tmp = line;
 		if (!(tokens = ft_get_tokens(line)))
 			exit(EXIT_FAILURE);

@@ -66,3 +66,15 @@ uint32_t	*ft_fuk_norminette2(char **completions, uint32_t n,
 	ft_static_put("\n", 1, 0);
 	return (lens);
 }
+
+int32_t		ft_set_canonical_mode(void)
+{
+	static struct termios	term;
+
+	if (tcgetattr(0, &term) == -1)
+		return (-1);
+	term.c_lflag |= ICANON;
+	if (tcsetattr(0, TCSADRAIN, &term) == -1)
+		return (-1);
+	return (0);
+}

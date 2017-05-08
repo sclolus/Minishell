@@ -36,18 +36,6 @@ int32_t		ft_set_echo_mode(void)
 	return (0);
 }
 
-int32_t		ft_set_canonical_mode(void)
-{
-	static struct termios	term;
-
-	if (tcgetattr(0, &term) == -1)
-		return (-1);
-	term.c_lflag |= ICANON;
-	if (tcsetattr(0, TCSADRAIN, &term) == -1)
-		return (-1);
-	return (0);
-}
-
 int32_t		ft_unset_echoctl_mode(void)
 {
 	static struct termios	term;

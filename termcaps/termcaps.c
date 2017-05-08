@@ -114,7 +114,6 @@ int64_t		ft_termget(char **line, t_shenv *shenv)
 	{
 		if ((read(0, tmp, 8)) == -1)
 			exit(EXIT_FAILURE);
-//		printf("%lx", *(long*)tmp);
 		if (!ft_exec_term_event(tmp, &buf, shenv))
 		{
 			if (*(long*)tmp == '\n' || *(long*)tmp == 4)
@@ -159,10 +158,8 @@ uint32_t	ft_termget_complete_line(char **line, t_shenv *shenv)
 	{
 		if (ret != 1)
 		{
-			if (!(line_tmp = ft_strnew(len + 1)))
-				exit(EXIT_FAILURE);
-			ft_memcpy(line_tmp, *line, len);
-			line_tmp[len] = '\n';
+			(line_tmp = ft_strnew(len + 1)) ? 0 : exit(EXIT_FAILURE);
+			((char*)ft_memcpy(line_tmp, *line, len))[len] = '\n';
 			len += ft_termget(line, shenv) + 1;
 			if (!(*line = ft_strjoin_f(line_tmp, *line, 0)))
 				exit(EXIT_FAILURE);

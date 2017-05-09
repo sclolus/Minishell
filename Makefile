@@ -61,6 +61,8 @@ SRC= srcs/minishell.c \
 	srcs/ft_get_shenv.c \
 	srcs/ft_checksum.c \
 	termcaps/termcaps.c \
+	termcaps/ft_current_prompt.c \
+	termcaps/ft_get_current_prompt_len.c \
 	termcaps/ft_termget_buf_setup.c \
 	termcaps/ft_paste_line.c \
 	termcaps/line.c \

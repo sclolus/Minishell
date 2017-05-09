@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 03:26:22 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/08 14:49:50 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/09 06:29:57 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@
 
 # define TERMCAPS_WHITESPACES " \t\n"
 
-# define PROMPT_LEN 2
-
 typedef struct s_env	t_env;
 typedef struct s_shenv	t_shenv;
 typedef struct s_ltree	t_ltree;
@@ -58,7 +56,32 @@ typedef enum		e_termcaps_state
 	ARGV = 3,
 }					t_termcaps_state;
 
+# define NORMAL_PROMPT_STATE "$>"
+# define S_QUOTE_PROMPT_STATE "quote>"
+# define D_QUOTE_PROMPT_STATE "dquote>"
+# define LINE_CONT_PROMPT_STATE ">"
+
+# define NORMAL_PROMPT_LEN sizeof(NORMAL_PROMPT_STATE) - 1
+# define S_QUOTE_PROMPT_LEN sizeof(S_QUOTE_PROMPT_STATE) - 1
+# define D_QUOTE_PROMPT_LEN sizeof(D_QUOTE_PROMPT_STATE) - 1
+# define LINE_CONT_PROMPT_LEN sizeof(LINE_CONT_PROMPT_STATE) - 1
+
+
 typedef int32_t		(*t_comp_event)(t_string*, t_shenv *);
+
+typedef enum		e_prompt
+{
+	NORMAL_PROMPT = 0,
+	SINGLE_QUOTE = 1,
+	DOUBLE_QUOTE = 2,
+	LINE_CONTINUATION = 3,
+}					t_prompt;
+
+typedef struct		s_prompt_state
+{
+	char		*prompt;
+	uint32_t	len;
+}					t_prompt_state;
 
 typedef struct		s_term_event
 {
@@ -122,4 +145,16 @@ void				ft_explore_paste_history(t_string *buf,
 int					ft_exec_special_event(t_shenv *shenv, t_string *buf,
 									t_list **paste_history, char *command);
 void				ft_erase_line(void);
+
+/*
+** Prompt
+*/
+
+void			ft_put_prompt(void);
+void			ft_set_and_put_prompt(t_prompt new_prompt);
+t_prompt_state	*ft_get_prompt_state_machine(void);
+t_prompt		*ft_get_current_prompt(void);
+void			ft_set_current_prompt(t_prompt new_prompt);
+uint32_t		ft_get_current_prompt_len(void);
+
 #endif

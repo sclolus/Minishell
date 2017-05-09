@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 18:55:24 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/09 03:37:02 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/09 04:02:50 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void		ft_get_heredoc(t_heredoc *heredoc, t_shenv *shenv)
 
 	if (!(fd = ft_open_heredoc_file(heredoc->filename)))
 		return ;
+	ft_putstr("h>");
 	ft_termget(&heredoc_input, shenv);
 	if (!(heredoc_input = ft_strdup(heredoc_input)))
 		exit(EXIT_FAILURE);
@@ -38,6 +39,7 @@ void		ft_get_heredoc(t_heredoc *heredoc, t_shenv *shenv)
 	{
 		heredoc_input = ft_strjoin_f(heredoc_input, "\n", 0);
 		offset += ft_strlen(heredoc_input + offset);
+		ft_putstr("h>");
 		ft_termget(&tmp, shenv);
 		if (!(ft_strcmp(tmp, heredoc->delimiter)))
 		{

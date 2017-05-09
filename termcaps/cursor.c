@@ -6,7 +6,7 @@
 /*   By: aalves <aalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 13:51:53 by aalves            #+#    #+#             */
-/*   Updated: 2017/05/07 02:23:45 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/09 06:29:40 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,15 @@ void		ft_move_up_cursor(t_string *buf)
 {
 	char					*res;
 	static struct winsize	window;
+	uint32_t				prompt_len;
 
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &window);
-	if (!window.ws_col)
+	if (!window.ws_col || !(prompt_len = ft_get_current_prompt_len()))
 		return ;
-	if ((buf->offset + PROMPT_LEN) / window.ws_col)
+	if ((buf->offset + prompt_len) / window.ws_col)
 	{
-		if ((buf->offset + PROMPT_LEN) % window.ws_col < PROMPT_LEN
-			&& (buf->offset + PROMPT_LEN) / window.ws_col == 1)
+		if ((buf->offset + prompt_len) % window.ws_col < prompt_len
+			&& (buf->offset + prompt_len) / window.ws_col == 1)
 			ft_move_start_line(buf);
 		else
 		{
@@ -71,13 +72,14 @@ void		ft_move_right_cursor(t_string *buf)
 {
 	char					*res;
 	static struct winsize	window;
+	uint32_t				prompt_len;
 
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &window);
-	if (!window.ws_col)
+	if (!window.ws_col || !(prompt_len = ft_get_current_prompt_len()))
 		return ;
 	if (buf->offset < buf->len)
 	{
-		if (window.ws_col - 1 == (buf->offset + PROMPT_LEN) % (window.ws_col))
+		if (window.ws_col - 1 == (buf->offset + prompt_len) % (window.ws_col))
 		{
 			res = tgetstr("do", NULL);
 			tputs(res, 1, &ft_putterm);

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 02:07:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/08 16:55:00 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/09 06:20:47 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,24 +76,23 @@ int32_t		ft_term_line_continuation(char *line)
 {
 	int32_t							ret;
 
-	if ((ret = ft_is_unbalanced(line))
-		|| ft_is_line_backslash_terminated(line))
+	if ((ret = ft_is_unbalanced(line)))
 	{
 		if (ret >= 4)
 		{
-			ft_putstr("dquote>");
+			ft_set_and_put_prompt(DOUBLE_QUOTE);
 			return (ret);
 		}
 		else if (ret == 2)
 		{
-			ft_putstr("quote>");
+			ft_set_and_put_prompt(SINGLE_QUOTE);
 			return (ret);
 		}
-		else
-		{
-			ft_putstr(">");
-			return (1);
-		}
+	}
+	else if (ft_is_line_backslash_terminated(line))
+	{
+		ft_set_and_put_prompt(LINE_CONTINUATION);
+		return (1);
 	}
 	return (0);
 }

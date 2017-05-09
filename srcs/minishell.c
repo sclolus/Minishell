@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 01:21:08 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/09 02:54:34 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/09 06:15:24 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int			main(int argc __attribute__((unused))
 	ft_putchar('\n');
 	while (1)
 	{
-		ft_putstr("$>");
+		ft_set_and_put_prompt(NORMAL_PROMPT);
 		ft_termget_complete_line(&line, shenv);
 		if (!(tokens = ft_get_tokens(line)))
 			exit(EXIT_FAILURE);

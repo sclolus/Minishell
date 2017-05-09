@@ -84,7 +84,6 @@ int32_t			ft_put_completions(t_string *buf, char **completions,
 			continue ;
 		if ((i_offset[1] + lens[n]) / window.ws_col && !(i_offset[1] = 0))
 			ft_static_put("\n", 1, 0);
-		ft_putendl(completions[i_offset[0]]);
 		ft_static_put(completions[i_offset[0]], lens[i_offset[0]], 0);
 		ft_static_put(buffer, lens[n] - lens[i_offset[0]++], 0);
 		i_offset[1] += lens[n];

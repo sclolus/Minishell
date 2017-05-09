@@ -93,7 +93,7 @@ char		*ft_ltree_get_completion(t_ltree *root, char *prefix)
 	uint32_t	len;
 	uint32_t	i;
 
-	if (!root || prefix || !(root = ft_ltree_last_match(root, prefix)))
+	if (!root || !prefix || !(root = ft_ltree_last_match(root, prefix)))
 		return (NULL);
 	node = root->son;
 	i = 0;

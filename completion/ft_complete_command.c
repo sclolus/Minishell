@@ -55,7 +55,7 @@ int32_t			ft_complete_path_commands(t_string *buf, t_shenv *shenv,
 	int32_t		ret;
 
 	ltree = NULL;
-	!(i = 0) ? ft_free_t_env(shenv->env) : 0;
+	(i = 0) ? 0 : ft_free_t_env(shenv->env);
 	shenv->env = ft_get_env(shenv);
 	if (!(path = ft_get_env_value(shenv->env->env, "PATH")))
 		return (0);
@@ -63,13 +63,17 @@ int32_t			ft_complete_path_commands(t_string *buf, t_shenv *shenv,
 	{
 		if (!(ft_ltree_add_directory(&ltree, path[i++])))
 		{
-			free(path);
+			ft_free_argv(path);
+			ft_free_ltree(ltree);
 			return (0);
 		}
 	}
-	free(path);
+	ft_free_argv(path);
 	if (!(completions = ft_get_ltree_suffixes(ltree, command_prefix)))
+	{
+		ft_free_ltree(ltree);
 		return (0);
+	}
 	ret = ft_put_completion(ltree, completions, buf, command_prefix);
 	ft_free_ltree(ltree);
 	return (ret);

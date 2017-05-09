@@ -35,7 +35,7 @@ int32_t			ft_put_completion(t_ltree *ltree, char **completions,
 	}
 	if (n > 1)
 		ft_put_completions(buf, completions, n, prefix);
-	free(completions);
+	ft_free_argv(completions);
 	return (1);
 }
 

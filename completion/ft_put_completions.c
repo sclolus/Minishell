@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 13:42:20 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/08 17:35:50 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/09 06:46:14 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ static void		ft_completions_cleanup(t_string *buf, int64_t old_offset,
 											uint32_t *lens)
 {
 	ft_static_put("\n", 1, 0);
-	ft_static_put(PROMPT, 2, 0);
+	ft_static_put(ft_get_current_prompt_string()
+				, ft_get_current_prompt_len(), 0);
 	ft_static_put(buf->string, buf->len, 0);
 	ft_static_put(NULL, 0, STATIC_PUT_FLUSH);
 	ft_termcaps_go_back_to_offset(buf, old_offset);

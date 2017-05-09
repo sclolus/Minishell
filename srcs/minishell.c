@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 01:21:08 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/09 06:15:24 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/09 16:56:06 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,14 @@ void		ft_main_cleanup(t_parser *parser, t_shenv *shenv)
 	ft_exit_shell(0);
 }
 
+void		ft_put_tokens(char **tokens)
+{
+	while (*tokens)
+		ft_putendl(*tokens++);
+}
+
 int			main(int argc __attribute__((unused))
-				, char **argv __attribute__((unused)), char **env)
+				, char **argv __attribute__((unused)), char **env) // echo "asdf"asdf
 {
 	char		*line;
 	t_parser	*parser;

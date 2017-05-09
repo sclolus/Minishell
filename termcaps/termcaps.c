@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 02:07:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/09 06:20:47 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/09 14:33:29 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,11 @@ int64_t		ft_termget(char **line, t_shenv *shenv)
 	{
 		if ((read(0, tmp, 8)) == -1)
 			exit(EXIT_FAILURE);
+		if (*(long*)tmp == 3 && (*line = tmp + 7))
+		{
+			ft_putchar('\n');
+			return (-1);
+		}
 		if (!ft_exec_term_event(tmp, &buf, shenv))
 		{
 			if (*(long*)tmp == '\n' || *(long*)tmp == 4)

@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 03:24:20 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/08 23:36:57 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/09 18:14:30 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	ft_exit_shell(int exit_status)
 
 void	ft_put_shell_in_foreground(void)
 {
-	ft_set_term();
-	ft_set_insert();
 	tcsetpgrp(g_shell->interactive, g_shell->shell_pgid);
+	ft_unset_term();
+	ft_set_term();
 }

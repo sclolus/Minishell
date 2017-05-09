@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 18:55:24 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/29 01:54:47 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/09 03:37:02 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,15 @@ static void	ft_get_the_norme(int fd, char *heredoc_input, uint32_t offset)
 	free(heredoc_input);
 }
 
-void		ft_get_heredoc(t_heredoc *heredoc, uint32_t index, t_shenv *shenv)
+void		ft_get_heredoc(t_heredoc *heredoc, t_shenv *shenv)
 {
 	char		*heredoc_input;
 	char		*tmp;
 	int			fd;
 	uint32_t	offset;
 
-	fd = ft_get_heredoc_index(index, shenv);
+	if (!(fd = ft_open_heredoc_file(heredoc->filename)))
+		return ;
 	ft_termget(&heredoc_input, shenv);
 	if (!(heredoc_input = ft_strdup(heredoc_input)))
 		exit(EXIT_FAILURE);
@@ -50,14 +51,19 @@ void		ft_get_heredoc(t_heredoc *heredoc, uint32_t index, t_shenv *shenv)
 
 void		ft_get_heredocs(t_shenv *shenv)
 {
-	t_list		*tmp;
+	t_heredoc	*tmp;
 	uint32_t	i;
+	uint32_t	len;
 
 	i = 0;
-	tmp = shenv->heredocs;
-	while (tmp)
+	if (shenv->heredocs)
+		len = ft_lstlen(shenv->heredocs);
+	else
+		return ;
+	while (i < len)
 	{
-		ft_get_heredoc(tmp->content, i++, shenv);
-		tmp = tmp->next;
+		tmp = ft_get_heredoc_pointer(i, shenv);
+		ft_get_heredoc(tmp, shenv);
+		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 18:55:02 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/28 19:04:24 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/09 03:37:27 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_create_heredoc_file(char *delimiter
 	t_list		*lstnew;
 	int			fd;
 
-	if (!(filename = ft_strjoin_f("./tmp/", ft_itoa(index), 1)))
+	if (!(filename = ft_strjoin_f("/tmp/", ft_itoa(index), 1)))
 		exit(EXIT_FAILURE);
 	if ((fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC
 					, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) == -1)
@@ -45,7 +45,7 @@ int		ft_open_heredoc_file(char *filename)
 	if ((fd = open(filename, O_RDWR)) == -1)
 		ft_error_exit(1, (char*[]){"Failed to open Here-Document File"}
 					, EXIT_HEREDOC_FILE);
-	if (fd == -1)
+	if (fd < 0)
 		ft_error_exit(1, (char*[]){"Bad file descriptor"}, -1);
 	return (fd);
 }

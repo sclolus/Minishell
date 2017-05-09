@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/08 23:41:42 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/09 03:32:19 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,10 +180,10 @@ int					ft_open_heredoc_file(char *filename);
 char				*ft_get_heredoc_delimiter_index(t_tokens *tokens
 													, uint32_t index);
 int					ft_get_heredoc_index(uint32_t index, t_shenv *shenv);
+t_heredoc			*ft_get_heredoc_pointer(uint32_t index, t_shenv *shenv);
 void				ft_clear_heredoc(t_list *heredoc);
 void				ft_put_heredocs(t_shenv *shenv);
-void				ft_get_heredoc(t_heredoc *heredoc
-								, uint32_t index, t_shenv *shenv);
+void				ft_get_heredoc(t_heredoc *heredoc, t_shenv *shenv);
 void				ft_get_heredocs(t_shenv *shenv);
 void				ft_put_heredocs_content(t_shenv *shenv);
 void				ft_clear_heredocs(t_shenv *shenv);

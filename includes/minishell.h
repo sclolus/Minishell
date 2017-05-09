@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/09 03:32:19 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/09 06:38:17 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 
 # define PROMPT "$>"
 # define SHELL_NAME "minishell: "
-# define GRAMMAR_CHECKSUM 2072903
+# define GRAMMAR_CHECKSUM 2099818
 
 # define CHECK(x) do{ft_putendl("__________");ft_putendl(#x);ft_putendl("__________");}while(0);
 

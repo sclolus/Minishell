@@ -88,8 +88,8 @@ char		*ft_ltree_get_match(t_ltree *root, char *prefix, uint32_t index)
 			continue ;
 		if (ret <= index && (root = root->alternative))
 			index -= ret;
-		else if ((root = root->son))
-			string[i++] = root->c;
+		else if ((string[i++] = root->c))
+			root = root->son;
 	}
 	return (string);
 }

@@ -1,90 +1,61 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_set_term.c                                      :+:      :+:    :+:   */
+/*   ft_reset_mode.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/30 00:36:26 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/09 18:10:12 by sclolus          ###   ########.fr       */
+/*   Created: 2017/05/09 17:29:07 by sclolus           #+#    #+#             */
+/*   Updated: 2017/05/09 17:30:00 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "termcaps.h"
+#include "termios_handler.h"
 
-int32_t		ft_unset_echo_mode(void)
+int32_t		ft_reset_l_mode(void)
 {
 	static struct termios	term;
 
 	if (tcgetattr(0, &term) == -1)
 		return (-1);
-	term.c_lflag &= ~(ECHO);
+	term.c_lflag = 0;
 	if (tcsetattr(0, TCSADRAIN, &term) == -1)
 		return (-1);
 	return (0);
 }
 
-int32_t		ft_set_echo_mode(void)
+int32_t		ft_reset_o_mode(void)
 {
 	static struct termios	term;
 
 	if (tcgetattr(0, &term) == -1)
 		return (-1);
-	term.c_lflag |= ECHO;
+	term.c_oflag = 0;
 	if (tcsetattr(0, TCSADRAIN, &term) == -1)
 		return (-1);
 	return (0);
 }
 
-int32_t		ft_unset_echoctl_mode(void)
+int32_t		ft_reset_i_mode(void)
 {
 	static struct termios	term;
 
 	if (tcgetattr(0, &term) == -1)
 		return (-1);
-	term.c_lflag &= ~(ECHOCTL);
+	term.c_iflag = 0;
 	if (tcsetattr(0, TCSADRAIN, &term) == -1)
 		return (-1);
 	return (0);
 }
 
-int32_t		ft_set_echok_mode(void)
+int32_t		ft_reset_c_mode(void)
 {
 	static struct termios	term;
 
 	if (tcgetattr(0, &term) == -1)
 		return (-1);
-	term.c_lflag |= ECHONL;
+	term.c_cflag = 0;
 	if (tcsetattr(0, TCSADRAIN, &term) == -1)
 		return (-1);
 	return (0);
-}
-
-int32_t		ft_set_term(void)
-{
-	static char				*name_term = "xterm-256color";
-	static struct termios	term;
-
-	if ((tgetent(NULL, name_term)) == -1)
-		return (-1);
- 	if (tcgetattr(0, &term) == -1)
-		return (-1);
-	term.c_lflag &= ~(ICANON);
-	term.c_lflag &= ~(ECHO);
-	term.c_lflag &= ~(ISIG);
-	if (tcsetattr(0, TCSADRAIN, &term) == -1)
-		return (-1);
-	ft_set_insert();
-	return (0);
-}
-
-int32_t		ft_unset_term(void)
-{
-	if (tcsetattr(0, TCSADRAIN, &g_shell->backup_term) == -1)
-	{
-		ft_error(1, (char*[])
-	{"warning: Shell's parent term mode restoration failed"}, 1);
-		exit(1);
-	}
-	return (1);
 }

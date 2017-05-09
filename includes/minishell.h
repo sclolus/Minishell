@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/09 06:38:17 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/09 17:38:27 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@
 # include <signal.h>
 # include <stdlib.h>
 # include "termcaps.h"
+# include "termios_handler.h"
 # include "ft_completion.h"
 # include "ast.h"
 
-# define PROMPT "$>"
 # define SHELL_NAME "minishell: "
-# define GRAMMAR_CHECKSUM 2099818
+# define GRAMMAR_CHECKSUM 2051066
 
 # define CHECK(x) do{ft_putendl("__________");ft_putendl(#x);ft_putendl("__________");}while(0);
 

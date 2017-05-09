@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 03:26:22 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/09 06:29:57 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/09 14:51:34 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ int32_t				ft_paste_line(t_string *buf, char *command,
 void				ft_set_insert(void);
 void				ft_unset_insert(void);
 int32_t				ft_set_echo_mode(void);
+int32_t				ft_set_echok_mode(void);
 void				ft_set_am(void);
 void				ft_print_history_len(t_list *list);
 void				ft_print_history(t_string *buf, char *history);
@@ -156,5 +157,6 @@ t_prompt_state	*ft_get_prompt_state_machine(void);
 t_prompt		*ft_get_current_prompt(void);
 void			ft_set_current_prompt(t_prompt new_prompt);
 uint32_t		ft_get_current_prompt_len(void);
+char			*ft_get_current_prompt_string(void);
 
 #endif

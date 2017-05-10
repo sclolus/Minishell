@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 06:54:33 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/08 00:39:35 by aalves           ###   ########.fr       */
+/*   Updated: 2017/05/10 22:16:59 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void				ft_normilol(t_shenv *shenv, t_shenv *exec_env)
 }
 
 static int32_t			ft_lisibilitay(char **argv, uint32_t *argc,
-					t_shenv *shenv, t_shenv *exec_env)
+					t_shenv *shenv, t_shenv **exec_env)
 {
 	int32_t		flag;
 
@@ -74,11 +74,11 @@ static int32_t			ft_lisibilitay(char **argv, uint32_t *argc,
 		exit(EXIT_FAILURE);
 	*argc = ft_count_values(argv + flag);
 	if (flag == 1)
-		exec_env = ft_create_new_shenv(argv + 1, *argc);
+		*exec_env = ft_create_new_shenv(argv + 1, *argc);
 	else
-		exec_env = ft_modify_env(argv, *argc
+		*exec_env = ft_modify_env(argv, *argc
 		, ft_init_shenv(shenv->env->variable_count, shenv->env->env));
-	if (!argv[*argc + flag + 1] && !(ft_built_in_print_env(exec_env)))
+	if (!argv[*argc + flag + 1] && !(ft_built_in_print_env(*exec_env)))
 		exit(EXIT_SUCCESS);
 	return (flag);
 }
@@ -104,9 +104,9 @@ int32_t					ft_built_in_env(char **argv, t_shenv *shenv)
 	else
 	{
 		exec_env = NULL;
-		flag = ft_lisibilitay(argv, &argc, shenv, exec_env);
+		flag = ft_lisibilitay(argv, &argc, shenv, &exec_env);
 		ft_normilol(shenv, exec_env);
-		ft_built_in_exec_env_cmd(argv + argc + 1 + flag, shenv, exec_env);
+ 		ft_built_in_exec_env_cmd(argv + argc + 1 + flag, shenv, exec_env);
 	}
 	return (0);
 }

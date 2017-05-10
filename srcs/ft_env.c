@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 23:23:12 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/25 10:58:48 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/10 22:04:42 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int32_t		ft_shenv_get_env_count(t_shenv *shenv)
 
 	i = 0;
 	count = 0;
+	if (!shenv)
+		return (0);
 	while (i < shenv->count)
 	{
 		if (shenv->attr[i])
@@ -32,6 +34,8 @@ uint32_t	ft_get_env_count(char **env)
 {
 	uint32_t	i;
 
+	if (!env)
+		return (0);
 	i = 0;
 	while (env[i])
 		i++;

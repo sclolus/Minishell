@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 00:36:26 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/09 18:10:12 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/10 21:45:58 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int32_t		ft_set_term(void)
 
 	if ((tgetent(NULL, name_term)) == -1)
 		return (-1);
- 	if (tcgetattr(0, &term) == -1)
+	if (tcgetattr(0, &term) == -1)
 		return (-1);
 	term.c_lflag &= ~(ICANON);
 	term.c_lflag &= ~(ECHO);

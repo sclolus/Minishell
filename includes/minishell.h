@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/09 17:38:27 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/10 21:45:40 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include "ast.h"
 
 # define SHELL_NAME "minishell: "
-# define GRAMMAR_CHECKSUM 2051066
+# define GRAMMAR_CHECKSUM 2027082
 
 # define CHECK(x) do{ft_putendl("__________");ft_putendl(#x);ft_putendl("__________");}while(0);
 

@@ -61,6 +61,7 @@ int32_t			ft_complete_argv(t_string *buf, t_shenv *shenv)
 		|| !(lol[1] = ft_get_file_name(command_prefix))
 		|| !(completions = ft_get_ltree_suffixes(ltree, lol[1])))
 	{
+		ft_free_ltree(ltree);
 		free(command_prefix);
 		ft_putchar(7);
 		return (0);

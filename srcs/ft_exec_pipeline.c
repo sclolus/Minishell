@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 22:19:15 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/10 22:10:06 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/11 15:06:06 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int32_t			ft_exec_pipeline(t_parser *parser, t_shenv *shenv)
 {
+	CHECK(ENTERING PIPELINE);
 	if (OR_PARSER_N(parser, 0)->retained)
 		return (ft_exec_pipe_sequence(OR_PARSER_N(parser, 0), shenv));
 	else

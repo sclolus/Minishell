@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 03:24:20 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/10 21:47:33 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/11 13:09:07 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_init_shell(void)
 {
-	if (!(g_shell = (t_shell*)malloc(sizeof(t_shell))))
+	if (!(g_shell = (t_shell*)ft_memalloc(sizeof(t_shell))))
 		ft_error_exit(1, (char*[]){"Shell initialization failed"}, 1);
 	g_shell->terminal = STDIN_FILENO;
 	g_shell->interactive = isatty(g_shell->terminal);

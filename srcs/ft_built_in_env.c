@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 06:54:33 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/10 22:16:59 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/11 14:56:36 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ static void				ft_normilol(t_shenv *shenv, t_shenv *exec_env)
 	shenv->env = ft_get_env(shenv);
 	exec_env->env = ft_get_env(exec_env);
 	setpgid(0, getpid());
+	ft_unset_term();
+	ft_unset_insert();
 	tcsetpgrp(g_shell->terminal, getpid());
 }
 
@@ -106,6 +108,7 @@ int32_t					ft_built_in_env(char **argv, t_shenv *shenv)
 		exec_env = NULL;
 		flag = ft_lisibilitay(argv, &argc, shenv, &exec_env);
 		ft_normilol(shenv, exec_env);
+		ft_putnbr((long)exec_env->env);
  		ft_built_in_exec_env_cmd(argv + argc + 1 + flag, shenv, exec_env);
 	}
 	return (0);

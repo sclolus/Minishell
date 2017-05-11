@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 00:36:26 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/10 21:45:58 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/11 09:20:31 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,12 @@ int32_t		ft_set_echok_mode(void)
 
 int32_t		ft_set_term(void)
 {
-	static char				*name_term = "xterm-256color";
+	static char				*name_term __attribute__((unused)) = "xterm-256color";
 	static struct termios	term;
 
-	if ((tgetent(NULL, name_term)) == -1)
-		return (-1);
 	if (tcgetattr(0, &term) == -1)
+		return (-1);
+	if ((tgetent(NULL, name_term)) == -1)
 		return (-1);
 	term.c_lflag &= ~(ICANON);
 	term.c_lflag &= ~(ECHO);
@@ -80,7 +80,10 @@ int32_t		ft_set_term(void)
 
 int32_t		ft_unset_term(void)
 {
-	if (tcsetattr(0, TCSADRAIN, &g_shell->backup_term) == -1)
+	if ((tgetent(NULL, NULL) == -1))
+		exit(EXIT_FAILURE);
+
+	if (tcsetattr(0, TCSANOW, &g_shell->backup_term) == -1)
 	{
 		ft_error(1, (char*[])
 	{"warning: Shell's parent term mode restoration failed"}, 1);

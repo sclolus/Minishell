@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 22:20:45 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/10 22:14:50 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/11 13:11:18 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ int32_t		ft_exec_simple_cmd(t_parser *simple_cmd, t_shenv *shenv)
 			exit(EXIT_REDIREC_ERROR);
 		if ((ret = ft_built_in(argv, shenv)) == EXIT_ILLEGAL_CMD)
 			ft_exec_cmd(argv, shenv);
+		free(argv);
+		ft_free_t_env(shenv->env);
 	}
 	else
 	{

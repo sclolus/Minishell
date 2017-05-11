@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 18:39:20 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/28 12:09:52 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/11 05:11:04 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,12 @@ static uint32_t		ft_sanitize_quotes(char *word, uint32_t *indexes
 	{
 		ft_memcpy(word + indexes[u] - u
 				, word + indexes[u] + 1, indexes[u + 1] - indexes[u]);
-		word[indexes[u + 1]] = '\0';
 		u++;
 	}
 	if (offset)
 	{
-		ft_memcpy(word + indexes[u] - u
-				, word + indexes[u] + 1, u);
-		word[indexes[u] - u] = '\0';
+		ft_strcpy(word + indexes[u] - u
+				, word + indexes[u] + 1);
 	}
 	return (i - offset);
 }

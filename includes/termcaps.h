@@ -69,7 +69,7 @@ typedef enum		e_termcaps_state
 # define HEREDOC_CONT_PROMPT_LEN sizeof(HEREDOC_CONT_PROMPT_STATE) - 1
 
 typedef int32_t		(*t_comp_event)(t_string*, t_shenv *);
-
+typedef uint8_t	t_bool;
 typedef enum		e_prompt
 {
 	NORMAL_PROMPT = 0,

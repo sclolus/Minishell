@@ -135,6 +135,7 @@ uint32_t	ft_termget_complete_line(char **line, t_shenv *shenv)
 		return (ft_strlen(*line));
 	while ((ret = ft_term_line_continuation(*line)))
 	{
+	    ft_get_line_attributes()->multiple_lines = 1;
 		if (ret != 1)
 		{
 			(line_tmp = ft_strnew(len + 1)) ? 0 : exit(EXIT_FAILURE);

@@ -69,6 +69,7 @@ static void	ft_main_loop(t_parser *parser, char **line, t_shenv *shenv)
 	while (42)
 	{
 		ft_set_and_put_prompt(NORMAL_PROMPT);
+		ft_bzero(ft_get_line_attributes(), sizeof(t_line_attributes));
 		ft_termget_complete_line(line, shenv);
 		if (!(tokens = ft_get_tokens(*line)))
 			exit(EXIT_FAILURE);
@@ -88,6 +89,7 @@ static void	ft_main_loop(t_parser *parser, char **line, t_shenv *shenv)
 		ft_clear_heredocs(shenv);
 		ft_free_tokens(tokens);
 		ft_sanitize_parser(parser);
+		(ft_get_line_attributes()->multiple_lines) ? free(*line) : 0;
 	}
 }
 

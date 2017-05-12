@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 22:19:15 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/12 02:52:05 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/12 07:07:28 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ int32_t			ft_exec_pipe_sequence(t_parser *parser, t_shenv *shenv)
 		{
 			processes = ft_start_process(parser, 0, (int[]){0, 1, 0, 1}, shenv);
 			ret = ft_launch_pipe_job(&processes);
+			shenv->heredocs_index += ft_get_cmd_heredoc_count(parser);
 		}
 		else
 			ret = ft_exec_simple_cmd(parser, shenv);
-		shenv->heredocs_index += ft_get_cmd_heredoc_count(parser);
 		ft_restore_fds(restored_fds);
 	}
 	else

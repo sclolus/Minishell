@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 18:51:35 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/29 01:37:58 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/12 07:03:56 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int32_t		ft_heredoc_redirect(t_parser *heredoc)
 	shenv = *ft_get_shenv();
 	if (!(heredocument = ft_get_t_heredoc_index(shenv->heredocs_index, shenv)))
 		return (EXIT_REDIREC_ERROR);
+	shenv->heredocs_index++;
 	if (OR_PARSER_N(heredoc, 0)->retained)
 	{
 		heredoc = OR_PARSER_N(heredoc, 0);

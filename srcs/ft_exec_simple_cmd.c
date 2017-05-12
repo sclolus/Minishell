@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 22:20:45 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/12 02:48:33 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/12 09:18:50 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int32_t		ft_exec_simple_cmd(t_parser *simple_cmd, t_shenv *shenv)
 			ft_exec_cmd(argv, shenv);
 		free(argv);
 		ft_free_t_env(shenv->env);
+		shenv->env = NULL;
 	}
 	else
 	{

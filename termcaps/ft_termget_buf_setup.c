@@ -6,13 +6,13 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 14:45:54 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/08 14:51:44 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/12 04:51:53 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_termget_buf_setup(t_string *buf)
+void		ft_termget_buf_setup(t_string *buf)
 {
 	buf->len = 0;
 	buf->offset = 0;
@@ -22,7 +22,7 @@ void	ft_termget_buf_setup(t_string *buf)
 	*(buf->string) = 0;
 }
 
-void	ft_buf_update(t_string *buf, char *tmp)
+void		ft_buf_update(t_string *buf, char *tmp)
 {
 	if (ft_isprint(*tmp))
 	{
@@ -38,4 +38,15 @@ void	ft_buf_update(t_string *buf, char *tmp)
 			ft_termcaps_putstr(buf, tmp);
 		}
 	}
+}
+
+uint32_t	ft_termget_cleanup(char *tmp, t_string *buf, char **line)
+{
+	ft_putchar('\n');
+	if (*(long*)tmp == 4)
+		return (-1);
+	if (*(long*)tmp == 3)
+		return (-1);
+	*line = buf->string;
+	return (buf->len);
 }

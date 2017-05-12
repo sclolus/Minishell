@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 03:24:20 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/12 02:54:07 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/12 04:09:06 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_init_shell(void)
 		while (tcgetpgrp(g_shell->interactive)
 			!= (g_shell->shell_pgid = getpgrp()))
 			kill(-g_shell->shell_pgid, SIGSTOP);
- 		ft_ignore_signals();
+		ft_ignore_signals();
 		g_shell->shell_pgid = getpid();
 		if (-1 == (setpgid(g_shell->shell_pgid, g_shell->shell_pgid)))
 			ft_error_exit(1, (char*[]){"Shell initialization failed"}, 1);
@@ -31,7 +31,7 @@ void	ft_init_shell(void)
 		tcgetattr(g_shell->terminal, &g_shell->backup_term);
 		if (-1 == ft_set_term())
 			ft_error_exit(1, (char*[]){"Shell initialization failed"}, 1);
- 		ft_setup_sighandlers();
+		ft_setup_sighandlers();
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 06:54:33 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/12 02:51:02 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/12 04:26:01 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int32_t					ft_built_in_env(char **argv, t_shenv *shenv)
 		exec_env = NULL;
 		flag = ft_lisibilitay(argv, &argc, shenv, &exec_env);
 		ft_normilol(shenv, exec_env);
- 		ft_built_in_exec_env_cmd(argv + argc + 1 + flag, shenv, exec_env);
+		ft_built_in_exec_env_cmd(argv + argc + 1 + flag, shenv, exec_env);
 	}
 	return (0);
 }

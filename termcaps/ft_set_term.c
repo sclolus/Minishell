@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 00:36:26 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/12 02:45:04 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/12 04:23:48 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,21 +48,9 @@ int32_t		ft_unset_echoctl_mode(void)
 	return (0);
 }
 
-int32_t		ft_set_echok_mode(void)
-{
-	static struct termios	term;
-
-	if (tcgetattr(0, &term) == -1)
-		return (-1);
-	term.c_lflag |= ECHONL;
-	if (tcsetattr(0, TCSADRAIN, &term) == -1)
-		return (-1);
-	return (0);
-}
-
 int32_t		ft_set_term(void)
 {
-	static char				*name_term __attribute__((unused)) = "xterm-256color";
+	static char				*name_term = "xterm-256color";
 	static struct termios	term;
 
 	if (tcgetattr(0, &term) == -1)

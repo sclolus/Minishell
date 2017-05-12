@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 03:26:22 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/09 14:51:34 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/12 04:49:37 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,13 @@ typedef enum		e_termcaps_state
 # define S_QUOTE_PROMPT_STATE "quote>"
 # define D_QUOTE_PROMPT_STATE "dquote>"
 # define LINE_CONT_PROMPT_STATE ">"
+# define HEREDOC_CONT_PROMPT_STATE "heredoc>"
 
 # define NORMAL_PROMPT_LEN sizeof(NORMAL_PROMPT_STATE) - 1
 # define S_QUOTE_PROMPT_LEN sizeof(S_QUOTE_PROMPT_STATE) - 1
 # define D_QUOTE_PROMPT_LEN sizeof(D_QUOTE_PROMPT_STATE) - 1
 # define LINE_CONT_PROMPT_LEN sizeof(LINE_CONT_PROMPT_STATE) - 1
-
+# define HEREDOC_CONT_PROMPT_LEN sizeof(HEREDOC_CONT_PROMPT_STATE) - 1
 
 typedef int32_t		(*t_comp_event)(t_string*, t_shenv *);
 
@@ -75,6 +76,7 @@ typedef enum		e_prompt
 	SINGLE_QUOTE = 1,
 	DOUBLE_QUOTE = 2,
 	LINE_CONTINUATION = 3,
+	HEREDOC_PROMPT = 4,
 }					t_prompt;
 
 typedef struct		s_prompt_state
@@ -109,6 +111,7 @@ void				ft_put_term_state(t_termcaps_state *state);
 int32_t				ft_set_term(void);
 
 int64_t				ft_termget(char **line, t_shenv *shenv);
+uint32_t			ft_termget_cleanup(char *tmp, t_string *buf, char **line);
 void				ft_buf_update(t_string *buf, char *tmp);
 void				ft_termget_buf_setup(t_string *buf);
 int32_t				ft_term_line_continuation(char *line);
@@ -151,12 +154,12 @@ void				ft_erase_line(void);
 ** Prompt
 */
 
-void			ft_put_prompt(void);
-void			ft_set_and_put_prompt(t_prompt new_prompt);
-t_prompt_state	*ft_get_prompt_state_machine(void);
-t_prompt		*ft_get_current_prompt(void);
-void			ft_set_current_prompt(t_prompt new_prompt);
-uint32_t		ft_get_current_prompt_len(void);
-char			*ft_get_current_prompt_string(void);
+void				ft_put_prompt(void);
+void				ft_set_and_put_prompt(t_prompt new_prompt);
+t_prompt_state		*ft_get_prompt_state_machine(void);
+t_prompt			*ft_get_current_prompt(void);
+void				ft_set_current_prompt(t_prompt new_prompt);
+uint32_t			ft_get_current_prompt_len(void);
+char				*ft_get_current_prompt_string(void);
 
 #endif

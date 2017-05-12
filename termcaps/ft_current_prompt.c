@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 05:48:27 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/09 06:24:20 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/12 04:11:44 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_prompt_state	*ft_get_prompt_state_machine(void)
 		{S_QUOTE_PROMPT_STATE, S_QUOTE_PROMPT_LEN},
 		{D_QUOTE_PROMPT_STATE, D_QUOTE_PROMPT_LEN},
 		{LINE_CONT_PROMPT_STATE, LINE_CONT_PROMPT_LEN},
+		{HEREDOC_CONT_PROMPT_STATE, HEREDOC_CONT_PROMPT_LEN},
 	};
 
 	return (states);

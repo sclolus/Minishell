@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/07 10:15:48 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/12 04:54:32 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define AST_H
 # include "libft.h"
 # include <unistd.h>
-# include <stdio.h>
 # include <fcntl.h>
 # include <stdint.h>
 

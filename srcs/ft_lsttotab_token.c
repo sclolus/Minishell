@@ -6,12 +6,11 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/01 04:14:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/02/01 04:44:38 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/12 04:54:57 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdio.h>
 
 void	*ft_lsttotab_token(t_list *lst, unsigned int len)
 {

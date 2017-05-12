@@ -79,7 +79,10 @@ int32_t				ft_check_chdir(t_string *curpath, char *arg, char *cwd
 	if (convert_path(curpath) && curpath->len > MAX_PATH_NAME)
 		return (ft_error(3, (char*[]){"cd: "
 		, curpath->string, ": File name too long"}, -1));
-		if (chdir(curpath->string) == -1)
+	if (!access(curpath->string, F_OK) && access(curpath->string, X_OK) == -1)
+		return (ft_error(3, (char*[]){"cd: "
+		, arg, ": Ta pa les permissions pd"}, -1));
+	if (chdir(curpath->string) == -1)
 		return (ft_error(3, (char*[]){"cd: "
 		, arg, ": No such file or directory"}, -1));
 		return (ft_cd_set_env(cwd, shenv));

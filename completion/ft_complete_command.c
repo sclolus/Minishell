@@ -59,15 +59,8 @@ int32_t			ft_complete_path_commands(t_string *buf, t_shenv *shenv,
 	shenv->env = ft_get_env(shenv);
 	if (!(path = ft_get_env_value(shenv->env->env, "PATH")))
 		return (0);
-	while (path[i])
-	{
-		if (!(ft_ltree_add_directory(&ltree, path[i++])))
-		{
-			ft_free_argv(path);
-			ft_free_ltree(ltree);
-			return (0);
-		}
-	}
+	if (!ft_fuk_norminette3(path, &ltree))
+		return (0);
 	ft_free_argv(path);
 	if (!(completions = ft_get_ltree_suffixes(ltree, command_prefix)))
 	{

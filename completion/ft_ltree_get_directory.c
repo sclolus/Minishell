@@ -77,9 +77,11 @@ int32_t		ft_ltree_add_directory(t_ltree **ltree, char *path)
 		if (!(tmp = ft_strjoin(path, curr_entry->d_name)))
 			exit(EXIT_FAILURE);
 		if (ft_is_dir(tmp))
-		     (tmp_curr_name = ft_strjoin(curr_entry->d_name, "/")) ? 0 : exit(EXIT_FAILURE);
+			(tmp_curr_name = ft_strjoin(curr_entry->d_name, "/"))
+			? 0 : exit(EXIT_FAILURE);
 		else
-		    (tmp_curr_name = ft_strdup(curr_entry->d_name)) ? 0 : exit(EXIT_FAILURE);
+			(tmp_curr_name = ft_strdup(curr_entry->d_name))
+			? 0 : exit(EXIT_FAILURE);
 		ft_sanitize_completion(&tmp_curr_name);
 		ft_ltree_add_word(ltree, tmp_curr_name);
 		free(tmp_curr_name);

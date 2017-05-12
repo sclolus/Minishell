@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 01:21:08 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/11 15:05:14 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/12 02:52:15 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,8 @@ int			main(int argc __attribute__((unused))
 	ft_putchar('\n');
 	while (1)
 	{
-		CHECK(ENTERED);
 		ft_set_and_put_prompt(NORMAL_PROMPT);
 		ft_termget_complete_line(&line, shenv);
-		CHECK(complete line returned);
-		ft_putendl(line);
 		if (!(tokens = ft_get_tokens(line)))
 			exit(EXIT_FAILURE);
 		if (!*tokens->tokens)
@@ -98,21 +95,17 @@ int			main(int argc __attribute__((unused))
 			ft_free_tokens(tokens);
 			continue ;
 		}
-		CHECK(ENTEREING EVALUATION);
 		if (ft_eval_tokens_input(parser, tokens))
 		{
 			ft_create_heredocs(tokens, shenv);
 			ft_get_heredocs(shenv);
-			CHECK(ENTEREING EXECUTION);
 			ft_exec_command(parser, shenv);
-			CHECK(EXITED EXECUTION);
 		}
 		else
 			ft_putendl("Parsing error in command line");
 		ft_clear_heredocs(shenv);
 		ft_free_tokens(tokens);
 		ft_sanitize_parser(parser);
-		CHECK(END OF WHILE);
 	}
 	ft_main_cleanup(parser, shenv);
 	return (0);

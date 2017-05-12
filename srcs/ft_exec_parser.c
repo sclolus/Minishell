@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 22:14:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/07 10:18:27 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/12 02:47:04 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ t_process			*ft_start_process(t_parser *simple_cmd, pid_t gpid,
 			ressource"}, EXIT_REDIREC_ERROR));
 	if (pid)
 	{
+
 		while (!waitpid(pid, &ret, WNOHANG | WUNTRACED) && !WIFSTOPPED(ret))
 			kill(pid, SIGTSTP);
 		argv = ft_get_argv(OR_PARSER_N(simple_cmd, 0));

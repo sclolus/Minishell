@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 03:24:20 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/11 13:09:07 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/12 02:54:07 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	ft_exit_shell(int exit_status)
 {
 	ft_unset_term();
 	ft_unset_insert();
+	ft_putchar('\n');
 	exit(POSIX_EXIT_STATUS(exit_status));
 }
 

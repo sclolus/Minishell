@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 #include "minishell.h"
 #include "get_next_line.h"
 
@@ -65,11 +66,14 @@ void		ft_main_cleanup(t_parser *parser, t_shenv *shenv)
 static void	ft_main_loop(t_parser *parser, char **line, t_shenv *shenv)
 {
 	t_tokens	*tokens;
+	uint32_t	multi;
 
 	while (42)
 	{
 		ft_set_and_put_prompt(NORMAL_PROMPT);
-		ft_termget_complete_line(line, shenv);
+		multi = 0;
+		if (ft_termget_complete_line(line, shenv) != ((ft_get_history_list()) ? ft_strlen((*ft_get_history_list())->content) : 0))
+		    multi = 1;
 		if (!(tokens = ft_get_tokens(*line)))
 			exit(EXIT_FAILURE);
 		if (!*tokens->tokens)
@@ -85,6 +89,11 @@ static void	ft_main_loop(t_parser *parser, char **line, t_shenv *shenv)
 		}
 		else
 			ft_putendl("Parsing error in command line");
+		if (multi)
+		{
+		    free(*line);
+		    *line = NULL;
+		}
 		ft_clear_heredocs(shenv);
 		ft_free_tokens(tokens);
 		ft_sanitize_parser(parser);

@@ -69,8 +69,7 @@ static void	ft_main_loop(t_parser *parser, char **line, t_shenv *shenv)
 	while (42)
 	{
 		ft_set_and_put_prompt(NORMAL_PROMPT);
-		if (ft_termget_complete_line(line, shenv))
-		    free(*line);
+		ft_termget_complete_line(line, shenv);
 		if (!(tokens = ft_get_tokens(*line)))
 			exit(EXIT_FAILURE);
 		if (!*tokens->tokens)

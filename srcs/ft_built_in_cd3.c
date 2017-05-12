@@ -81,7 +81,7 @@ int32_t				ft_check_chdir(t_string *curpath, char *arg, char *cwd
 		, curpath->string, ": File name too long"}, -1));
 	if (!access(curpath->string, F_OK) && access(curpath->string, X_OK) == -1)
 		return (ft_error(3, (char*[]){"cd: "
-		, arg, ": Ta pa les permissions pd"}, -1));
+		, arg, ": permission denied"}, -1));
 	if (chdir(curpath->string) == -1)
 		return (ft_error(3, (char*[]){"cd: "
 		, arg, ": No such file or directory"}, -1));

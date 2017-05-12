@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 06:06:01 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/08 23:41:52 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/12 05:47:44 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ t_parser	*ft_get_shell_parser(void)
 
 	bnf_parser = ft_get_parser_grammar();
 	string = ft_get_grammar_string();
-	ft_putnbr(ft_checksum(string));
 	if (ft_checksum(string) != GRAMMAR_CHECKSUM)
 		ft_error_exit(1, (char*[]){"Checksum invalid for grammar.txt, nice try"}
 									, 2);

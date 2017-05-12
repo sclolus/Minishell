@@ -1,6 +1,6 @@
 NAME= minishell
 CC= gcc
-FLAGS= -Wall -Werror -Wextra -g  #    -fsanitize=address -fsanitize-blacklist=my_ignores.txt
+FLAGS= -Wall -Werror -Wextra -g #      -fsanitize=address -fsanitize-blacklist=my_ignores.txt
 SRC= srcs/minishell.c \
 	srcs/ft_init_shell.c \
 	srcs/ft_get_shell_parser.c \
@@ -78,7 +78,6 @@ SRC= srcs/minishell.c \
 	termios_handler/ft_unset_mode.c \
 	parser/ast/ast.c \
 	parser/ast/ft_assign_parsers.c \
-	parser/ast/ft_put_parser.c \
 	parser/ast/ft_dup_parser/ft_dup_parser.c \
 	parser/ast/ft_eval_parser.c \
 	parser/ast/ft_eval_parser_chars.c \

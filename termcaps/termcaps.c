@@ -12,6 +12,7 @@
 
 #include "termcaps.h"
 #include "minishell.h"
+#include <stdio.h>
 
 int			ft_exec_special_event(t_shenv *shenv, t_string *buf,
 							t_list **paste_history, char *command)
@@ -125,17 +126,34 @@ int64_t		ft_termget(char **line, t_shenv *shenv)
 	return (ft_termget_cleanup(tmp, &buf, line));
 }
 
+void		ft_append_line(char **line, char **final)
+{
+    char		*tmp;
+
+    if (!*final)
+	*final = ft_strdup(*line);
+    else
+    {
+	tmp = *final;
+	if (!(*final = ft_strjoin(*final, *line)))
+	    exit(EXIT_FAILURE);
+	free(tmp);
+    }
+
+}
+
 uint32_t	ft_termget_complete_line(char **line, t_shenv *shenv)
 {
 	int64_t							len;
 	uint32_t						ret;
 	char							*line_tmp;
+	char							*final;
 
 	if ((len = ft_termget(line, shenv)) == -1)
 		return (ft_strlen(*line));
+	final = NULL;
 	while ((ret = ft_term_line_continuation(*line)))
 	{
-	    ft_get_line_attributes()->multiple_lines = 1;
 		if (ret != 1)
 		{
 			(line_tmp = ft_strnew(len + 1)) ? 0 : exit(EXIT_FAILURE);
@@ -145,12 +163,11 @@ uint32_t	ft_termget_complete_line(char **line, t_shenv *shenv)
 				exit(EXIT_FAILURE);
 			continue ;
 		}
-		if (!(line_tmp = ft_strnew(len)))
-			exit(EXIT_FAILURE);
-		ft_memcpy(line_tmp, *line, len);
 		len += ft_termget(line, shenv);
-		if (!(*line = ft_strjoin_f(line_tmp, *line, 0)))
-			exit(EXIT_FAILURE);
+		ft_append_line(line, &final);
 	}
+	//free(*line);
+	if (final)
+	    *line = final;
 	return (len);
 }

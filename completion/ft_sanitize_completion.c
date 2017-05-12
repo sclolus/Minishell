@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 00:16:38 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/13 06:12:58 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/12 07:12:44 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void		ft_sanitize_completion(char **completion)
 	}
 	if (!count)
 		return ;
-	printf("sanitized %s\n", *completion);
 	if (!(tmp = ft_strnew(len + count)))
 		exit(EXIT_FAILURE);
 	normilol(completion, tmp);

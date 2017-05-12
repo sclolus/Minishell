@@ -6,7 +6,7 @@
 /*   By: aalves <aalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/29 02:06:47 by aalves            #+#    #+#             */
-/*   Updated: 2017/04/29 05:51:35 by aalves           ###   ########.fr       */
+/*   Updated: 2017/05/12 10:44:52 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,16 +74,22 @@ static int32_t		convert_path(t_string *p)
 }
 
 int32_t				ft_check_chdir(t_string *curpath, char *arg, char *cwd
-							, t_shenv *shenv)
+								, t_shenv *shenv)
 {
 	if (convert_path(curpath) && curpath->len > MAX_PATH_NAME)
+	{
 		return (ft_error(3, (char*[]){"cd: "
-		, curpath->string, ": File name too long"}, -1));
+					, curpath->string, ": File name too long"}, -1));
+	}
 	if (!access(curpath->string, F_OK) && access(curpath->string, X_OK) == -1)
+	{
 		return (ft_error(3, (char*[]){"cd: "
-		, arg, ": permission denied"}, -1));
+					, arg, ": permission denied"}, -1));
+	}
 	if (chdir(curpath->string) == -1)
+	{
 		return (ft_error(3, (char*[]){"cd: "
-		, arg, ": No such file or directory"}, -1));
-		return (ft_cd_set_env(cwd, shenv));
+					, arg, ": No such file or directory"}, -1));
+	}
+	return (ft_cd_set_env(cwd, shenv));
 }

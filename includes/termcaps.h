@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 03:26:22 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/12 04:49:37 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/12 12:24:58 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,19 @@ typedef enum		e_prompt
 	HEREDOC_PROMPT = 4,
 }					t_prompt;
 
+# define NP NORMAL_PROMPT
+
 typedef struct		s_prompt_state
 {
 	char		*prompt;
 	uint32_t	len;
 }					t_prompt_state;
+
+typedef struct		s_line_attributes
+{
+	t_bool	canceled;
+	t_bool	multiple_lines;
+}					t_line_attributes;
 
 typedef struct		s_term_event
 {
@@ -161,5 +169,11 @@ t_prompt			*ft_get_current_prompt(void);
 void				ft_set_current_prompt(t_prompt new_prompt);
 uint32_t			ft_get_current_prompt_len(void);
 char				*ft_get_current_prompt_string(void);
+
+/*
+** Line Attributes
+*/
+
+t_line_attributes	*ft_get_line_attributes(void);
 
 #endif

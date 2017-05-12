@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/29 00:10:50 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/29 02:17:25 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/12 07:20:20 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,20 +59,38 @@ static void			ft_get_pipes(t_parser *pipe_sequence, int *mypipe
 	}
 }
 
+static void			ft_get_last_process_heredoc_index(t_parser *pipe_sequence
+													, t_shenv *shenv)
+{
+	uint32_t	i;
+
+	i = 0;
+	while (i < MULTIPLY_N(AND_PARSER_N(pipe_sequence, 0)))
+	{
+		shenv->heredocs_index += ft_get_cmd_heredoc_count(AND_PARSER_N(
+					MULTIPLY_PARSER_N(AND_PARSER_N(pipe_sequence, 0), i), 0));
+		i++;
+	}
+}
+
 t_process			*ft_create_pipeline(t_parser *pipe_sequence, t_shenv *shenv)
 {
 	t_process	*processes;
 	pid_t		pipeline_pgid;
+	uint32_t	index_tmp;
 	int			mypipe[5];
 
 	if (pipe(mypipe + 3) == -1)
 		ft_error_exit(1, (char*[]){"Pipe() failed"}, EXIT_REDIREC_ERROR);
+	index_tmp = shenv->heredocs_index;
+	ft_get_last_process_heredoc_index(pipe_sequence, shenv);
 	processes = ft_start_process(AND_PARSER_N(pipe_sequence, 1), 0,
 									(int[]){mypipe[3], 1, mypipe[4], 1}, shenv);
-	shenv->heredocs_index += ft_get_cmd_heredoc_count(AND_PARSER_N(pipe_sequence
-															, 1));
 	pipeline_pgid = processes->pid;
 	mypipe[2] = 0;
+	shenv->heredocs_index = index_tmp;
 	ft_get_pipes(pipe_sequence, mypipe, &processes, shenv);
+	shenv->heredocs_index += ft_get_cmd_heredoc_count(AND_PARSER_N(pipe_sequence
+																, 1));
 	return (processes);
 }

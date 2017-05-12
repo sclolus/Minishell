@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   termcaps.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 02:07:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/12 11:53:02 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/12 15:24:29 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "termcaps.h"
 #include "minishell.h"
-#include <stdio.h>
 
 int			ft_exec_special_event(t_shenv *shenv, t_string *buf,
 							t_list **paste_history, char *command)
@@ -82,14 +81,14 @@ int32_t		ft_term_line_continuation(char *line)
 		if (ret >= 4)
 		{
 			if (*ft_get_current_prompt() == DOUBLE_QUOTE)
-			    return (0);
+				return (0);
 			ft_set_and_put_prompt(DOUBLE_QUOTE);
 			return (ret);
 		}
 		else if (ret == 2)
 		{
 			if (*ft_get_current_prompt() == SINGLE_QUOTE)
-			    return (0);
+				return (0);
 			ft_set_and_put_prompt(SINGLE_QUOTE);
 			return (ret);
 		}
@@ -99,10 +98,11 @@ int32_t		ft_term_line_continuation(char *line)
 		ft_set_and_put_prompt(LINE_CONTINUATION);
 		return (1);
 	}
-	if (*ft_get_current_prompt() != NORMAL_PROMPT && *ft_get_current_prompt() != LINE_CONTINUATION)
+	if (*ft_get_current_prompt() != NORMAL_PROMPT
+	&& *ft_get_current_prompt() != LINE_CONTINUATION)
 	{
-	    ft_set_and_put_prompt(*ft_get_current_prompt());
-	    return (2);
+		ft_set_and_put_prompt(*ft_get_current_prompt());
+		return (2);
 	}
 	return (0);
 }
@@ -135,33 +135,6 @@ int64_t		ft_termget(char **line, t_shenv *shenv)
 	return (ft_termget_cleanup(tmp, &buf, line));
 }
 
-void		ft_append_line(char **line, char **final, uint32_t type)
-{
-    char		*tmp;
-    char		*tmp_str;
-
-    if (!*final)
-	*final = ft_strdup(*line);
-    else
-    {
-	tmp = *final;
-	if (type)
-	{
-	    if (!(tmp_str = ft_strjoin(*line, "\n")))
-		exit(EXIT_FAILURE);
-	    if (!(*final = ft_strjoin_f(*final, tmp_str, 1)))
-		exit(EXIT_FAILURE);
-	}
-	else
-	{
-	    if (!(*final = ft_strjoin(*final, *line)))
-		exit(EXIT_FAILURE);
-	}
-	free(tmp);
-    }
-
-}
-
 uint32_t	ft_termget_complete_line(char **line, t_shenv *shenv)
 {
 	int64_t							len;
@@ -173,8 +146,8 @@ uint32_t	ft_termget_complete_line(char **line, t_shenv *shenv)
 	final = NULL;
 	while ((ret = ft_term_line_continuation(*line)))
 	{
-	    if (!final)
-		ft_append_line(line, &final, 0);
+		if (!final)
+			ft_append_line(line, &final, 0);
 		if (ret != 1)
 		{
 			len += ft_termget(line, shenv) + 1;
@@ -185,6 +158,6 @@ uint32_t	ft_termget_complete_line(char **line, t_shenv *shenv)
 		ft_append_line(line, &final, 0);
 	}
 	if (final)
-	    *line = final;
+		*line = final;
 	return (len);
 }

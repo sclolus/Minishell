@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   termcaps.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 03:26:22 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/12 12:24:58 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/12 15:28:57 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ void				ft_explore_paste_history(t_string *buf,
 int					ft_exec_special_event(t_shenv *shenv, t_string *buf,
 									t_list **paste_history, char *command);
 void				ft_erase_line(void);
-
+void				ft_append_line(char **line, char **final, uint32_t type);
 /*
 ** Prompt
 */

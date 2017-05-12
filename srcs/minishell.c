@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 01:21:08 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/12 05:03:50 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/12 15:30:07 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,9 @@ static void	ft_main_loop(t_parser *parser, char **line, t_shenv *shenv)
 	{
 		ft_set_and_put_prompt(NORMAL_PROMPT);
 		multi = 0;
-		if (ft_termget_complete_line(line, shenv) != ((ft_get_history_list()) ? ft_strlen((*ft_get_history_list())->content) : 0))
-		    multi = 1;
+		if (ft_termget_complete_line(line, shenv) != ((ft_get_history_list())
+		? ft_strlen((*ft_get_history_list())->content) : 0))
+			multi = 1;
 		if (!(tokens = ft_get_tokens(*line)))
 			exit(EXIT_FAILURE);
 		if (!*tokens->tokens)
@@ -91,8 +92,8 @@ static void	ft_main_loop(t_parser *parser, char **line, t_shenv *shenv)
 			ft_putendl("Parsing error in command line");
 		if (multi)
 		{
-		    free(*line);
-		    *line = NULL;
+			free(*line);
+			*line = NULL;
 		}
 		ft_clear_heredocs(shenv);
 		ft_free_tokens(tokens);

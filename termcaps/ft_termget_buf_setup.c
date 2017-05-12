@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 14:45:54 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/12 04:51:53 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/12 09:20:36 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,13 @@ void		ft_buf_update(t_string *buf, char *tmp)
 uint32_t	ft_termget_cleanup(char *tmp, t_string *buf, char **line)
 {
 	ft_putchar('\n');
+	*line = buf->string;
 	if (*(long*)tmp == 4)
 		return (-1);
 	if (*(long*)tmp == 3)
+	{
+		*line = tmp + 7;
 		return (-1);
-	*line = buf->string;
+	}
 	return (buf->len);
 }

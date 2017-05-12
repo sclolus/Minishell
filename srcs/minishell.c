@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 01:21:08 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/12 02:52:15 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/12 05:03:50 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ char		**ft_get_env_value(char **env, char *variable)
 	return (path);
 }
 
-// TODO ctrl+d ctrl+c
-
 void		ft_main_cleanup(t_parser *parser, t_shenv *shenv)
 {
 	ft_free_t_shenv(shenv);
@@ -64,31 +62,15 @@ void		ft_main_cleanup(t_parser *parser, t_shenv *shenv)
 	ft_exit_shell(0);
 }
 
-void		ft_put_tokens(char **tokens)
+static void	ft_main_loop(t_parser *parser, char **line, t_shenv *shenv)
 {
-	while (*tokens)
-		ft_putendl(*tokens++);
-}
-
-int			main(int argc __attribute__((unused))
-				, char **argv __attribute__((unused)), char **env) // echo "asdf"asdf
-{
-	char		*line;
-	t_parser	*parser;
-	t_shenv		*shenv;
 	t_tokens	*tokens;
 
-	line = NULL;
-	ft_init_shell();
-	parser = ft_get_shell_parser();
-	shenv = ft_init_shenv(ft_get_env_count(env), env);
-	*ft_get_shenv() = shenv;
-	ft_putchar('\n');
-	while (1)
+	while (42)
 	{
 		ft_set_and_put_prompt(NORMAL_PROMPT);
-		ft_termget_complete_line(&line, shenv);
-		if (!(tokens = ft_get_tokens(line)))
+		ft_termget_complete_line(line, shenv);
+		if (!(tokens = ft_get_tokens(*line)))
 			exit(EXIT_FAILURE);
 		if (!*tokens->tokens)
 		{
@@ -107,6 +89,22 @@ int			main(int argc __attribute__((unused))
 		ft_free_tokens(tokens);
 		ft_sanitize_parser(parser);
 	}
+}
+
+int			main(int argc __attribute__((unused))
+				, char **argv __attribute__((unused)), char **env)
+{
+	char		*line;
+	t_parser	*parser;
+	t_shenv		*shenv;
+
+	line = NULL;
+	ft_init_shell();
+	parser = ft_get_shell_parser();
+	shenv = ft_init_shenv(ft_get_env_count(env), env);
+	*ft_get_shenv() = shenv;
+	ft_putchar('\n');
+	ft_main_loop(parser, &line, shenv);
 	ft_main_cleanup(parser, shenv);
 	return (0);
 }

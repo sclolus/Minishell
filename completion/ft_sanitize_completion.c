@@ -52,6 +52,7 @@ void		ft_sanitize_completion(char **completion)
 	}
 	if (!count)
 		return ;
+	printf("sanitized %s\n", *completion);
 	if (!(tmp = ft_strnew(len + count)))
 		exit(EXIT_FAILURE);
 	normilol(completion, tmp);

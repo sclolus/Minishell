@@ -65,6 +65,8 @@ int32_t			ft_complete_path_commands(t_string *buf, t_shenv *shenv,
 	if (!(completions = ft_get_ltree_suffixes(ltree, command_prefix)))
 	{
 		ft_free_ltree(ltree);
+		ft_free_t_env(shenv->env);
+		shenv->env = NULL;
 		return (0);
 	}
 	ret = ft_put_completion(ltree, completions, buf, command_prefix);

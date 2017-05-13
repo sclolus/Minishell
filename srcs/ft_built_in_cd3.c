@@ -88,7 +88,10 @@ int32_t				ft_check_chdir(t_string *curpath, char *arg, char *cwd
 	}
 	if (chdir(curpath->string) == -1)
 	{
-		return (ft_error(3, (char*[]){"cd: "
+		if (!ft_is_dir(curpath->string))
+			return (ft_error(3, (char*[]){"cd: "
+					, arg, ": Not a directory"}, -1));
+			return (ft_error(3, (char*[]){"cd: "
 					, arg, ": No such file or directory"}, -1));
 	}
 	return (ft_cd_set_env(cwd, shenv));

@@ -66,15 +66,11 @@ void		ft_main_cleanup(t_parser *parser, t_shenv *shenv)
 static void	ft_main_loop(t_parser *parser, char **line, t_shenv *shenv)
 {
 	t_tokens	*tokens;
-	uint32_t	multi;
 
 	while (42)
 	{
 		ft_set_and_put_prompt(NORMAL_PROMPT);
-		multi = 0;
-		if (ft_termget_complete_line(line, shenv) != (*(ft_get_history_list())
-		? ft_strlen((*ft_get_history_list())->content) : 0))
-			multi = 1;
+		ft_termget_complete_line(line, shenv);
 		if (!(tokens = ft_get_tokens(*line)))
 			exit(EXIT_FAILURE);
 		if (!*tokens->tokens)
@@ -90,7 +86,7 @@ static void	ft_main_loop(t_parser *parser, char **line, t_shenv *shenv)
 		}
 		else
 			ft_putendl("Parsing error in command line");
-		if (multi)
+		if ((*ft_get_line_attributes()).multiple_lines)
 		{
 			free(*line);
 			*line = NULL;

@@ -12,9 +12,27 @@
 
 #include "minishell.h"
 
-t_shenv	**ft_get_shenv(void)
+t_shenv		**ft_get_shenv(void)
 {
 	static t_shenv	*shenv;
 
 	return (&shenv);
+}
+
+int32_t		ft_shenv_get_env_count(t_shenv *shenv)
+{
+	uint32_t	i;
+	uint32_t	count;
+
+	i = 0;
+	count = 0;
+	if (!shenv)
+		return (0);
+	while (i < shenv->count)
+	{
+		if (shenv->attr[i])
+			count++;
+		i++;
+	}
+	return (count);
 }

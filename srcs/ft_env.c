@@ -12,22 +12,21 @@
 
 #include "minishell.h"
 
-int32_t		ft_shenv_get_env_count(t_shenv *shenv)
+char		*ft_find_env(char const **env, char const *variable)
 {
 	uint32_t	i;
-	uint32_t	count;
 
 	i = 0;
-	count = 0;
-	if (!shenv)
-		return (0);
-	while (i < shenv->count)
-	{
-		if (shenv->attr[i])
-			count++;
+	while (variable[i] && variable[i] != '=')
 		i++;
+	while (*env)
+	{
+		if (!ft_strncmp(variable, *env, i))
+			return ((char*)*env);
+		else
+			env++;
 	}
-	return (count);
+	return (NULL);
 }
 
 uint32_t	ft_get_env_count(char **env)

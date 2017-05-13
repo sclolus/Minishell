@@ -42,7 +42,6 @@ void		ft_append_line(char **line, char **final, uint32_t type)
 	}
 }
 
-
 int32_t		ft_term_line_continuation2(int32_t ret)
 {
 	if (ret >= 4)

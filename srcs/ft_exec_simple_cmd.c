@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 22:20:45 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/13 18:06:41 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/13 18:36:31 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,15 @@ void		ft_exec_cmd(char **argv, t_shenv *shenv)
 	env_values = ft_get_env_value(shenv->env->env, "PATH");
 	if (!(path = ft_find_command(argv[0], env_values)))
 	{
-		ft_free_strsplit(env_values);
 		if (ft_find_file(argv[0], shenv->env) > 0)
 		{
 			if (!ft_check_exec_perm(argv[0]))
 				ft_error_exit(2, (char *[]){ERR_PERM_DENIED, argv[0]}, 126);
 			execve(argv[0], argv, shenv->env->env);
+			ft_free_strsplit(env_values);
 			ft_error_exit(2, (char *[]){ERR_PERM_DENIED, argv[0]}, 126);
 		}
+		ft_free_strsplit(env_values);
 		ft_error_exit(2, (char *[]){ERR_ILL_CMD, argv[0]}, EXIT_ILLEGAL_CMD);
 	}
 	ft_exec_cmd_bin(argv, shenv, path, env_values);

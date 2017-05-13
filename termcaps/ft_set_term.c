@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 00:36:26 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/12 04:23:48 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/13 18:28:31 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int32_t		ft_set_term(void)
 
 int32_t		ft_unset_term(void)
 {
-	if (tcsetattr(0, TCSANOW, &g_shell->backup_term) == -1)
+	if (tcsetattr(0, TCSADRAIN, &g_shell->backup_term) == -1)
 	{
 		ft_error(1, (char*[])
 	{"warning: Shell's parent term mode restoration failed"}, 1);

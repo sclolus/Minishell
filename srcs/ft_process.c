@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:31:24 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/12 02:45:39 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/13 18:30:16 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,37 +22,6 @@ t_process	*ft_t_process_add(t_process **processes, t_process *new)
 	return (new);
 }
 
-static void	ft_print_argv(char **argv)
-{
-	while (*argv)
-		ft_putendl_fd(*argv++, 2);
-}
-
-void		ft_t_process_print(t_process *process)
-{
-	int ret;
-
-	while (process)
-	{
-		ft_putstr_fd("\ncurrent process: ", 2);
-		ft_print_argv(process->argv);
-		ft_putstr_fd("\npid: ", 2);
-		ft_putnbr_fd(process->pid, 2);
-		ft_putstr_fd("\ngpid: ", 2);
-		ft_putnbr_fd(process->gpid, 2);
-		ft_putstr_fd("\nreal pgid: ", 2);
-		ft_putnbr_fd(getpgid(process->pid), 2);
-		ft_putendl_fd("______", 2);
-		ft_putstr_fd("current status: ", 2);
-		ft_putnbr(waitpid(-process->gpid, &ret, WNOHANG | WUNTRACED));
-		if (WIFSTOPPED(ret))
-			ft_putstr_fd("stopped", 2);
-		else
-			ft_putstr_fd("running", 2);
-		process = process->next;
-	}
-}
-
 void		ft_clear_processes(t_process **processes)
 {
 	t_process	*curr_process;
@@ -62,6 +31,7 @@ void		ft_clear_processes(t_process **processes)
 	kill(-curr_process->gpid, SIGKILL);
 	while (curr_process)
 	{
+		kill(curr_process->pid, SIGKILL);
 		free(curr_process->argv);
 		tmp = curr_process;
 		if (curr_process->next)
@@ -75,8 +45,8 @@ void		ft_put_processes_in_foreground(t_process *process, int cont)
 {
 	ft_unset_term();
 	ft_unset_insert();
-	if (tcsetpgrp(g_shell->terminal, process->gpid) == 1)
-		ft_error_exit(1, (char*[]){"Failed to put pipeline in forground"}, 2);
+	if (tcsetpgrp(g_shell->terminal, process->gpid) == -1)
+		ft_error_exit(1, (char*[]){"Failed to put pipeline in foreground"}, 2);
 	if (cont)
 		kill(-process->gpid, SIGCONT);
 }

@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/12 09:50:39 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/13 18:01:54 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,6 +299,7 @@ void				ft_handler_cont(int signum);
 */
 
 void				ft_free_argv(char **argv);
+void				ft_free_strsplit(char **split);
 
 /*
 ** Processes

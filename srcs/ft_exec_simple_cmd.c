@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 22:20:45 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/13 17:00:25 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/13 18:06:41 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,14 @@ static void	ft_exec_cmd_bin(char **argv, t_shenv *shenv, char *path
 {
 	char	*bin;
 
-	if (!(path = ft_strjoin_f(path, "/", 0)))
+	if (!(path = ft_strjoin(path, "/")))
 		ft_error_exit(2, (char *[]){ERR_MALLOC, argv[0]}, EXIT_FAILURE);
 	if (!(bin = ft_strjoin(path, argv[0])))
 		ft_error_exit(2, (char *[]){ERR_MALLOC, bin}, EXIT_FAILURE);
 	if (access(bin, X_OK))
 		ft_error_exit(2, (char *[]){ERR_PERM_DENIED, bin}
 		, EXIT_NO_PERM);
-	free(env_values);
+	ft_free_strsplit(env_values);
 	execve(bin, argv, shenv->env->env);
 	ft_error_exit(2, (char *[]){ERR_PERM_DENIED, bin}, EXIT_NO_PERM);
 	exit(EXIT_FAILURE);
@@ -66,7 +66,7 @@ void		ft_exec_cmd(char **argv, t_shenv *shenv)
 	env_values = ft_get_env_value(shenv->env->env, "PATH");
 	if (!(path = ft_find_command(argv[0], env_values)))
 	{
-		free(env_values);
+		ft_free_strsplit(env_values);
 		if (ft_find_file(argv[0], shenv->env) > 0)
 		{
 			if (!ft_check_exec_perm(argv[0]))

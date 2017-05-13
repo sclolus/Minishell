@@ -1,6 +1,10 @@
 NAME= minishell
 CC= gcc
+<<<<<<< HEAD
 FLAGS= -Wall -Werror -Wextra -g      -fsanitize=address -fsanitize-blacklist=my_ignores.txt
+=======
+FLAGS= -Wall -Werror -Wextra -g   #   -fsanitize=address -fsanitize-blacklist=my_ignores.txt
+>>>>>>> d314e1264391b8906315e7e523dd76750710dfa8
 SRC= srcs/minishell.c \
 	srcs/ft_init_shell.c \
 	srcs/ft_get_shell_parser.c \
@@ -40,6 +44,7 @@ SRC= srcs/minishell.c \
 	srcs/ft_process.c \
 	srcs/ft_error.c \
 	srcs/ft_redirection.c \
+	srcs/ft_free_strsplit.c \
 	srcs/ft_redirections_input.c \
 	srcs/ft_redirections_output.c \
 	srcs/ft_redirections_duplicating.c \

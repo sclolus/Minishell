@@ -265,6 +265,7 @@ char				*ft_get_bin_path(char *pathname, char *filename);
 
 t_shenv				*ft_init_shenv(uint32_t argc, char **env);
 t_shenv				**ft_get_shenv(void);
+char				*ft_find_env(char const **env, char const *variable);
 t_env				*ft_get_env(t_shenv *shenv);
 char				**ft_find_var(t_shenv *shenv, char *var);
 int32_t				ft_shenv_get_env_count(t_shenv *shenv);

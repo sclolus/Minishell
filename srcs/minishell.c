@@ -72,7 +72,7 @@ static void	ft_main_loop(t_parser *parser, char **line, t_shenv *shenv)
 	{
 		ft_set_and_put_prompt(NORMAL_PROMPT);
 		multi = 0;
-		if (ft_termget_complete_line(line, shenv) != ((ft_get_history_list())
+		if (ft_termget_complete_line(line, shenv) != (*(ft_get_history_list())
 		? ft_strlen((*ft_get_history_list())->content) : 0))
 			multi = 1;
 		if (!(tokens = ft_get_tokens(*line)))

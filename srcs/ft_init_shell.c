@@ -20,9 +20,9 @@ void	ft_init_shell(void)
 	g_shell->interactive = isatty(g_shell->terminal);
 	if (g_shell->interactive)
 	{
-		/* while (tcgetpgrp(g_shell->interactive) */
-		/*	!= (g_shell->shell_pgid = getpgrp())) */
-		/*	kill(-g_shell->shell_pgid, SIGSTOP); */
+		while (tcgetpgrp(g_shell->interactive)
+			!= (g_shell->shell_pgid = getpgrp()))
+			kill(-g_shell->shell_pgid, SIGSTOP);
 		ft_ignore_signals();
 		g_shell->shell_pgid = getpid();
 		if (-1 == (setpgid(g_shell->shell_pgid, g_shell->shell_pgid)))
@@ -31,7 +31,7 @@ void	ft_init_shell(void)
 		tcgetattr(g_shell->terminal, &g_shell->backup_term);
 		if (-1 == ft_set_term())
 			ft_error_exit(1, (char*[]){"Shell initialization failed"}, 1);
-		/* ft_setup_sighandlers(); */
+		ft_setup_sighandlers();
 	}
 }
 

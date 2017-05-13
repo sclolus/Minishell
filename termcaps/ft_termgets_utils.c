@@ -6,7 +6,7 @@
 /*   By: aalves <aalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/12 15:23:54 by aalves            #+#    #+#             */
-/*   Updated: 2017/05/12 15:24:23 by aalves           ###   ########.fr       */
+/*   Updated: 2017/05/13 12:27:32 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void		ft_append_line(char **line, char **final, uint32_t type)
 	char		*tmp_str;
 
 	if (!*final)
-		*final = ft_strdup(*line);
+		if (!(*final = ft_strdup(*line)))
+			exit(EXIT_FAILURE);
 	else
 	{
 		tmp = *final;

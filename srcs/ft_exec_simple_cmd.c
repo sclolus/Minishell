@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 22:20:45 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/12 09:18:50 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/13 17:00:25 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,33 @@ int32_t		ft_exec_cmd_prefix(t_parser *cmd_prefix, t_shenv *shenv)
 	return (0);
 }
 
-void		ft_exec_cmd(char **argv, t_shenv *shenv)
+static void	ft_exec_cmd_bin(char **argv, t_shenv *shenv, char *path
+							, char **env_values)
 {
 	char	*bin;
+
+	if (!(path = ft_strjoin_f(path, "/", 0)))
+		ft_error_exit(2, (char *[]){ERR_MALLOC, argv[0]}, EXIT_FAILURE);
+	if (!(bin = ft_strjoin(path, argv[0])))
+		ft_error_exit(2, (char *[]){ERR_MALLOC, bin}, EXIT_FAILURE);
+	if (access(bin, X_OK))
+		ft_error_exit(2, (char *[]){ERR_PERM_DENIED, bin}
+		, EXIT_NO_PERM);
+	free(env_values);
+	execve(bin, argv, shenv->env->env);
+	ft_error_exit(2, (char *[]){ERR_PERM_DENIED, bin}, EXIT_NO_PERM);
+	exit(EXIT_FAILURE);
+}
+
+void		ft_exec_cmd(char **argv, t_shenv *shenv)
+{
+	char	**env_values;
 	char	*path;
 
-	if (!(path = ft_find_command(argv[0], ft_get_env_value(shenv->env->env,
-																"PATH"))))
+	env_values = ft_get_env_value(shenv->env->env, "PATH");
+	if (!(path = ft_find_command(argv[0], env_values)))
 	{
+		free(env_values);
 		if (ft_find_file(argv[0], shenv->env) > 0)
 		{
 			if (!ft_check_exec_perm(argv[0]))
@@ -57,16 +76,7 @@ void		ft_exec_cmd(char **argv, t_shenv *shenv)
 		}
 		ft_error_exit(2, (char *[]){ERR_ILL_CMD, argv[0]}, EXIT_ILLEGAL_CMD);
 	}
-	if (!(path = ft_strjoin_f(path, "/", 0)))
-		ft_error_exit(2, (char *[]){ERR_MALLOC, argv[0]}, EXIT_FAILURE);
-	if (!(bin = ft_strjoin(path, argv[0])))
-		ft_error_exit(2, (char *[]){ERR_MALLOC, bin}, EXIT_FAILURE);
-	if (access(bin, X_OK))
-		ft_error_exit(2, (char *[]){ERR_PERM_DENIED, bin}
-		, EXIT_NO_PERM);
-	execve(bin, argv, shenv->env->env);
-	ft_error_exit(2, (char *[]){ERR_PERM_DENIED, bin}, EXIT_NO_PERM);
-	exit(EXIT_FAILURE);
+	ft_exec_cmd_bin(argv, shenv, path, env_values);
 }
 
 int32_t		ft_exec_simple_cmd(t_parser *simple_cmd, t_shenv *shenv)

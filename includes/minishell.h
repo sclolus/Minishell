@@ -24,6 +24,7 @@
 # include "termcaps.h"
 # include "termios_handler.h"
 # include "ft_completion.h"
+# include "ft_new_completion.h"
 # include "ast.h"
 
 # define SHELL_NAME "minishell: "

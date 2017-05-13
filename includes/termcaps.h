@@ -108,8 +108,7 @@ int32_t				ft_complete_argv(t_string *buf, t_shenv *shenv);
 int32_t				ft_completion_normal_state(t_string *buf, t_shenv *shenv);
 int32_t				ft_complete_command_name(t_string *buf, t_shenv *shenv);
 int32_t				ft_put_max_completion(t_string *buf, char **completions
-									, char *prefix, uint32_t n)
-
+						      , char *prefix, uint32_t n);
 int					ft_putterm(int c);
 void				ft_termcaps_putstr(t_string *buf, char *str);
 t_termcaps_state	*ft_get_term_state(void);

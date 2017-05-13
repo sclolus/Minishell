@@ -19,5 +19,12 @@ char		**ft_get_completions(char **tab, char *to_complete);
 char		*ft_get_file_name(char *file);
 char		*ft_get_path_name(char *file);
 char		**ft_lsttotab_completion(t_list *lst);
+t_list		*ft_completion_add_directory(char *path);
+t_list		*ft_completion_add_directory_bin(char *path);
+char		**ft_get_completions_tab(char *command_prefix);
+char		**ft_get_command_directory_completions_tab(char *command_prefix);
+void		ft_merge_lists(t_list **a, t_list *b);
+char		**ft_get_command_bin_completions_tab(char *command_prefix, char **path);
+void	ft_free_completions_lst(t_list *lst);
 
 #endif

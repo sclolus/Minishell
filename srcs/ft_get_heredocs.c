@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 18:55:24 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/12 04:22:27 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/13 19:28:01 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ void		ft_get_heredoc(t_heredoc *heredoc, t_shenv *shenv)
 		heredoc_input = ft_strjoin_f_safe(heredoc_input, "\n", 0);
 		offset += ft_strlen(heredoc_input + offset);
 		ft_put_prompt();
-		ft_termget(&tmp, shenv);
+		if ((ft_termget(&tmp, shenv)) == (uint32_t)-1)
+			break ;
 		if (!(ft_strcmp(tmp, heredoc->delimiter)))
 			break ;
 		heredoc_input = ft_strjoin_f_safe(heredoc_input, tmp, 0);

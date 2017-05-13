@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 13:48:47 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/14 00:29:16 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/14 00:54:03 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,29 +78,16 @@ int32_t			ft_complete_command_directory(t_string *buf, t_shenv *shenv,
 												char *command_prefix)
 {
 	char		**completions;
-	t_ltree		*ltree;
 	char		*path;
-	char		*filename;
 	uint32_t	ret;
 
-	ltree = NULL;
-	if (shenv)
-		;
+	(void)shenv;
 	if (!(path = ft_get_path_name(command_prefix)))
 		return (0);
-	if (!(ft_ltree_add_directory_bin(&ltree, path)))
-	{
-		ft_free_ltree(ltree);
+	if (!(completions = ft_completion_add_directory(command_prefix)))
 		return (0);
-	}
-	if (!(filename = ft_get_file_name(command_prefix)) &&
-									ft_free_ltree(ltree))
-		return (0);
-	if (!(completions = ft_get_ltree_suffixes(ltree, filename)) &&
-												ft_free_ltree(ltree))
-		return (0);
-//	ret = ft_put_completion(ltree, completions, buf, filename);
-	ft_free_ltree(ltree);
+	ret = ft_put_completion(completions, buf, command_prefix);
+	ft_free_completion_tab(completions);
 	return (ret);
 }
 

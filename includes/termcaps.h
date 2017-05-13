@@ -123,6 +123,7 @@ uint32_t			ft_termget_cleanup(char *tmp, t_string *buf, char **line);
 void				ft_buf_update(t_string *buf, char *tmp);
 void				ft_termget_buf_setup(t_string *buf);
 int32_t				ft_term_line_continuation(char *line);
+int32_t				ft_term_line_continuation2(int32_t ret);
 uint32_t			ft_termget_complete_line(char **line, t_shenv *shenv);
 
 void				ft_move_left_cursor(t_string *buf);

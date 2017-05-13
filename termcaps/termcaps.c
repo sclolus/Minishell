@@ -77,22 +77,7 @@ int32_t		ft_term_line_continuation(char *line)
 	int32_t							ret;
 
 	if ((ret = ft_is_unbalanced(line)))
-	{
-		if (ret >= 4)
-		{
-			if (*ft_get_current_prompt() == DOUBLE_QUOTE)
-				return (0);
-			ft_set_and_put_prompt(DOUBLE_QUOTE);
-			return (ret);
-		}
-		else if (ret == 2)
-		{
-			if (*ft_get_current_prompt() == SINGLE_QUOTE)
-				return (0);
-			ft_set_and_put_prompt(SINGLE_QUOTE);
-			return (ret);
-		}
-	}
+		return (ft_term_line_continuation2(ret));
 	else if (ft_is_line_backslash_terminated(line))
 	{
 		ft_set_and_put_prompt(LINE_CONTINUATION);

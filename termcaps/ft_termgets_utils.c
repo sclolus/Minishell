@@ -41,3 +41,23 @@ void		ft_append_line(char **line, char **final, uint32_t type)
 		free(tmp);
 	}
 }
+
+
+int32_t		ft_term_line_continuation2(int32_t ret)
+{
+	if (ret >= 4)
+	{
+		if (*ft_get_current_prompt() == DOUBLE_QUOTE)
+			return (0);
+		ft_set_and_put_prompt(DOUBLE_QUOTE);
+		return (ret);
+	}
+	else if (ret == 2)
+	{
+		if (*ft_get_current_prompt() == SINGLE_QUOTE)
+			return (0);
+		ft_set_and_put_prompt(SINGLE_QUOTE);
+		return (ret);
+	}
+	return (-1);
+}

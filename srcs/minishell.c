@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 #include "minishell.h"
 #include "get_next_line.h"
 

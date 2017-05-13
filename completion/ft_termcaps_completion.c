@@ -6,13 +6,13 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 09:50:12 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/08 17:35:15 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/14 00:13:26 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int32_t			ft_put_completion(t_ltree *ltree, char **completions,
+int32_t			ft_put_completion(char **completions,
 									t_string *buf, char *prefix)
 {
 	uint32_t	i;
@@ -28,7 +28,7 @@ int32_t			ft_put_completion(t_ltree *ltree, char **completions,
 	}
 	while (completions[n])
 		n++;
-	if ((ret = ft_put_max_completion(ltree, buf, prefix, n)) > -1)
+	if ((ret = ft_put_max_completion(buf, prefix, n)) > -1)
 	{
 		ft_free_argv(completions);
 		return (ret);

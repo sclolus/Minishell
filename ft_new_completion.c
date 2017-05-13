@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/13 20:34:22 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/13 23:30:11 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/14 00:23:28 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,3 +244,58 @@ char	*ft_get_max_completion(char **tab, char *to_complete)
 /* 		return (0); */
 /* 	return (1); */
 /* } */
+
+/* char	**ft_get_completions_bin(char **tab, char *to_complete, char **path) */
+/* { */
+/* 	char		*pathname; */
+/* 	char		*filename; */
+/* 	uint32_t	i; */
+/* 	uint32_t	count; */
+/* 	uint32_t	offset; */
+
+/* 	i = 0; */
+/* 	count = 0; */
+/* 	offset = 0; */
+/* 	if (!(filename = ft_get_file_name(to_complete))) */
+/* 		return (NULL); */
+/* 	pathname = ft_get_path_name(to_complete); */
+/* 	if (pathname) */
+/* 		offset = ft_strlen(pathname); */
+/* 	while (tab[i]) */
+/* 	{ */
+/* 		if (ft_strstr(tab[i] + offset, filename) == tab[i] + offset) */
+/* 		{ */
+/* 			if (!(tab[count] = ft_strdup(tab[i] + offset))) */
+/* 				exit(EXIT_FAILURE); */
+/* 			if (tab[count] != tab[i]) */
+/* 				free(tab[i]); */
+/* 			count++; */
+/* 		} */
+/* 		i++; */
+/* 	} */
+/* 	tab[count] = NULL; */
+/* 	return (tab); */
+/* } */
+
+static void	ft_free_completions_lst(t_list *lst)
+{
+	while (lst)
+	{
+		free(lst->content);
+		lst = lst->next;
+	}
+}
+
+char		**ft_get_completions_tab(char *command_prefix)
+{
+	char	**tab;
+	t_list	*lst;
+
+	if (!(lst = ft_completion_add_directory(command_prefix)))
+		return (NULL);
+	tab = ft_lsttotab_completion(lst);
+	ft_free_completions_lst(lst);
+	tab = ft_get_completions(tab, command_prefix);
+//	max = ft_get_max_completion(tab, command_prefix);
+	return (tab);
+}

@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 03:26:22 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/13 12:29:24 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/14 00:26:43 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,13 +102,13 @@ typedef struct		s_term_event
 int32_t				ft_completion(t_string *buf, t_shenv *shenv);
 int32_t				ft_put_completions(t_string *buf, char **completions,
 								uint32_t n, char *prefix);
-int32_t				ft_put_completion(t_ltree *ltree, char **completions,
+int32_t				ft_put_completion(char **completions,
 								t_string *buf, char *prefix);
 int32_t				ft_complete_argv(t_string *buf, t_shenv *shenv);
 int32_t				ft_completion_normal_state(t_string *buf, t_shenv *shenv);
 int32_t				ft_complete_command_name(t_string *buf, t_shenv *shenv);
-int32_t				ft_put_max_completion(t_ltree *ltree, t_string *buf,
-									char *prefix, uint32_t n);
+int32_t				ft_put_max_completion(t_string *buf, char **completions
+									, char *prefix, uint32_t n)
 
 int					ft_putterm(int c);
 void				ft_termcaps_putstr(t_string *buf, char *str);

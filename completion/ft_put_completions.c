@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 13:42:20 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/09 06:46:14 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/14 00:25:39 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ static void		ft_termcaps_go_back_to_offset(t_string *buf, int64_t old_offset)
 	}
 }
 
-int32_t			ft_put_max_completion(t_ltree *ltree, t_string *buf,
-										char *prefix, uint32_t n)
+int32_t			ft_put_max_completion(t_string *buf, char **completions
+									, char *prefix, uint32_t n)
 {
 	char		*max_completion;
 
-	if ((max_completion = ft_ltree_get_completion(ltree, prefix)))
+	if ((max_completion = ft_get_max_completion(completions, prefix)))
 	{
 		if (*max_completion)
 		{

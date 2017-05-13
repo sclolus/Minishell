@@ -90,19 +90,15 @@ int32_t			ft_complete_command_directory(t_string *buf, t_shenv *shenv,
 		return (0);
 	if (!(ft_ltree_add_directory_bin(&ltree, path)))
 	{
-	    ft_free_ltree(ltree);
-		return (0);
-	}
-	if (!(filename = ft_get_file_name(command_prefix)))
-	{
-	    ft_free_ltree(ltree);
-		return (0);
-	}
-	if (!(completions = ft_get_ltree_suffixes(ltree, filename)))
-	{
 		ft_free_ltree(ltree);
 		return (0);
 	}
+	if (!(filename = ft_get_file_name(command_prefix)) &&
+									ft_free_ltree(ltree))
+		return (0);
+	if (!(completions = ft_get_ltree_suffixes(ltree, filename)) &&
+												ft_free_ltree(ltree))
+		return (0);
 	ret = ft_put_completion(ltree, completions, buf, filename);
 	ft_free_ltree(ltree);
 	return (ret);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_completion.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jaustry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/07 03:06:31 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/07 09:52:48 by sclolus          ###   ########.fr       */
+/*   Created: 2017/04/07 03:06:31 by jaustry           #+#    #+#             */
+/*   Updated: 2017/05/07 09:52:48 by jaustry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ uint32_t	ft_ltree_get_suffix_len(t_ltree *node, uint32_t index);
 char		*ft_ltree_get_completion(t_ltree *root, char *prefix);
 t_ltree		*ft_ltree_last_match(t_ltree *root, char *word);
 void		ft_ltree_put(t_ltree *ltree);
-void		ft_free_ltree(t_ltree *root);
+uint32_t	ft_free_ltree(t_ltree *root);
 int32_t		ft_ltree_search(t_ltree *root, char *word);
 t_ltree		*ft_get_alternative_node(t_ltree *root, char c);
 int32_t		ft_ltree_search(t_ltree *root, char *word);

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_completion.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jaustry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/07 03:06:29 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/13 06:13:24 by sclolus          ###   ########.fr       */
+/*   Created: 2017/04/07 03:06:29 by jaustry           #+#    #+#             */
+/*   Updated: 2017/04/13 06:13:24 by jaustry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_completion.h"
 
-int32_t			ft_ltree_search(t_ltree *root, char *word)
+int32_t				ft_ltree_search(t_ltree *root, char *word)
 {
 	if (!root)
 		return (0);
@@ -27,8 +27,8 @@ int32_t			ft_ltree_search(t_ltree *root, char *word)
 	return (0);
 }
 
-static t_ltree	*ft_get_matching_alternative(t_ltree *node
-											, t_ltree **root, char c)
+static t_ltree		*ft_get_matching_alternative(t_ltree *node,
+												t_ltree **root, char c)
 {
 	while (node)
 	{
@@ -42,11 +42,11 @@ static t_ltree	*ft_get_matching_alternative(t_ltree *node
 	return (node);
 }
 
-t_ltree			*ft_ltree_last_match(t_ltree *root, char *word)
+t_ltree				*ft_ltree_last_match(t_ltree *root, char *word)
 {
-	t_ltree		*last_match;
-	t_ltree		*node;
-	uint32_t	i;
+	t_ltree			*last_match;
+	t_ltree			*node;
+	uint32_t		i;
 
 	i = 0;
 	if (!root)
@@ -71,7 +71,7 @@ t_ltree			*ft_ltree_last_match(t_ltree *root, char *word)
 	return (NULL);
 }
 
-void			ft_ltree_put(t_ltree *root)
+void				ft_ltree_put(t_ltree *root)
 {
 	if (root->c == '\0')
 		ft_putchar('\n');
@@ -86,10 +86,10 @@ void			ft_ltree_put(t_ltree *root)
 	}
 }
 
-char			**ft_get_matching_filenames(char *prefix)
+char				**ft_get_matching_filenames(char *prefix)
 {
-	char	**strings;
-	t_ltree	*ltree;
+	char			**strings;
+	t_ltree			*ltree;
 
 	ltree = ft_get_ltree_directory(".");
 	strings = ft_get_ltree_suffixes(ltree, prefix);

@@ -1,1 +1,1 @@
-func:ft_strlen
+fun:ft_strlen

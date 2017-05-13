@@ -144,10 +144,10 @@ uint32_t	ft_termget_complete_line(char **line, t_shenv *shenv)
 	if ((len = ft_termget(line, shenv)) == -1)
 		return (ft_strlen(*line));
 	final = NULL;
-		    (*ft_get_line_attributes()).multiple_lines = 0;
+	(*ft_get_line_attributes()).multiple_lines = 0;
 	while ((ret = ft_term_line_continuation(*line)))
 	{
-	    (*ft_get_line_attributes()).multiple_lines = 1;
+		(*ft_get_line_attributes()).multiple_lines = 1;
 		if (!final)
 			ft_append_line(line, &final, 0);
 		if (ret != 1)

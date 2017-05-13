@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 13:48:47 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/14 00:54:03 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/14 01:23:14 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,27 +50,24 @@ int32_t			ft_complete_path_commands(t_string *buf, t_shenv *shenv,
 {
 	char		**completions;
 	char		**path;
-	t_ltree		*ltree;
 	uint32_t	i;
 	int32_t		ret;
 
+	if (ft_get_path_name(command_prefix))
+		return (0);
 	ltree = NULL;
 	(i = 0) ? 0 : ft_free_t_env(shenv->env);
 	shenv->env = ft_get_env(shenv);
 	if (!(path = ft_get_env_value(shenv->env->env, "PATH")))
 		return (0);
-	if (!ft_fuk_norminette3(path, &ltree))
-		return (0);
-	ft_free_argv(path);
-	if (!(completions = ft_get_ltree_suffixes(ltree, command_prefix)))
+	if (!(completions = ft_get_command_bin_completions_tab(command_prefix, path)))
 	{
-		ft_free_ltree(ltree);
-		ft_free_t_env(shenv->env);
-		shenv->env = NULL;
+		ft_free_argv(path);
 		return (0);
 	}
-	//ret = ft_put_completion(ltree, completions, buf, command_prefix);
-	ft_free_ltree(ltree);
+	ret = ft_put_completion(ltree, completions, buf, command_prefix);
+	ft_free_argv(path);
+	ft_free_completions_tab(completions);
 	return (ret);
 }
 

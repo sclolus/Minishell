@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/13 20:34:22 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/14 00:52:09 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/14 01:20:12 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,6 +249,8 @@ t_list		*ft_completion_add_directory_bin(char *path)
 	return (list_dir);
 }
 
+
+
 static void	ft_free_completions_lst(t_list *lst)
 {
 	while (lst)
@@ -282,4 +284,44 @@ char		**ft_get_command_directory_completions_tab(char *command_prefix)
 	ft_free_completions_lst(lst);
 	tab = ft_get_completions(tab, command_prefix);
 	return (tab);
+}
 
+void		ft_merge_lists(t_list **a, t_list *b)
+{
+	t_list	*tmp;
+
+	if (!*a)
+	{
+		*a = b;
+		return ;
+	}
+	tmp = *a;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = b;
+}
+
+char		**ft_get_command_bin_completions_tab(char *command_prefix, char **path)
+{
+	char		**tab;
+	char		*tmp;
+	t_list		*path_lst;
+	t_list		*lst;
+	uint32_t	i;
+
+	i = 0;
+	path_lst = NULL;
+	while (path[i])
+	{
+		if (!(tmp = ft_strjoin(path[i], command_prefix)))
+			exit(EXIT_FAILURE);
+		if (!(lst = ft_completion_add_command_directory(tmp)))
+			return (NULL);
+		ft_merge_lists(&path_lst, lst);
+		free(tmp);
+	}
+	tab = ft_lsttotab_completion(path_lst);
+	ft_free_completions_lst(path_lst);
+	tab = ft_get_completions(tab, command_prefix);
+	return (tab);
+}

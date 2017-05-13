@@ -29,7 +29,7 @@ char	*ft_get_max_completion(char **tab, char *to_complete)
 			max_offset = tmp;
 		i++;
 	}
-	if (max_offset == ~0 || !max_offset || !tab[0])
+	if (max_offset == ~0U || !max_offset || !tab[0])
 		return (NULL);
 	len = ft_strlen(ft_get_file_name(to_complete));
 	max_offset -= len;

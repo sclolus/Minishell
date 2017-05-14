@@ -30,7 +30,6 @@ char		*ft_get_path_name(char *file)
 	}
 	if (offset > MAX_PATH_NAME - 1)
 	{
-//		ft_error(1, (char*[]){"Pathname too long"}, 2);
 		return (NULL);
 	}
 	if (offset >= 0)

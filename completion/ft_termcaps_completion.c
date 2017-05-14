@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/10 09:50:12 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/14 00:13:26 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/14 02:06:46 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int32_t			ft_put_completion(char **completions,
 	}
 	while (completions[n])
 		n++;
-	if ((ret = ft_put_max_completion(buf, prefix, n)) > -1)
+	if ((ret = ft_put_max_completion(buf, completions, prefix, n)) > -1)
 	{
 		ft_free_argv(completions);
 		return (ret);

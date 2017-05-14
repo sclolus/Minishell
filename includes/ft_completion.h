@@ -6,7 +6,7 @@
 /*   By: jaustry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 03:06:31 by jaustry           #+#    #+#             */
-/*   Updated: 2017/05/07 09:52:48 by jaustry          ###   ########.fr       */
+/*   Updated: 2017/05/14 02:05:45 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,7 @@ int32_t		ft_ltree_add_directory_bin(t_ltree **ltree, char *path);
 void		ft_sanitize_completion(char **completion);
 void		ft_sanitize_completions(char **completions);
 
-void		ft_fuk_norminette(char *tmp, t_ltree **ltree
-							, struct dirent *curr_entry);
+void		ft_fuk_norminette(char **tmp, struct dirent *curr_entry);
 uint32_t	*ft_fuk_norminette2(char **completions, uint32_t n,
 							t_string *buf, int64_t *old_offset);
 uint32_t	ft_fuk_norminette3(char **path, t_ltree **ltree);

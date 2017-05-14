@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 13:51:12 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/14 00:24:55 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/14 02:04:22 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int32_t			ft_complete_argv(t_string *buf, t_shenv *shenv)
 	char		*command_prefix;
 	uint32_t	ret;
 
-	ltree = NULL;
 	command_prefix = ft_get_current_token(buf);
 	(void)shenv;
 	if (!(completions = ft_get_completions_tab(command_prefix)))
@@ -60,7 +59,7 @@ int32_t			ft_complete_argv(t_string *buf, t_shenv *shenv)
 		ft_putchar(7);
 		return (0);
 	}
-	ret = ft_put_completion(ltree, completions, buf, lol[1]);
+	ret = ft_put_completion(completions, buf, command_prefix);
 	ft_free_completion_tab(completions);
 	free(command_prefix);
 	return (ret);

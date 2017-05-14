@@ -45,12 +45,6 @@ static char		*ft_get_current_token(t_string *buf)
 	return (token);
 }
 
-void			ft_put_tab(char **tab) // to remove
-{
-	while (*tab)
-		ft_putendl(*tab++);
-}
-
 int32_t			ft_complete_path_commands(t_string *buf, t_shenv *shenv,
 											char *command_prefix)
 {

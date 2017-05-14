@@ -43,9 +43,8 @@ int32_t		ft_kill_line(t_string *buf, t_list **paste_history)
 	res = tgetstr("cd", NULL);
 	tputs(res, 1, &ft_putterm);
 	if (!(tmp = ft_lstnew(buf->string + buf->offset,
-				ft_strlen(buf->string + buf->offset))))
+				ft_strlen(buf->string + buf->offset) + 1)))
 		exit(EXIT_FAILURE);
-	ft_strcpy(tmp->content, buf->string + buf->offset);
 	ft_lstadd(paste_history, tmp);
 	if (paste_base)
 	{

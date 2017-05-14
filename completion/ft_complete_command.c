@@ -59,7 +59,8 @@ int32_t			ft_complete_path_commands(t_string *buf, t_shenv *shenv,
 	shenv->env = ft_get_env(shenv);
 	if (!(path = ft_get_env_value(shenv->env->env, "PATH")))
 		return (0);
-	if (!(completions = ft_get_command_bin_completions_tab(command_prefix, path)))
+	if (!(completions = ft_get_command_bin_completions_tab(command_prefix,
+																	path)))
 	{
 		ft_free_argv(path);
 		return (0);

@@ -12,7 +12,8 @@
 
 #include "minishell.h"
 
-char		**ft_get_command_bin_completions_tab(char *command_prefix, char **path)
+char		**ft_get_command_bin_completions_tab(char *command_prefix,
+														char **path)
 {
 	char		**tab;
 	char		*tmp;

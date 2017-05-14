@@ -10,12 +10,12 @@ t_list		*ft_completion_add_directory_bin(char *path)
 	t_list			*list_dir;
 
 	list_dir = NULL;
-	tmp_curr_name = NULL;
 	path = ft_get_path_name(path);
 	if (!(curr_dir = opendir(path)))
 		return (NULL);
 	while ((curr_entry = readdir(curr_dir)))
 	{
+		tmp_curr_name = NULL;
 		if (!(tmp = ft_strjoin(path, curr_entry->d_name)))
 			exit(EXIT_FAILURE);
 		if (ft_check_exec_perm(tmp) && ft_strcmp("..", curr_entry->d_name)

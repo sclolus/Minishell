@@ -51,8 +51,9 @@ t_list		*ft_completion_add_directory(char *path)
 		return (NULL);
 	while ((curr_entry = readdir(curr_dir)))
 	{
-	    if (!ft_strcmp(".", curr_entry->d_name) || !ft_strcmp("..", curr_entry->d_name))
-		continue;
+		if (!ft_strcmp(".", curr_entry->d_name) ||
+				!ft_strcmp("..", curr_entry->d_name))
+			continue;
 		make_name(&tmp, &tmp_curr_name, path, curr_entry);
 		list_insert(&list_dir, tmp_curr_name);
 		free(tmp);

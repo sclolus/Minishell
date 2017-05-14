@@ -16,19 +16,9 @@
 void			ft_fuk_norminette(char **tmp, struct dirent *curr_entry
 								, char *filename)
 {
-/* 	if (ft_is_dir(filename)) */
-/* 	{ */
-/* 		if (!(*tmp = ft_strjoin(curr_entry->d_name, "/"))) */
-/* 			exit(EXIT_FAILURE); */
-/* 		ft_sanitize_completion(tmp); */
-/* 	} */
-/* 	else */
-/* 	{ */
-	(void)filename;
-		if (!(*tmp = ft_strdup(curr_entry->d_name)))
-			exit(EXIT_FAILURE);
-		ft_sanitize_completion(tmp);
-/* 	} */
+	if (!(*tmp = ft_strdup(curr_entry->d_name)))
+		exit(EXIT_FAILURE);
+	ft_sanitize_completion(tmp);
 }
 
 static uint32_t	*ft_get_lens_tab(char **strings, uint32_t n)

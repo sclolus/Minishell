@@ -45,7 +45,7 @@ static char		*ft_get_current_token(t_string *buf)
 	return (token);
 }
 
-void		ft_put_tab(char **tab) // to remove
+void			ft_put_tab(char **tab) // to remove
 {
 	while (*tab)
 		ft_putendl(*tab++);

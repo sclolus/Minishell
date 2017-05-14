@@ -36,14 +36,13 @@ char		**ft_get_command_bin_completions_tab(char *command_prefix,
 	path_lst = NULL;
 	while (path[i])
 	{
-		if (!(tmp = ft_strjoin(path[i], "/")))
+		if (!(tmp = ft_strjoin(path[i++], "/")))
 			exit(EXIT_FAILURE);
 		if (!(tmp = ft_strjoin_f(tmp, command_prefix, 0)))
 			exit(EXIT_FAILURE);
 		if (!(lst = ft_completion_add_directory_bin(tmp)))
-			return (NULL);
+			continue ;
 		ft_merge_lists(&path_lst, lst);
-		i++;
 		free(tmp);
 	}
 	tab = ft_lsttotab_completion(path_lst);

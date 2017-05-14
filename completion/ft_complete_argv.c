@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 13:51:12 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/14 03:33:15 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/14 03:36:21 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,6 @@ int32_t			ft_complete_argv(t_string *buf, t_shenv *shenv)
 		ft_putchar(7);
 		return (0);
 	}
-	ft_putendl("");
-	ft_put_completions_tab(completions);
-	ft_putendl("");
 	ret = ft_put_completion(completions, buf, command_prefix);
 	ft_free_completion_tab(completions);
 	free(command_prefix);

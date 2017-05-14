@@ -59,10 +59,7 @@ char		*ft_get_path_name(char *file)
 		return (NULL);
 	}
 	if (offset >= 0)
-	{
-		ft_memcpy(buf, file, offset + 1);
-		buf[offset + 1] = '\0';
-	}
+		ft_memcpy(buf, file, offset + 1) ? buf[offset + 1] = '\0' : 0;
 	else
 		buf[0] = 0;
 	return (buf);

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char		**ft_get_completions_tab(char *command_prefix) // ft_sanitize_completion
+char		**ft_get_completions_tab(char *command_prefix)
 {
 	char	**tab;
 	t_list	*lst;

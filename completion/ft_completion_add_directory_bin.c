@@ -12,13 +12,33 @@
 
 #include "minishell.h"
 
+static void	ft_list_insert(t_list **head, char *val)
+{
+	t_list			*lst;
+
+	if (!(lst = ft_lstnew(0, 0)))
+		exit(EXIT_FAILURE);
+	lst->content = val;
+	ft_lstadd(head, lst);
+}
+
+static void	ft_c_clean(char **tmp, char **tmp_curr_name,
+				char *path, struct dirent *curr_entry)
+{
+	*tmp_curr_name = NULL;
+	if (!(*tmp = ft_strjoin(path, curr_entry->d_name)))
+		exit(EXIT_FAILURE);
+	if (ft_check_exec_perm(*tmp) && ft_strcmp("..", curr_entry->d_name)
+		&& ft_strcmp(".", curr_entry->d_name))
+		ft_fuk_norminette(tmp_curr_name, curr_entry, *tmp);
+}
+
 t_list		*ft_completion_add_directory_bin(char *path)
 {
 	DIR				*curr_dir;
 	struct dirent	*curr_entry;
 	char			*tmp;
 	char			*tmp_curr_name;
-	t_list			*lst;
 	t_list			*list_dir;
 
 	list_dir = NULL;
@@ -27,21 +47,13 @@ t_list		*ft_completion_add_directory_bin(char *path)
 		return (NULL);
 	while ((curr_entry = readdir(curr_dir)))
 	{
-		tmp_curr_name = NULL;
-		if (!(tmp = ft_strjoin(path, curr_entry->d_name)))
-			exit(EXIT_FAILURE);
-		if (ft_check_exec_perm(tmp) && ft_strcmp("..", curr_entry->d_name)
-			&& ft_strcmp(".", curr_entry->d_name))
-			ft_fuk_norminette(&tmp_curr_name, curr_entry, tmp);
+		ft_c_clean(&tmp, &tmp_curr_name, path, curr_entry);
 		if (!(tmp_curr_name))
 		{
 			free(tmp);
 			continue ;
 		}
-		if (!(lst = ft_lstnew(0, 0)))
-			exit(EXIT_FAILURE);
-		lst->content = tmp_curr_name;
-		ft_lstadd(&list_dir, lst);
+		ft_list_insert(&list_dir, tmp_curr_name);
 		free(tmp);
 	}
 	if (closedir(curr_dir) == -1)

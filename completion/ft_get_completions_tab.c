@@ -6,7 +6,7 @@
 /*   By: aalves <aalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/14 01:35:02 by aalves            #+#    #+#             */
-/*   Updated: 2017/05/14 04:57:57 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/14 05:07:52 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_put_lst(t_list *lst)
 	ft_putendl("___END_LIST___");
 }
 
-char		**ft_get_completions_tab(char *command_prefix)
+char		**ft_get_completions_tab(char *command_prefix) // ft_sanitize_completion
 {
 	char	**tab;
 	t_list	*lst;

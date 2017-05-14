@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/14 00:23:47 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/14 00:24:29 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/14 03:28:26 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,12 @@ void	ft_free_completion_tab(char **tab)
 
 void	ft_free_completions_lst(t_list *lst)
 {
+	t_list	*tmp;
+
 	while (lst)
 	{
-		free(lst->content);
+		tmp = lst;
 		lst = lst->next;
+		free(tmp);
 	}
 }

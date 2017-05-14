@@ -73,20 +73,3 @@ int32_t			ft_set_canonical_mode(void)
 		return (-1);
 	return (0);
 }
-
-uint32_t		ft_fuk_norminette3(char **path, t_ltree **ltree)
-{
-	uint32_t	i;
-
-	i = 0;
-	while (path[i])
-	{
-		if (!(ft_ltree_add_directory(ltree, path[i++])))
-		{
-			ft_free_argv(path);
-			ft_free_ltree(*ltree);
-			return (0);
-		}
-	}
-	return (1);
-}

@@ -120,18 +120,16 @@ SRC= srcs/minishell.c \
 	parser/ast/ft_eval_tokens/ft_eval_tokens_misc.c \
 	parser/ast/ft_eval_tokens/ft_eval_tokens_strings.c \
 	new_completion/ft_completion_add_directory.c \
-	new_completion/ft_free_completion_tab.c \
+	new_completion/ft_free_completion.c \
 	new_completion/ft_get_command_bin_completions_tab.c \
 	new_completion/ft_get_command_directory_completions_tab.c \
 	new_completion/ft_get_completions.c \
 	new_completion/ft_get_completions_tab.c \
-	new_completion/ft_get_filename.c \
 	new_completion/ft_get_max_common_len.c \
 	new_completion/ft_get_max_completion.c \
-	new_completion/ft_get_path_name.c \
 	new_completion/ft_lsttotab_completion.c \
 	new_completion/ft_merge_lists.c \
-	completion/ft_completion.c \
+	new_completion/ft_completion_add_directory_bin.c \
 	completion/ft_put_completions.c \
 	completion/ft_complete_command.c \
 	completion/ft_complete_argv.c \

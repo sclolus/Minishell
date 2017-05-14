@@ -6,7 +6,7 @@
 /*   By: aalves <aalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/14 00:13:44 by aalves            #+#    #+#             */
-/*   Updated: 2017/05/14 04:03:33 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/14 04:13:53 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,8 @@ t_list		*ft_completion_add_directory(char *path)
 
 	list_dir = NULL;
 	path = ft_get_path_name(path);
-	ft_putstr("____PATH_____");
-	ft_putendl(path);
-	ft_putendl("___END_PATH_____\n");
 	if (!(curr_dir = opendir(!*path ? "." : path)))
-		ft_error_exit(1, (char*[]){"Failed to open completion directory"}, 4);
+		return (NULL);
 	while ((curr_entry = readdir(curr_dir)))
 	{
 		make_name(&tmp, &tmp_curr_name, path, curr_entry);

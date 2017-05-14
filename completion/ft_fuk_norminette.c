@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 10:26:42 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/14 05:28:04 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/14 06:32:17 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,19 @@
 void			ft_fuk_norminette(char **tmp, struct dirent *curr_entry
 								, char *filename)
 {
-	if (ft_is_dir(filename))
-	{
-		if (!(*tmp = ft_strjoin(curr_entry->d_name, "/")))
-			exit(EXIT_FAILURE);
-		ft_sanitize_completion(tmp);
-	}
-	else
-	{
+/* 	if (ft_is_dir(filename)) */
+/* 	{ */
+/* 		if (!(*tmp = ft_strjoin(curr_entry->d_name, "/"))) */
+/* 			exit(EXIT_FAILURE); */
+/* 		ft_sanitize_completion(tmp); */
+/* 	} */
+/* 	else */
+/* 	{ */
+	(void)filename;
 		if (!(*tmp = ft_strdup(curr_entry->d_name)))
 			exit(EXIT_FAILURE);
 		ft_sanitize_completion(tmp);
-	}
+/* 	} */
 }
 
 static uint32_t	*ft_get_lens_tab(char **strings, uint32_t n)

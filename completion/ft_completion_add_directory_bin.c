@@ -26,9 +26,6 @@ t_list		*ft_completion_add_directory_bin(char *path)
 			free(tmp);
 			continue ;
 		}
-		else
-			if (!(tmp_curr_name = ft_strjoin_f(path, tmp_curr_name, 1)))
-				exit(EXIT_FAILURE);
 		if (!(lst = ft_lstnew(0, 0)))
 			exit(EXIT_FAILURE);
 		lst->content = tmp_curr_name;

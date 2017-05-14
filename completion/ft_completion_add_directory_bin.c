@@ -13,7 +13,7 @@ t_list		*ft_completion_add_directory_bin(char *path)
 	tmp_curr_name = NULL;
 	path = ft_get_path_name(path);
 	if (!(curr_dir = opendir(path)))
-		ft_error_exit(1, (char*[]){"Failed to open completion directory"}, 4);
+		return (NULL);
 	while ((curr_entry = readdir(curr_dir)))
 	{
 		if (!(tmp = ft_strjoin(path, curr_entry->d_name)))

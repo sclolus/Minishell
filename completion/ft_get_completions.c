@@ -6,7 +6,7 @@
 /*   By: aalves <aalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/14 00:13:49 by aalves            #+#    #+#             */
-/*   Updated: 2017/05/14 04:53:42 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/14 04:58:42 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ char			**ft_get_completions(char **tab, char *to_complete)
 	{
 		if (ft_strstr(tab[i] + offset, filename) == tab[i] + offset)
 		{
-			if (tab[count] != tab[i])
-				free(tab[count]);
 			if (!(tab[count] = ft_strdup(tab[i] + offset)))
 				exit(EXIT_FAILURE);
 			count++;

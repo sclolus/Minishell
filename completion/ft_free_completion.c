@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/14 00:23:47 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/14 03:28:26 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/14 04:57:51 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	ft_free_completions_lst(t_list *lst)
 
 	while (lst)
 	{
+		free(lst->content);
 		tmp = lst;
 		lst = lst->next;
 		free(tmp);

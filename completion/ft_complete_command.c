@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 13:48:47 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/14 05:42:10 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/14 06:12:13 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,12 @@ int32_t			ft_complete_path_commands(t_string *buf, t_shenv *shenv,
 {
 	char		**completions;
 	char		**path;
+	char		*pathname;
 	uint32_t	i;
 	int32_t		ret;
 
-	if (ft_get_path_name(command_prefix))
+	pathname = ft_get_path_name(command_prefix);
+	if (!pathname || *pathname)
 		return (0);
 	(i = 0) ? 0 : ft_free_t_env(shenv->env);
 	shenv->env = ft_get_env(shenv);

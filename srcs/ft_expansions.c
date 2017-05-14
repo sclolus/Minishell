@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 05:08:11 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/29 01:52:47 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/14 04:08:23 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ char		*ft_get_path_name(char *file)
 		ft_memcpy(buf, file, offset + 1);
 		buf[offset + 1] = '\0';
 	}
+	else
+		buf[0] = 0;
 	return (buf);
 }
 

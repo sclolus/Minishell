@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "completion.h"
+#include "ft_new_completion.h"
 
 void	ft_free_completion_tab(char **tab)
 {

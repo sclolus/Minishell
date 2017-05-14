@@ -6,16 +6,17 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 10:26:42 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/14 02:05:59 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/14 05:28:04 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_completion.h"
 #include "minishell.h"
 
-void			ft_fuk_norminette(char **tmp, struct dirent *curr_entry)
+void			ft_fuk_norminette(char **tmp, struct dirent *curr_entry
+								, char *filename)
 {
-	if (ft_is_dir(*tmp))
+	if (ft_is_dir(filename))
 	{
 		if (!(*tmp = ft_strjoin(curr_entry->d_name, "/")))
 			exit(EXIT_FAILURE);

@@ -30,7 +30,7 @@ char			**ft_get_completions(char **tab, char *to_complete)
 	initlol(&i, &count, &offset);
 	if (!(filename = ft_get_file_name(to_complete)))
 		return (NULL);
-	if ((pathname = ft_get_path_name(to_complete)))
+	if ((pathname = ft_get_path_name(to_complete)) && *ft_get_term_state() != 2)
 		offset = ft_strlen(pathname);
 	while (tab[i])
 	{

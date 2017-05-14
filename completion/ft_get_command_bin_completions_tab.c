@@ -12,8 +12,7 @@
 
 #include "minishell.h"
 
-
-void	ft_put_lst(t_list *lst)
+void		ft_put_lst(t_list *lst)
 {
 	ft_putendl("___LIST___");
 	while (lst)
@@ -23,7 +22,6 @@ void	ft_put_lst(t_list *lst)
 	}
 	ft_putendl("___END_LIST___");
 }
-
 
 char		**ft_get_command_bin_completions_tab(char *command_prefix,
 														char **path)

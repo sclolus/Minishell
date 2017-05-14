@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 13:48:47 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/14 06:12:13 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/14 06:16:07 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,12 @@ static char		*ft_get_current_token(t_string *buf)
 	return (token);
 }
 
+void		ft_put_tab(char **tab) // to remove
+{
+	while (*tab)
+		ft_putendl(*tab++);
+}
+
 int32_t			ft_complete_path_commands(t_string *buf, t_shenv *shenv,
 											char *command_prefix)
 {
@@ -67,6 +73,7 @@ int32_t			ft_complete_path_commands(t_string *buf, t_shenv *shenv,
 		ft_free_argv(path);
 		return (0);
 	}
+	ft_put_tab(completions);
 	ret = ft_put_completion(completions, buf, command_prefix);
 	ft_free_argv(path);
 	ft_free_completion_tab(completions);

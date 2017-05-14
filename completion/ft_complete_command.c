@@ -81,7 +81,8 @@ int32_t			ft_complete_command_directory(t_string *buf, t_shenv *shenv,
 	(void)shenv;
 	if (!(path = ft_get_path_name(command_prefix)))
 		return (0);
-	if (!(completions = ft_get_command_directory_completions_tab(command_prefix)))
+	if (!(completions =
+		ft_get_command_directory_completions_tab(command_prefix)))
 		return (0);
 	ret = ft_put_completion(completions, buf, command_prefix);
 	ft_free_completion_tab(completions);

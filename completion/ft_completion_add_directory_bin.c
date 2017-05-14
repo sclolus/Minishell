@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_completion_add_directory_bin.c                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jaustry <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/14 06:20:42 by jaustry           #+#    #+#             */
+/*   Updated: 2017/05/14 06:20:49 by jaustry          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 t_list		*ft_completion_add_directory_bin(char *path)
@@ -26,9 +38,8 @@ t_list		*ft_completion_add_directory_bin(char *path)
 			free(tmp);
 			continue ;
 		}
-		else
-			if (!(tmp_curr_name = ft_strjoin_f(path, tmp_curr_name, 1)))
-				exit(EXIT_FAILURE);
+		else if (!(tmp_curr_name = ft_strjoin_f(path, tmp_curr_name, 1)))
+			exit(EXIT_FAILURE);
 		if (!(lst = ft_lstnew(0, 0)))
 			exit(EXIT_FAILURE);
 		lst->content = tmp_curr_name;

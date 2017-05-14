@@ -10,6 +10,7 @@ t_list		*ft_completion_add_directory_bin(char *path)
 	t_list			*list_dir;
 
 	list_dir = NULL;
+	tmp_curr_name = NULL;
 	path = ft_get_path_name(path);
 	if (!(curr_dir = opendir(path)))
 		ft_error_exit(1, (char*[]){"Failed to open completion directory"}, 4);
@@ -20,7 +21,7 @@ t_list		*ft_completion_add_directory_bin(char *path)
 		if (ft_check_exec_perm(tmp) && ft_strcmp("..", curr_entry->d_name)
 			&& ft_strcmp(".", curr_entry->d_name))
 			ft_fuk_norminette(&tmp_curr_name, curr_entry);
-		if (!(tmp_curr_name = ft_strjoin_f(path, tmp_curr_name, 1)))
+		if (!(tmp_curr_name = ft_strjoin_f(path, tmp_curr_name, (tmp_curr_name != NULL))))
 			exit(EXIT_FAILURE);
 		if (!(lst = ft_lstnew(0, 0)))
 			exit(EXIT_FAILURE);

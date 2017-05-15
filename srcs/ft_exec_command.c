@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 22:18:30 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/08 20:03:14 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/15 10:08:40 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int32_t	ft_exec_and_or(t_parser *parser, t_shenv *shenv)
 		else if (OR_PARSER_N(PLUS_PARSER_N(parser, i), 2)->retained)
 			ret = ft_exec_pipeline(AND_PARSER_N(OR_PARSER_N(
 				PLUS_PARSER_N(parser, i), 2), 1), shenv);
+		*ft_get_last_return_value() = ret;
 		i++;
 	}
 	return (ret);

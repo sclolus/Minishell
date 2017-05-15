@@ -32,6 +32,8 @@ SRC= srcs/minishell.c \
 	srcs/ft_expansions_cmd_prefix.c \
 	srcs/ft_expansions_cmd_postfix.c \
 	srcs/ft_expansions_io_redirect.c \
+	srcs/ft_last_return_value_expansion.c \
+	srcs/ft_last_return_value.c \
 	srcs/ft_exec_command.c \
 	srcs/ft_exec_parser.c \
 	srcs/ft_exec_pipeline.c \

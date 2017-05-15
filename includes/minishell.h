@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/13 18:01:54 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/15 10:18:50 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,6 +213,8 @@ void				ft_expansions_io_redirect(t_parser *io_redirect
 										, t_shenv *shenv);
 void				ft_expansions_io_file(t_parser *io_file
 										, t_shenv *shenv);
+uint32_t			*ft_get_last_return_value(void);
+void				ft_last_return_value_expansion(char **word);
 
 /*
 ** built_ins

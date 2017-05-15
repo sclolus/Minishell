@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 07:44:52 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/29 00:47:17 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/15 10:23:43 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	ft_expansions_io_filename(t_parser *io_filename, t_shenv *shenv)
 {
 	ft_tilde_expansion(&(AND_PARSER_N(io_filename
 									, 1)->parser.str_any_of.str), shenv);
+	ft_last_return_value_expansion(&(AND_PARSER_N(io_filename
+									, 1)->parser.str_any_of.str));
 	ft_var_expansion(&(AND_PARSER_N(io_filename
 									, 1)->parser.str_any_of.str), shenv);
 	ft_quote_removal(&(AND_PARSER_N(io_filename
@@ -25,6 +27,7 @@ void	ft_expansions_io_filename(t_parser *io_filename, t_shenv *shenv)
 void	ft_expansions_io_number(t_parser *io_number, t_shenv *shenv)
 {
 	ft_tilde_expansion(&(io_number->parser.str_any_of.str), shenv);
+	ft_last_return_value_expansion(&(io_number->parser.str_any_of.str));
 	ft_var_expansion(&(io_number->parser.str_any_of.str), shenv);
 	ft_quote_removal(&(io_number->parser.str_any_of.str));
 }

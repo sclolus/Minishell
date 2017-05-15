@@ -41,7 +41,10 @@ char		**ft_get_command_bin_completions_tab(char *command_prefix,
 		if (!(tmp = ft_strjoin_f(tmp, command_prefix, 0)))
 			exit(EXIT_FAILURE);
 		if (!(lst = ft_completion_add_directory_bin(tmp)))
+		{
+			free(tmp);
 			continue ;
+		}
 		ft_merge_lists(&path_lst, lst);
 		free(tmp);
 	}

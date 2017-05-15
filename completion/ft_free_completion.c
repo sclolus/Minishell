@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/14 00:23:47 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/14 04:57:51 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/15 10:03:04 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	ft_free_completion_tab(char **tab)
 {
 	uint32_t	i;
 
+	if (!(tab))
+		return ;
 	i = 0;
 	while (tab[i])
 		free(tab[i++]);

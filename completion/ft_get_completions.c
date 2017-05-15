@@ -6,7 +6,7 @@
 /*   By: aalves <aalves@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/14 00:13:49 by aalves            #+#    #+#             */
-/*   Updated: 2017/05/14 04:58:42 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/15 10:02:47 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char			**ft_get_completions(char **tab, char *to_complete)
 	uint32_t	offset;
 
 	initlol(&i, &count, &offset);
-	if (!(filename = ft_get_file_name(to_complete)))
+	if (!tab || !to_complete || !(filename = ft_get_file_name(to_complete)))
 		return (NULL);
 	if ((pathname = ft_get_path_name(to_complete)) && *ft_get_term_state() != 2)
 		offset = ft_strlen(pathname);

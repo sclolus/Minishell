@@ -106,13 +106,11 @@ int64_t		ft_termget(char **line, t_shenv *shenv)
 			break ;
 		if (!ft_exec_term_event(tmp, &buf, shenv))
 		{
-			if (*(long*)tmp == '\n' || *(long*)tmp == 4)
-			{
-				if (*(long*)tmp == 4 && !buf.len && *ft_get_current_prompt()
-					== NP)
-					ft_exit_shell(0);
+			if (*(long*)tmp == '\n')
 				break ;
-			}
+			if (*(long*)tmp == 4 && !buf.len && *ft_get_current_prompt()
+					== NP)
+				ft_exit_shell(0);
 			ft_buf_update(&buf, tmp);
 		}
 		ft_memset(tmp + 1, 0, 7);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_completion_add_directory_bin.c                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaustry <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jaustry <jaustry@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/14 06:20:42 by jaustry           #+#    #+#             */
-/*   Updated: 2017/05/14 06:39:26 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/16 06:32:33 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,13 @@ static void	ft_c_clean(char **tmp, char **tmp_curr_name,
 	if (ft_check_exec_perm(*tmp) && ft_strcmp("..", curr_entry->d_name)
 		&& ft_strcmp(".", curr_entry->d_name))
 	{
-	    if (!(*tmp_curr_name = ft_strdup(curr_entry->d_name)))
-		exit(EXIT_FAILURE);
-	    ft_sanitize_completion(tmp_curr_name);
-	    if (ft_is_dir(*tmp) && (*tmp_curr_name)[ft_strlen(*tmp_curr_name) - 1] != '/')
-		(*tmp_curr_name = ft_strjoin_f(*tmp_curr_name, "/", 0)) ? 0 : exit(EXIT_FAILURE);
+		if (!(*tmp_curr_name = ft_strdup(curr_entry->d_name)))
+			exit(EXIT_FAILURE);
+		ft_sanitize_completion(tmp_curr_name);
+		if (ft_is_dir(*tmp) &&
+		(*tmp_curr_name)[ft_strlen(*tmp_curr_name) - 1] != '/')
+			(*tmp_curr_name =
+			ft_strjoin_f(*tmp_curr_name, "/", 0)) ? 0 : exit(EXIT_FAILURE);
 	}
 }
 

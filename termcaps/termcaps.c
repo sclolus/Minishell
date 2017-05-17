@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 02:07:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/12 15:24:29 by aalves           ###   ########.fr       */
+/*   Updated: 2017/05/17 17:20:18 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,9 @@ int64_t		ft_termget(char **line, t_shenv *shenv)
 			if (*(long*)tmp == 4 && !buf.len && *ft_get_current_prompt()
 					== NP)
 				ft_exit_shell(0);
+			else if (*(long*)tmp == 4 && !buf.len && *ft_get_current_prompt()
+					== HEREDOC_PROMPT)
+				break ;
 			ft_buf_update(&buf, tmp);
 		}
 		ft_memset(tmp + 1, 0, 7);

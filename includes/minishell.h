@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/15 10:18:50 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/17 17:20:34 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include "ft_new_completion.h"
 # include "ast.h"
 
-# define SHELL_NAME "minishell: "
+# define SHELL_NAME "21sh: "
 # define GRAMMAR_CHECKSUM 2027082
 
 # define CHARSET_SPECIAL_CHAR "|&<>;*?"

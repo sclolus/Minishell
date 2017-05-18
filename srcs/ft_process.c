@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 12:31:24 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/13 18:30:16 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/18 23:22:57 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ void		ft_put_processes_in_foreground(t_process *process, int cont)
 {
 	ft_unset_term();
 	ft_unset_insert();
-	if (tcsetpgrp(g_shell->terminal, process->gpid) == -1)
-		ft_error_exit(1, (char*[]){"Failed to put pipeline in foreground"}, 2);
+	tcsetpgrp(g_shell->terminal, process->gpid);
 	if (cont)
 		kill(-process->gpid, SIGCONT);
 }

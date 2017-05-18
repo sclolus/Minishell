@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 02:07:37 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/17 17:20:18 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/19 01:08:10 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,6 @@ int32_t		ft_term_line_continuation(char *line)
 		ft_set_and_put_prompt(LINE_CONTINUATION);
 		return (1);
 	}
-	if (*ft_get_current_prompt() != NORMAL_PROMPT
-	&& *ft_get_current_prompt() != LINE_CONTINUATION)
-	{
-		ft_set_and_put_prompt(*ft_get_current_prompt());
-		return (2);
-	}
 	return (0);
 }
 
@@ -127,11 +121,11 @@ uint32_t	ft_termget_complete_line(char **line, t_shenv *shenv)
 	uint32_t						ret;
 	char							*final;
 
+	(*ft_get_line_attributes()).multiple_lines = 0;
 	if ((len = ft_termget(line, shenv)) == -1)
 		return (ft_strlen(*line));
 	final = NULL;
-	(*ft_get_line_attributes()).multiple_lines = 0;
-	while ((ret = ft_term_line_continuation(*line)))
+	while ((ret = ft_term_line_continuation(final ? final : *line)))
 	{
 		(*ft_get_line_attributes()).multiple_lines = 1;
 		if (!final)

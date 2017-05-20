@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/20 06:09:49 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/20 07:38:38 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include "ft_new_completion.h"
 # include "ast.h"
 
-# define SHELL_NAME "21sh: "
+# define SHELL_NAME "42sh: "
 # define GRAMMAR_CHECKSUM 2027082
 
 # define CHARSET_SPECIAL_CHAR "|&<>;*?"
@@ -352,8 +352,10 @@ t_process			*ft_create_pipeline(t_parser *pipe_sequence
 										, t_shenv *shenv);
 int32_t				ft_exec_list(t_parser *parser, t_shenv *shenv);
 int32_t				ft_exec_and_or(t_parser *parser, t_shenv *shenv);
-int32_t				ft_exec_env_assignment(t_parser *parser, t_shenv *shenv);
-int32_t				ft_exec_cmd_prefix(t_parser *cmd_prefix, t_shenv *shenv);
+int32_t				ft_exec_env_assignment(t_parser *parser, t_shenv *shenv
+										, t_bool set_to_export);
+int32_t				ft_exec_cmd_prefix(t_parser *cmd_prefix, t_shenv *shenv
+										, t_bool set_to_export);
 void				ft_exec_cmd(char **argv, t_shenv *shenv);
 int32_t				ft_exec_simple_cmd(t_parser *simple_cmd, t_shenv *shenv);
 int32_t				ft_exec_command(t_parser *parser, t_shenv *shenv);

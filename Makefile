@@ -1,4 +1,4 @@
-NAME= 21sh
+NAME= 42sh
 CC= gcc
 FLAGS= -Wall -Werror -Wextra # -g -fsanitize=address -fsanitize-blacklist=my_ignores.txt
 SRC= srcs/minishell.c \

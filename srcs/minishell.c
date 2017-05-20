@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 01:21:08 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/20 05:19:55 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/20 06:17:04 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static void	ft_main_loop(t_parser *parser, char **line, t_shenv *shenv)
 			ft_exec_command(parser, shenv);
 		}
 		else
-			ft_putendl("Parsing error in command line");
+			ft_error(1, (char*[]){"Parsing error in command line"}, 1);
 		ft_clean_loop(parser, line, shenv, tokens);
 	}
 }

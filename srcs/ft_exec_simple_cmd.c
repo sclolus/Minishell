@@ -6,24 +6,28 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 22:20:45 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/13 18:36:31 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/20 07:53:54 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int32_t		ft_exec_env_assignment(t_parser *parser, t_shenv *shenv)
+int32_t		ft_exec_env_assignment(t_parser *parser, t_shenv *shenv
+								, t_bool set_to_export)
 {
 	char	*var;
 
 	var = ft_strjoin(AND_PARSER_N(parser, 0)->parser.str_any_of.str, "=");
 	var = ft_strjoin_f(var, AND_PARSER_N(parser, 2)->parser.str_any_of.str, 0);
 	ft_modify_var(shenv, var);
+	if (set_to_export)
+		ft_set_var_to_export(shenv, var);
 	free(var);
 	return (0);
 }
 
-int32_t		ft_exec_cmd_prefix(t_parser *cmd_prefix, t_shenv *shenv)
+int32_t		ft_exec_cmd_prefix(t_parser *cmd_prefix, t_shenv *shenv
+							, t_bool set_to_export)
 {
 	uint32_t	i;
 	uint32_t	n;
@@ -34,7 +38,8 @@ int32_t		ft_exec_cmd_prefix(t_parser *cmd_prefix, t_shenv *shenv)
 	{
 		if (IS_RETAINED(OR_PARSER_N(MULTIPLY_PARSER_N(cmd_prefix, i), 0)))
 			ft_exec_env_assignment(AND_PARSER_N(
-				OR_PARSER_N(MULTIPLY_PARSER_N(cmd_prefix, i), 0), 0), shenv);
+			OR_PARSER_N(MULTIPLY_PARSER_N(cmd_prefix, i), 0), 0), shenv
+								, set_to_export);
 		i++;
 	}
 	return (0);
@@ -85,13 +90,13 @@ int32_t		ft_exec_simple_cmd(t_parser *simple_cmd, t_shenv *shenv)
 	char	**argv;
 	int		ret;
 
-	ret = 0;
-	ft_expansions(simple_cmd, shenv);
-	if (IS_RETAINED(OR_PARSER_N(simple_cmd, 0)))
+	if (!(ret = 0) && IS_RETAINED(OR_PARSER_N(simple_cmd, 0)))
 	{
 		shenv->env = ft_get_env(shenv);
+		ft_exec_cmd_prefix(AND_PARSER_N(OR_PARSER_N(simple_cmd, 0)
+					, 1), shenv, ft_is_built_in(simple_cmd) == 0);
+		ft_expansions(simple_cmd, shenv);
 		simple_cmd = OR_PARSER_N(simple_cmd, 0);
-		ft_exec_cmd_prefix(AND_PARSER_N(simple_cmd, 1), shenv);
 		argv = ft_get_argv(simple_cmd);
 		if (ft_redirections(simple_cmd) == -1)
 			exit(EXIT_REDIREC_ERROR);
@@ -103,8 +108,8 @@ int32_t		ft_exec_simple_cmd(t_parser *simple_cmd, t_shenv *shenv)
 	}
 	else
 	{
-		simple_cmd = OR_PARSER_N(simple_cmd, 1);
-		ft_exec_cmd_prefix(AND_PARSER_N(simple_cmd, 0), shenv);
+		ft_exec_cmd_prefix(AND_PARSER_N(OR_PARSER_N(simple_cmd, 1), 0), shenv, 0);
+		ft_expansions(simple_cmd, shenv);
 	}
 	return (ret);
 }

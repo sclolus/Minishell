@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 22:20:45 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/20 07:53:54 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/20 18:08:55 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,31 +85,31 @@ void		ft_exec_cmd(char **argv, t_shenv *shenv)
 	ft_exec_cmd_bin(argv, shenv, path, env_values);
 }
 
-int32_t		ft_exec_simple_cmd(t_parser *simple_cmd, t_shenv *shenv)
+int32_t		ft_exec_simple_cmd(t_parser *simple_cmd, t_shenv *sh)
 {
 	char	**argv;
 	int		ret;
 
 	if (!(ret = 0) && IS_RETAINED(OR_PARSER_N(simple_cmd, 0)))
 	{
-		shenv->env = ft_get_env(shenv);
+		sh->env = ft_get_env(sh);
 		ft_exec_cmd_prefix(AND_PARSER_N(OR_PARSER_N(simple_cmd, 0)
-					, 1), shenv, ft_is_built_in(simple_cmd) == 0);
-		ft_expansions(simple_cmd, shenv);
+					, 1), sh, ft_is_built_in(simple_cmd) == 0);
+		ft_expansions(simple_cmd, sh);
 		simple_cmd = OR_PARSER_N(simple_cmd, 0);
 		argv = ft_get_argv(simple_cmd);
 		if (ft_redirections(simple_cmd) == -1)
 			exit(EXIT_REDIREC_ERROR);
-		if ((ret = ft_built_in(argv, shenv)) == EXIT_ILLEGAL_CMD)
-			ft_exec_cmd(argv, shenv);
+		if ((ret = ft_built_in(argv, sh)) == EXIT_ILLEGAL_CMD)
+			ft_exec_cmd(argv, sh);
 		free(argv);
-		ft_free_t_env(shenv->env);
-		shenv->env = NULL;
+		ft_free_t_env(sh->env);
+		sh->env = NULL;
 	}
 	else
 	{
-		ft_exec_cmd_prefix(AND_PARSER_N(OR_PARSER_N(simple_cmd, 1), 0), shenv, 0);
-		ft_expansions(simple_cmd, shenv);
+		ft_exec_cmd_prefix(AND_PARSER_N(OR_PARSER_N(simple_cmd, 1), 0), sh, 0);
+		ft_expansions(simple_cmd, sh);
 	}
 	return (ret);
 }

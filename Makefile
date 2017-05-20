@@ -1,6 +1,6 @@
 NAME= 21sh
 CC= gcc
-FLAGS= -Wall -Werror -Wextra
+FLAGS= -Wall -Werror -Wextra # -g -fsanitize=address -fsanitize-blacklist=my_ignores.txt
 SRC= srcs/minishell.c \
 	srcs/ft_init_shell.c \
 	srcs/ft_get_shell_parser.c \
@@ -59,6 +59,8 @@ SRC= srcs/minishell.c \
 	srcs/ft_get_argv.c \
 	srcs/ft_lexer.c \
 	srcs/ft_lexer_token_list.c \
+	srcs/ft_fix_tokens.c \
+	srcs/ft_refresh_t_tokens.c \
 	srcs/ft_free_tokens.c \
 	srcs/ft_get_tokens.c \
 	srcs/ft_get_shenv.c \

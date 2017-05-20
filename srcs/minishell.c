@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/07 01:21:08 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/13 18:00:50 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/20 05:19:55 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ static void	ft_main_loop(t_parser *parser, char **line, t_shenv *shenv)
 			ft_free_tokens(tokens);
 			continue ;
 		}
+		ft_fix_tokens(tokens);
 		if (ft_eval_tokens_input(parser, tokens))
 		{
 			ft_create_heredocs(tokens, shenv);

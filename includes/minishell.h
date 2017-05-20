@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 22:56:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/17 17:20:34 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/20 06:09:49 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,11 @@ void				ft_free_tokens(t_tokens *tokens);
 void				ft_add_token_to_list(t_list **token_list
 									, char *input, uint32_t start, uint32_t i);
 char				**ft_token_list_to_tab(t_list *token_list);
+void				ft_fix_tokens(t_tokens *tokens);
+void				ft_refresh_t_tokens_tokens(t_tokens *tokens, uint32_t index
+									, uint32_t token_count);
+void				ft_refresh_t_tokens_lens(t_tokens *tokens, uint32_t index
+									, char *ptr, uint32_t token_count);
 
 /*
 ** redirections

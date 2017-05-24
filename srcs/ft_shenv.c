@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 22:22:26 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/28 14:32:04 by aalves           ###   ########.fr       */
+/*   Updated: 2017/05/24 18:35:49 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int32_t	ft_unset_var(t_shenv *shenv, char *var)
 		ft_memcpy(attr_tmp, shenv->attr, (tmp - shenv->var) * sizeof(t_bool));
 		ft_memcpy(attr_tmp + (tmp - shenv->var), shenv->attr
 					+ 1 + (tmp - shenv->var)
-					, (shenv->count - (tmp - shenv->var)) * sizeof(t_bool));
+					, (shenv->count - (tmp - shenv->var) - 1) * sizeof(t_bool));
 		free(*tmp);
 		free(shenv->var);
 		free(shenv->attr);

@@ -4,7 +4,7 @@
 <simple_cmd>	::= <sp> (<cmd_prefix>)* <command_name> <sp> (<cmd_postfix> <sp>)*	| (<cmd_prefix>)+ <sp>
 <cmd_postfix>	::= <io_redirect> | <arg>
 <cmd_prefix>	::= <env_assignment> <sp> | <io_redirect> <sp>
-<pipeline>		::= <pipe_sequence> | '!' <pipe_sequence>
+<pipeline>		::= '!' <pipe_sequence> | <pipe_sequence>
 <pipe_sequence>	::= (<simple_cmd> '|')+ <simple_cmd> | <simple_cmd>
 <io_redirect>	::= <io_number> <io_file> | <io_file>
 <io_number>		::= ('$' | '-' | '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9')+

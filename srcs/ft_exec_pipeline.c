@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 22:19:15 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/13 18:25:00 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/24 13:01:50 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 int32_t			ft_exec_pipeline(t_parser *parser, t_shenv *shenv)
 {
 	if (OR_PARSER_N(parser, 0)->retained)
-		return (ft_exec_pipe_sequence(OR_PARSER_N(parser, 0), shenv));
+		return (!ft_exec_pipe_sequence(AND_PARSER_N(OR_PARSER_N(parser
+									, 0), 1), shenv));
 	else
-		return (!ft_exec_pipe_sequence(AND_PARSER_N(OR_PARSER_N(parser,
-														1), 1), shenv));
+		return (ft_exec_pipe_sequence(OR_PARSER_N(parser, 1), shenv));
 }
 
 static void		ft_restore_fds(int *fd)
